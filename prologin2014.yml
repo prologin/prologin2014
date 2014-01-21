@@ -1,0 +1,79 @@
+conf:
+    package_name: prologin2014
+    player_lib: champion
+    player_filename: prologin
+    server_rule_lib: TODO
+    client_rule_lib: TODO
+
+constant:
+    -
+        cst_name: TAILLE_TERRAIN
+        cst_comment: Taille du terrain (longueur et largeur)
+    -
+        cst_name: MAX_JOUEURS
+        cst_val: 2
+        cst_comment: Nombre maximum de joueurs dans la partie
+
+
+enum:
+    -
+        enum_name: terrain
+        enum_summary: "Type de terrain"
+        enum_field:
+            - [terrain_tourelle, "Tourelle" ]
+            - [terrain_spawn "Zone de spawn" ]
+    -
+        enum_name: tourelle_type
+        enum_summarry: "Type de tourelle"
+        enum_field:
+            - []
+    -
+        enum_name: mob_type
+        enum_summary: "Type de mob"
+        enum_field:
+            - []
+struct:
+    -
+        str_name: position
+        str_summary: Représente la position sur la carte
+        str_tuple: yes
+        str_field:
+            - [x, int, "Coordonnée en X"]
+            - [y, int, "Coordonnée en Y"]
+    -
+        str_name: tourelle
+        str_summary: Représente une tourelle
+        str_tuple: no
+        str_field:
+            - [id, int, "Identifiant unique du bateau"]
+            - [pos, position, "Position"]
+            - [joueur, int, "Joueur"]
+            - [ttype, tourelle_type, "Type"]
+    -
+        str_name: mob
+        str_summary: Représente un mob
+        str_tuple: no
+        str_field:
+            - [id, int, "Identifiant unique du bateau"]
+            - [pos, position, "Position"]
+            - [joueur, int, "Joueur"]
+            - [mtype, mob_type, "Type"]
+
+function:
+
+user_function:
+    -
+        fct_name: partie_init
+        fct_summary: Fonction appelée au début de la partie
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: jouer_tour
+        fct_summary: Fonction appelée à chaque tour
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: partie_fin
+        fct_summary: Fonction appelée à la fin de la partie
+        fct_ret_type: void
+        fct_arg: []
