@@ -1,18 +1,13 @@
-conf:
-    package_name: prologin2014
-    player_lib: champion
-    player_filename: prologin
-    server_rule_lib: TODO
-    client_rule_lib: TODO
+name: prologin2014
 
 constant:
     -
         cst_name: TAILLE_TERRAIN
         cst_comment: Taille du terrain (longueur et largeur)
     -
-        cst_name: MAX_JOUEURS
-        cst_val: 2
-        cst_comment: Nombre maximum de joueurs dans la partie
+        cst_name: NB_JOUEURS
+        cst_val: 4
+        cst_comment: Nombre de joueurs dans la partie
 
 
 enum:
