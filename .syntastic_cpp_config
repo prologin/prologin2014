@@ -1,0 +1,4 @@
+-I../../src/lib
+-Wall
+-Wextra
+-std=c++11
