@@ -8,6 +8,8 @@ constant:
         cst_name: NB_JOUEURS
         cst_val: 4
         cst_comment: Nombre de joueurs dans la partie
+    -
+        cst_name: REVENU_CHAUDRON
 
 
 enum:
@@ -16,15 +18,21 @@ enum:
         enum_summary: "Type de terrain"
         enum_field:
             - [terrain_tourelle, "Tourelle" ]
-            - [terrain_spawn "Zone de spawn" ]
+            - [terrain_spawn, "Zone de spawn" ]
+            - [terrain_chaudront, "Chaudron" ]
     -
         enum_name: tourelle_type
         enum_summarry: "Type de tourelle"
         enum_field:
             - []
     -
-        enum_name: mob_type
-        enum_summary: "Type de mob"
+        enum_name: socier_type
+        enum_summary: "Type de sorcier"
+        enum_field:
+            - []
+    -
+        enum_name: chaudron_type
+        enum_summary: "Type de chaudron"
         enum_field:
             - []
 struct:
@@ -40,21 +48,127 @@ struct:
         str_summary: Représente une tourelle
         str_tuple: no
         str_field:
-            - [id, int, "Identifiant unique du bateau"]
+            - [id, int, "Identifiant unique de la tourelle"]
             - [pos, position, "Position"]
-            - [joueur, int, "Joueur"]
+            - [vivante, bool, "En vie"]
+            - [portee, int, "Portee de la tourelle"]
             - [ttype, tourelle_type, "Type"]
     -
-        str_name: mob
-        str_summary: Représente un mob
+        str_name: sorcier
+        str_summary: Représente un sorcier
         str_tuple: no
         str_field:
-            - [id, int, "Identifiant unique du bateau"]
+            - [id, int, "Identifiant unique du sorcier"]
             - [pos, position, "Position"]
-            - [joueur, int, "Joueur"]
-            - [mtype, mob_type, "Type"]
+            - [mtype, sorcier_type, "Type"]
+    -
+        str_name: chaudron
+        str_summary: Représente un chaudron
+        str_tuple: no
+        str_field:
+            - [id, int, "Identifiant unique du chaudron"]
+            - [pos, position, "Position"]
+            - [ctype, chaudron_type, "Type"]
 
 function:
+    # info Carte
+    -
+        fct_name: info_terrain
+        fct_summary:
+            "Retourne la nature du terrain désigné par pos"
+        fct_ret_type: terrain
+        fct_arg:
+            - [pos, position, "Position"]
+
+    -
+        fct_name: distance
+        fct_summary:
+            "Retourne la distance entre deux positions"
+        fct_ret_type: int
+        fct_arg:
+            - [depart, position, "Départ"]
+            - [arrivee, position, "Arrivée"]
+
+    -
+        fct_name: tourelle_vivante
+        fct_name:
+            "Retourne vrai si la tourelle ayant pour identifiant ``id`` est vivante"
+        fct_ret_type: bool
+        fct_arg:
+            - [id, int, "Identifiant"]
+    -
+        fct_name: mes_tourelles
+        fct_summary:
+            "Retourne la liste des positions des so tourelles qui vous appartiennent"
+        fct_ret_type: position array
+        fct_arg:
+            - [pos, position "Position"]
+    -
+        fct_name: mes_sorciers
+        fct_summary:
+            "Retourne la liste des positions des sorciers qui vous appartiennent"
+        fct_ret_type: position array
+        fct_arg:
+            - [pos, position "Position"]
+
+    # Actions
+    -
+        fct_name: construite
+        fct_summary:
+            "Construire une tourelle de type ``ttype`` sur l'ile a la position ``pos``"
+        fct_ret_type: erreur
+        fct_arg:
+            - [ttype, tourelle_type, "Type de tourelle a construire"]
+            - [pos, position, "Position"]
+    -
+        fct_name: recycler
+        fct_summary:
+            "Recycle une tourelle a la position ``pos``"
+        fct_ret_type: erreur
+        fct_arg:
+            - [pos, position, "Position"]
+    -
+        fct_name: attaquer_tourelle
+        fct_summary:
+            "Attaque la tourelle a la position ``pos``"
+        fct_ret_type: erreur
+        fct_arg:
+            - [pos, position, "Position"]
+    -
+        fct_name: deplacer
+        fct_summary:
+            "Deplace le sorcier represente par l'identifiant ``id`` jusqu'a la position ``pos``."
+        fct_ret_type: erreur
+        fct_arg:
+            - [id, int, "Identifiant du sorcier"]
+            - [pos, position, "Position sur laquelle deplacer le sorcier"]
+# Autre
+    -
+        fct_name: mon_joueur
+        fct_summary: "Retourne le numero de votre joueur"
+        fct_ret_type: int
+        fct_arg: []
+    -
+        fct_name: adversaires
+        fct_summary: "Retourne la liste des numeros de vos adversaires"
+        fct_ret_type: int array
+        fct_arg: []
+    -
+        fct_name: score
+        fct_summary: "Retourne le numero de votre adversaire"
+        fct_ret_type: int
+        fct_arg: []
+    -
+        fct_name: tour_actuel
+        fct_summary: Retourne le numero du tour actuel
+        fct_type: int
+        fct_arg: []
+    -
+        fct_name: nombre_sorciers
+        fct_summary: "Retourne le nombre de sorciers que possede le joueur designe par l'identifiant ``id``"
+        fct_ret_type: int
+        fct_arg:
+            - [id_joueur, int, "Identifiant du joeur"]
 
 user_function:
     -
