@@ -14,27 +14,28 @@ constant:
 
 enum:
     -
-        enum_name: terrain
-        enum_summary: "Type de terrain"
+        enum_name: case_info
+        enum_summary: "Information sur les cases"
         enum_field:
-            - [terrain_tourelle, "Tourelle" ]
-            - [terrain_spawn, "Zone de spawn" ]
-            - [terrain_chaudront, "Chaudron" ]
+            - [case_simple, "Case simple"]
+            - [case_tourelle, "Tourelle"]
+            - [case_spawn, "Zone de spawn"]
+            - [case_fontaine, "Fontaine magique"]
+            - [case_fontaine_centrale, "Fontaine magique centrale"]
     -
         enum_name: tourelle_type
-        enum_summarry: "Type de tourelle"
+        enum_summary: "Information sur les cases"
         enum_field:
-            - []
+            - [case_simple, "Case simple"]
+            - [case_tourelle, "Tourelle"]
+            - [case_spawn, "Zone de spawn"]
+            - [case_fontaine, "Fontaine magique"]
+            - [case_fontaine_centrale, "Fontaine magique centrale"]
     -
-        enum_name: socier_type
-        enum_summary: "Type de sorcier"
-        enum_field:
-            - []
-    -
-        enum_name: chaudron_type
-        enum_summary: "Type de chaudron"
-        enum_field:
-            - []
+        enum_name: erreur
+        enum_summary: "Erreurs possibles"
+        enum_field: []
+
 struct:
     -
         str_name: position
@@ -48,30 +49,10 @@ struct:
         str_summary: Représente une tourelle
         str_tuple: no
         str_field:
-            - [id, int, "Identifiant unique de la tourelle"]
             - [pos, position, "Position"]
-            - [vivante, bool, "En vie"]
             - [portee, int, "Portee de la tourelle"]
-            - [ttype, tourelle_type, "Type"]
-    -
-        str_name: sorcier
-        str_summary: Représente un sorcier
-        str_tuple: no
-        str_field:
-            - [id, int, "Identifiant unique du sorcier"]
-            - [pos, position, "Position"]
-            - [mtype, sorcier_type, "Type"]
-    -
-        str_name: chaudron
-        str_summary: Représente un chaudron
-        str_tuple: no
-        str_field:
-            - [id, int, "Identifiant unique du chaudron"]
-            - [pos, position, "Position"]
-            - [ctype, chaudron_type, "Type"]
 
 function:
-    # info Carte
     -
         fct_name: info_terrain
         fct_summary:
@@ -90,36 +71,22 @@ function:
             - [arrivee, position, "Arrivée"]
 
     -
-        fct_name: tourelle_vivante
-        fct_name:
-            "Retourne vrai si la tourelle ayant pour identifiant ``id`` est vivante"
-        fct_ret_type: bool
-        fct_arg:
-            - [id, int, "Identifiant"]
-    -
         fct_name: mes_tourelles
         fct_summary:
             "Retourne la liste des positions des so tourelles qui vous appartiennent"
         fct_ret_type: position array
-        fct_arg:
-            - [pos, position "Position"]
-    -
-        fct_name: mes_sorciers
-        fct_summary:
-            "Retourne la liste des positions des sorciers qui vous appartiennent"
-        fct_ret_type: position array
-        fct_arg:
-            - [pos, position "Position"]
+        fct_arg: []
 
-    # Actions
     -
-        fct_name: construite
+        fct_name: construire
         fct_summary:
             "Construire une tourelle de type ``ttype`` sur l'ile a la position ``pos``"
         fct_ret_type: erreur
         fct_arg:
-            - [ttype, tourelle_type, "Type de tourelle a construire"]
             - [pos, position, "Position"]
+            - [int, portee, "Portée"]
+            - [tourelle_type, type, "Type de tourelle"]
+
     -
         fct_name: recycler
         fct_summary:
@@ -127,6 +94,7 @@ function:
         fct_ret_type: erreur
         fct_arg:
             - [pos, position, "Position"]
+
     -
         fct_name: attaquer_tourelle
         fct_summary:
@@ -145,27 +113,28 @@ function:
 # Autre
     -
         fct_name: mon_joueur
-        fct_summary: "Retourne le numero de votre joueur"
+        fct_summary: "Retourne le numéro de votre joueur"
         fct_ret_type: int
         fct_arg: []
     -
         fct_name: adversaires
-        fct_summary: "Retourne la liste des numeros de vos adversaires"
+        fct_summary: "Retourne la liste des numéros de vos adversaires"
         fct_ret_type: int array
         fct_arg: []
     -
         fct_name: score
-        fct_summary: "Retourne le numero de votre adversaire"
+        fct_summary: "Retourne votre score actuel"
         fct_ret_type: int
         fct_arg: []
     -
         fct_name: tour_actuel
-        fct_summary: Retourne le numero du tour actuel
+        fct_summary: "Retourne le numéro du tour actuel"
         fct_type: int
         fct_arg: []
     -
         fct_name: nombre_sorciers
-        fct_summary: "Retourne le nombre de sorciers que possede le joueur designe par l'identifiant ``id``"
+        fct_summary: "Retourne le nombre de sorciers que possède le joueur
+                      désigné par le numéro``id``"
         fct_ret_type: int
         fct_arg:
             - [id_joueur, int, "Identifiant du joeur"]
