@@ -98,7 +98,17 @@ enum:
     -
         enum_name: erreur
         enum_summary: "Erreurs possibles"
-        enum_field: []
+        enum_field:
+            - [annuler_impossible, "Aucune action à annuler"]
+            - [case_impossible, "Cette case n'existe pas"]
+            - [case_adverse, "Vous ne contrôlez pas cette case"]
+            - [case_utilisee, "Cette case n'est pas libre"]
+            - [case_vide, "Cette case est vide"]
+            - [valeur_invalide, "Cette valeur est invalide"]
+            - [magie_insuffisante, "Vous n'avez pas assez de magie"]
+            - [sorciers_insuffisants, "Vous n'avez pas assez de sorciers"]
+            - [attaque_insuffisante, "Vous n'avez pas assez de points
+                                      d'attaque"]
 
 struct:
     -
@@ -125,7 +135,7 @@ function:
         fct_name: info_case
         fct_summary:
             "Retourne le type de la case à l'emplacement `pos`"
-        fct_ret_type: info_case
+        fct_ret_type: case_info
         fct_arg:
             - [pos, position, "Position de la case"]
     -
@@ -235,7 +245,7 @@ function:
     -
         fct_name: tour_actuel
         fct_summary: "Retourne le numéro du tour actuel"
-        fct_type: int
+        fct_ret_type: int
         fct_arg: []
 
 # Autre
@@ -247,17 +257,28 @@ function:
         fct_arg:
             - [depart, position, "Départ"]
             - [arrivee, position, "Arrivée"]
+    -
+        fct_name: annuler
+        fct_summary:
+            "Annule la dernière action"
+        fct_ret_type: erreur
+        fct_arg: []
 
 # Fonctions de l'utilisateur
 user_function:
     -
-        fct_name: partie_init
+        fct_name: partie_debut
         fct_summary: Fonction appelée au début de la partie
         fct_ret_type: void
         fct_arg: []
     -
-        fct_name: jouer_tour
-        fct_summary: Fonction appelée à chaque tour
+        fct_name: phase_construction
+        fct_summary: Fonction appelée pendant la phase de construction
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: phase_jeu
+        fct_summary: Fonction appelée pendant la phase de jeu
         fct_ret_type: void
         fct_arg: []
     -
