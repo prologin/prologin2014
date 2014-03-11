@@ -1,0 +1,6 @@
+*.swp
+*.pyc
+*.o
+*.out
+*.so
+*.o.d
