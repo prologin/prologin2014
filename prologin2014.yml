@@ -1,16 +1,89 @@
 name: prologin2014
 
 constant:
+# Constantes de plateau
     -
         cst_name: TAILLE_TERRAIN
+        cst_val: 80
         cst_comment: Taille du terrain (longueur et largeur)
     -
         cst_name: NB_JOUEURS
         cst_val: 4
         cst_comment: Nombre de joueurs dans la partie
-    -
-        cst_name: REVENU_CHAUDRON
 
+# Revenus en magie
+    -
+        cst_name: MAGIE_TOUR
+        cst_val: 20
+        cst_comment: Magie gagnée à chaque tour
+    -
+        cst_name: MAGIE_FONTAINES
+        cst_val: 10
+        cst_comment: Magie gagnée à chaque tour pour chaque fontaine possédée
+    -
+        cst_name: MAGIE_COMBAT
+        cst_val: 1
+        cst_comment: Magie gagnée à chaque sorcier tué
+    -
+        cst_name: MAGIE_TOURELLE
+        cst_val: 3
+        cst_comment: Magie gagnée à chaque tourelle détruite
+    -
+        cst_name: MAGIE_SUPPRESSION
+        cst_val: 3
+        cst_comment: Magie récupérée à chaque tourelle supprimée
+
+# Coûts en magie
+    -
+        cst_name: COUT_SORCIER
+        cst_val: 2
+        cst_comment: Nombre de points de magie par sorcier
+    -
+        cst_name: COUT_TOURELLE
+        cst_val: 6
+        cst_comment: Nombre de points de magie par sorcier
+    -
+        cst_name: COUT_PORTEE
+        cst_val: 2
+        cst_comment: Coût pour chaque case de portée supplémentaire
+
+# Attributs des tourelles
+    -
+        cst_name: PORTEE_TOURELLE
+        cst_val: 4
+        cst_comment: Portée de base d'une tourelle
+    -
+        cst_name: CONSTRUCTION_TOURELLE
+        cst_val: 5
+        cst_comment: Portée de construction des tourelles
+    -
+        cst_name: VIE_TOURELLE
+        cst_val: 10
+        cst_comment: Points de vie d'une tourelle à sa création
+    -
+        cst_name: ATTAQUE_TOURELLE
+        cst_val: 10
+        cst_comment: Points d'attaque d'une tourelle au début d'un tour
+
+# Points gagnés à la fin de la partie
+    -
+        cst_name: POINTS_SURVIVRE
+        cst_val: 1
+        cst_comment: Points gagnés pour avoir survécu à la fin de la partie
+    -
+        cst_name: POINTS_VAINQUEUR
+        cst_val: 1
+        cst_comment: Points gagnés pour avoir vaincu un adversaire
+    -
+        cst_name: POINTS_CONTROLE_FONTAINE
+        cst_val: 1
+        cst_comment: "Points gagnés pour contrôler une fontaine à la fin de la
+                     partie"
+    -
+        cst_name: POINTS_CONTROLE_ARTEFACT
+        cst_val: 4
+        cst_comment: "Points gagnés pour contrôler un artefact à la fin de la
+                     partie"
 
 enum:
     -
@@ -19,18 +92,9 @@ enum:
         enum_field:
             - [case_simple, "Case simple"]
             - [case_tourelle, "Tourelle"]
-            - [case_spawn, "Zone de spawn"]
+            - [case_case, "Base du joueur"]
             - [case_fontaine, "Fontaine magique"]
-            - [case_fontaine_centrale, "Fontaine magique centrale"]
-    -
-        enum_name: tourelle_type
-        enum_summary: "Information sur les cases"
-        enum_field:
-            - [case_simple, "Case simple"]
-            - [case_tourelle, "Tourelle"]
-            - [case_spawn, "Zone de spawn"]
-            - [case_fontaine, "Fontaine magique"]
-            - [case_fontaine_centrale, "Fontaine magique centrale"]
+            - [case_artefact, "Artefact magique"]
     -
         enum_name: erreur
         enum_summary: "Erreurs possibles"
@@ -49,71 +113,117 @@ struct:
         str_summary: Représente une tourelle
         str_tuple: no
         str_field:
-            - [pos, position, "Position"]
-            - [portee, int, "Portee de la tourelle"]
-            - [joueur, int, "Joueur qui possède la tour"]
+            - [pos, position, "Position de la tourelle"]
+            - [portee, int, "Portée de la tourelle"]
+            - [joueur, int, "Joueur qui possède la tourelle"]
+            - [vie, int, "Nombre de points de vie de la tourelle"]
+            - [magie, int, "Nombre de points de magie de la tourelle"]
 
 function:
+# Observateurs
     -
-        fct_name: info_terrain
+        fct_name: info_case
         fct_summary:
-            "Retourne la nature du terrain désigné par pos"
-        fct_ret_type: terrain
+            "Retourne le type de la case à l'emplacement `pos`"
+        fct_ret_type: info_case
         fct_arg:
-            - [pos, position, "Position"]
-
+            - [pos, position, "Position de la case"]
     -
-        fct_name: distance
+        fct_name: tourelles_joueur
         fct_summary:
-            "Retourne la distance entre deux positions"
+            "Retourne la liste des positions des tourelles qui appartiennent au
+            joueur ``joueur``"
+        fct_ret_type: position array
+        fct_arg:
+            - [joueur, int, "Identifiant du joueur"]
+    -
+        fct_name: magie
+        fct_summary:
+            "Retourne la magie que possède le joueur ``joueur``"
         fct_ret_type: int
         fct_arg:
-            - [depart, position, "Départ"]
-            - [arrivee, position, "Arrivée"]
-
+            - [joueur, int, "Numéro du joueur"]
     -
-        fct_name: mes_tourelles
+        fct_name: nb_sorciers
         fct_summary:
-            "Retourne la liste des positions des so tourelles qui vous appartiennent"
-        fct_ret_type: position array
-        fct_arg: []
+            "Retourne le nombre de sorciers sur la case ``pos``"
+        fct_ret_type: int
+        fct_arg:
+            - [pos, position, "Case"]
+    -
+        fct_name: joueur_case
+        fct_summary:
+            "Retourne le numéro du joueur qui contrôle la case ``pos``"
+        fct_ret_type: int
+        fct_arg:
+            - [pos, position, "Case"]
+    -
+        fct_name: tourelle_case
+        fct_summary:
+            "Retourne la tourelle située sur la case ``pos``"
+        fct_ret_type: tourelle
+        fct_arg:
+            - [pos, position, "Case de la tourelle"]
 
+# Actions
+ # Actions tourelles
     -
         fct_name: construire
         fct_summary:
-            "Construire une tourelle de type ``ttype`` sur l'ile a la position ``pos``"
+            "Construire une tourelle à la position ``pos``"
         fct_ret_type: erreur
         fct_arg:
             - [pos, position, "Position"]
-            - [int, portee, "Portée"]
-            - [tourelle_type, type, "Type de tourelle"]
-
+            - [portee, int, "Portée"]
     -
-        fct_name: recycler
+        fct_name: supprimer
         fct_summary:
-            "Recycle une tourelle a la position ``pos``"
+            "Supprimer une tourelle à la position ``pos``"
         fct_ret_type: erreur
         fct_arg:
             - [pos, position, "Position"]
-
     -
-        fct_name: attaquer_tourelle
+        fct_name: tirer
         fct_summary:
-            "Attaque la tourelle a la position ``pos``"
+            "Tirer avec ``pts`` points de dégats depuis la tourelles
+            ``tourelle`` sur la position ``cible``"
         fct_ret_type: erreur
         fct_arg:
-            - [pos, position, "Position"]
+            - [pts, int, "Nombre de points de dégats"]
+            - [tourelle, position, "Position de la tour"]
+            - [cible, position, "Position de la cible"]
+
+ # Actions sorciers
+    -
+        fct_name: creer
+        fct_summary:
+            "Créer ``nb`` sorciers dans la base"
+        fct_ret_type: erreur
+        fct_arg:
+            - [nb, int, "Position d'arrivée"]
     -
         fct_name: deplacer
         fct_summary:
-            "Deplace le sorcier represente par l'identifiant ``id`` jusqu'a la position ``pos``."
+            "Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la
+            position ``arrivee``."
         fct_ret_type: erreur
         fct_arg:
-            - [id, int, "Identifiant du sorcier"]
-            - [pos, position, "Position sur laquelle deplacer le sorcier"]
-# Autre
+            - [depart, position, "Position de départ"]
+            - [arrivee, position, "Position d'arrivée"]
+            - [nb, int, "Nombre de sorciers à déplacer"]
     -
-        fct_name: mon_joueur
+        fct_name: attaquer
+        fct_summary:
+            "Attaquer la tourelle à la position ``cible`` depuis la position
+            ``pos``"
+        fct_ret_type: erreur
+        fct_arg:
+            - [pos, position, "Position des sorciers"]
+            - [cible, position, "Position de la tourelle à attaquer"]
+
+# État du jeu
+    -
+        fct_name: moi
         fct_summary: "Retourne le numéro de votre joueur"
         fct_ret_type: int
         fct_arg: []
@@ -123,23 +233,22 @@ function:
         fct_ret_type: int array
         fct_arg: []
     -
-        fct_name: score
-        fct_summary: "Retourne votre score actuel"
-        fct_ret_type: int
-        fct_arg: []
-    -
         fct_name: tour_actuel
         fct_summary: "Retourne le numéro du tour actuel"
         fct_type: int
         fct_arg: []
+
+# Autre
     -
-        fct_name: nombre_sorciers
-        fct_summary: "Retourne le nombre de sorciers que possède le joueur
-                      désigné par le numéro``id``"
+        fct_name: distance
+        fct_summary:
+            "Retourne la distance entre deux positions"
         fct_ret_type: int
         fct_arg:
-            - [id_joueur, int, "Identifiant du joeur"]
+            - [depart, position, "Départ"]
+            - [arrivee, position, "Arrivée"]
 
+# Fonctions de l'utilisateur
 user_function:
     -
         fct_name: partie_init
