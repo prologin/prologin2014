@@ -51,6 +51,7 @@ struct:
         str_field:
             - [pos, position, "Position"]
             - [portee, int, "Portee de la tourelle"]
+            - [joueur, int, "Joueur qui possède la tour"]
 
 function:
     -
