@@ -7,18 +7,19 @@
 # include <rules/client-messenger.hh>
 # include <rules/server-messenger.hh>
 # include <rules/player.hh>
+# include <rules/rules.hh>
+# include <rules/actions.hh>
 
 
-class Rules
+class Rules : public rules::TurnBasedRules
 {
 public:
     explicit Rules(const rules::Options opt);
     virtual ~Rules();
 
-    // FIXME
-    void client_loop(rules::ClientMessenger_sptr msgr);
-    void spectator_loop(rules::ClientMessenger_sptr msgr);
-    void server_loop(rules::ServerMessenger_sptr msgr);
+    virtual rules::Actions* get_actions() { return NULL; }
+    virtual void apply_action(const rules::IAction_sptr&) {}
+    virtual bool is_finished() { return true; }
 
 private:
     utils::DLL* champion_dll_;
