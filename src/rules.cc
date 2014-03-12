@@ -16,4 +16,18 @@ Rules::~Rules()
     delete champion_dll_;
 }
 
+rules::Actions* Rules::get_actions()
+{
+    //return api_->actions();
+    return NULL;
+}
 
+void Rules::apply_action(const rules::IAction_sptr& action)
+{
+    api_->game_state_set(action->apply(apli_->game_state()));
+}
+
+bool Rules::is_finished()
+{
+    return true;
+}

@@ -10,6 +10,7 @@
 # include <rules/rules.hh>
 # include <rules/actions.hh>
 
+# include "game-state.hh"
 
 class Rules : public rules::TurnBasedRules
 {
@@ -17,13 +18,19 @@ public:
     explicit Rules(const rules::Options opt);
     virtual ~Rules();
 
-    virtual rules::Actions* get_actions() { return NULL; }
-    virtual void apply_action(const rules::IAction_sptr&) {}
-    virtual bool is_finished() { return true; }
+    // Get the actions structure with registered actions
+    virtual rules::Actions* get_actions();
+
+    // Apply an action to the game state
+    virtual void apply_action(const rules::IAction_sptr&);
+
+    // Check whether the game is over
+    virtual bool is_finished();
 
 private:
     utils::DLL* champion_dll_;
 
+    Api* api_;
     // FIXME
 };
 

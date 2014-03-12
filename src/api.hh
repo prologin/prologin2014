@@ -28,9 +28,12 @@ class Api
         Api(rules::GameState* game_state, rules::Player_sptr player);
         virtual ~Api() { }
 
+        //rules::Actions* actions() { return &actions_; }
+
     private:
         rules::GameState* game_state_;
         rules::Player_sptr player_;
+        //rules::Actions actions_;
 
     public:
 

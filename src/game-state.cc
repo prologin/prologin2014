@@ -1,20 +1,30 @@
-#ifndef GAME_STATE_HH_
-# define GAME_STATE_HH_
+#include "game-state.hh"
 
-# include <rules/game-state.hh>
-
-class GameState : public rules::GameState
+GameState::GameState(rules::Players_sptr players)
+    : rules::GameState(),
+      players_(players)
 {
-    public:
-        GameState(rules::Players_sptr players);
-        GameState(const GameState& st);
-        virtual rules::GameState* copy() const;
-        ~GameState();
 
-        void increment_turn();
-        int get_current_turn() const;
-        
-    private:
-};
+    for (auto& p : player_->players)
+        if (p->type == rules::PLAYER)
+        {
+            players_ids_[p->id] = p;
+        }
+}
 
-#endif /* !GAME_STATE_HH */
+GameState::GameState(const GameState& st)
+    : rules::GameState(st),
+      players_(players)
+{
+     player_ids_.insert(st.player_ids_.begin(), st.player_ids_.end());
+}
+
+rules::GameState* copy() const
+{
+    return new GameState(*this);
+}
+
+
+GameState::~GameState()
+{
+}
