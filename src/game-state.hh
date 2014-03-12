@@ -1,5 +1,5 @@
-#ifndef GAME_STATE_HH_
-# define GAME_STATE_HH_
+#ifndef GAME_STATE_HH
+# define GAME_STATE_HH
 
 # include <rules/game-state.hh>
 
@@ -17,7 +17,7 @@ class GameState : public rules::GameState
         /* Accessors */
         rules::Players_sptr get_players() const
         { return players_; }
-        
+
     private:
         std::map<int, rules::Players_sptr> player_ids_;
 
