@@ -18,6 +18,8 @@
 # include <rules/player.hh>
 
 # include "constant.hh"
+# include "cell.hh"
+# include "game-state.hh"
 
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'
@@ -25,13 +27,13 @@
 class Api
 {
     public:
-        Api(rules::GameState* game_state, rules::Player_sptr player);
+        Api(GameState* game_state, rules::Player_sptr player);
         virtual ~Api() { }
 
         //rules::Actions* actions() { return &actions_; }
 
     private:
-        rules::GameState* game_state_;
+        GameState* game_state_;
         rules::Player_sptr player_;
         //rules::Actions actions_;
 

@@ -24,7 +24,7 @@ rules::Actions* Rules::get_actions()
 
 void Rules::apply_action(const rules::IAction_sptr& action)
 {
-    api_->game_state_set(action->apply(apli_->game_state()));
+    //api_->game_state_set(action->apply(apli_->game_state()));
 }
 
 bool Rules::is_finished()

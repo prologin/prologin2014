@@ -1,19 +1,33 @@
-#include "map.hh"
+#ifndef MAP_HH_
+# define MAP_HH_
 
-Map::Map()
-{
-}
+#include <map>
+#include <vector>
 
-Map::Map(const Map& map)
-{
-}
+#include "constant.hh"
+#include "cell.hh"
 
-Map::~Map()
+class Map
 {
-}
+    public:
+        Map();
+        Map(const Map& map);
+        ~Map();
 
-bool Map::valid_position(position p) const
-{
-    return 0 <= p.x && p.x < TAILLE_TERRAIN &&
-           0 <= p.y && p.y < TAILLE_TERRAIN;
-}
+
+        bool valid_position(position p) const;
+        Cell* get_cell(position p) const;
+
+        std::vector<position> get_fontains() const;
+        std::vector<position> get_artefacts() const;
+    private:
+        std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
+
+        std::vector<position> fontains_;
+        std::vector<position> artefacts_;
+};
+
+// TODO
+// load a map ?
+
+#endif /* !MAP_HH_ */

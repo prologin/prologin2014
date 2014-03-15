@@ -9,6 +9,8 @@ def configure(cfg):
 def build(bld):
     bld.shlib(
         source = '''
+            src/game-state.cc
+            src/map.cc
             src/rules.cc
             src/entry.cc
             src/api.cc

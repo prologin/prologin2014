@@ -11,6 +11,7 @@
 # include <rules/actions.hh>
 
 # include "game-state.hh"
+# include "api.hh"
 
 class Rules : public rules::TurnBasedRules
 {

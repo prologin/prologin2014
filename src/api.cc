@@ -17,7 +17,7 @@
 // global used in interface.cc
 Api* api;
 
-Api::Api(rules::GameState* game_state, rules::Player_sptr player)
+Api::Api(GameState* game_state, rules::Player_sptr player)
     : game_state_(game_state),
       player_(player)
 {
@@ -29,8 +29,11 @@ Api::Api(rules::GameState* game_state, rules::Player_sptr player)
 //
 case_info Api::info_case(position pos)
 {
-  // TODO
-  abort();
+  Cell *c = game_state_->get_map()->get_cell(pos);
+  if (c)
+      return c->get_type();
+  // FIXME : Should be CASE_ERROR (we have to add it to the yml file)
+  return CASE_SIMPLE;
 }
 
 ///
@@ -56,8 +59,10 @@ int Api::magie(int joueur)
 //
 int Api::nb_sorciers(position pos)
 {
-  // TODO
-  abort();
+  Cell* c = game_state_->get_map()->get_cell(pos);
+  if (c)
+      return c->get_id_wizards().size();
+  return -1;
 }
 
 ///
@@ -65,8 +70,10 @@ int Api::nb_sorciers(position pos)
 //
 int Api::joueur_case(position pos)
 {
-  // TODO
-  abort();
+  Cell* c = game_state_->get_map()->get_cell(pos);
+  if (c)
+      return c->get_player();
+  return  -1;
 }
 
 ///
@@ -137,8 +144,7 @@ erreur Api::attaquer(position pos, position cible)
 //
 int Api::moi()
 {
-  // TODO
-  abort();
+    return player_->id;
 }
 
 ///
@@ -146,8 +152,7 @@ int Api::moi()
 //
 std::vector<int> Api::adversaires()
 {
-  // TODO
-  abort();
+    return game_state_->get_opponents(player_->id);
 }
 
 ///
