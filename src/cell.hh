@@ -13,8 +13,11 @@ class Cell
 
         case_info get_type() const;
 
+        // FIXME (personalized errors)
+        bool put_tower(tourelle tower);
         int get_player() const;
         std::set<int>& get_id_wizards();
+        tourelle get_tourelle();
 
     private:
         int x;

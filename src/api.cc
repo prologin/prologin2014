@@ -39,6 +39,7 @@ case_info Api::info_case(position pos)
 ///
 // Retourne la liste des positions des tourelles qui appartiennent au joueur ``joueur``
 //
+// FIXME : Plutot les tourelles direct non ?
 std::vector<position> Api::tourelles_joueur(int joueur)
 {
   // TODO
@@ -81,8 +82,13 @@ int Api::joueur_case(position pos)
 //
 tourelle Api::tourelle_case(position pos)
 {
-  // TODO
-  abort();
+  Cell* c = game_state_->get_map()->get_cell(pos);
+
+  // TODO : ERROR
+  //if (!c)
+  //    return NULL;
+  tourelle t = c->get_tourelle();
+  return t;
 }
 
 ///
@@ -169,8 +175,7 @@ int Api::tour_actuel()
 //
 int Api::distance(position depart, position arrivee)
 {
-  // TODO
-  abort();
+    return abs(depart.x - arrivee.x) + abs(depart.y - arrivee.y);
 }
 
 ///

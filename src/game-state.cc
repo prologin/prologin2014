@@ -49,6 +49,18 @@ Map* GameState::get_map() const
     return map_;
 }
 
+bool GameState::add_tower(position pos, int player)
+{
+    tourelle tower = { pos, PORTEE_TOURELLE, player, VIE_TOURELLE, MAGIE_TOUR };
+    towers_.push_back(tower);
+    return map_->get_cell(pos)->put_tower(tower);
+}
+
+//std::vector<tourelle> GameState::get_tourelles(int player)
+//{
+    //std::vector<tourelle> towers;
+    //return 
+//}
 
 GameState::~GameState()
 {

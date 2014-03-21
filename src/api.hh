@@ -16,6 +16,8 @@
 # include <vector>
 # include <rules/game-state.hh>
 # include <rules/player.hh>
+# include <rules/actions.hh>
+# include <cstdlib>
 
 # include "constant.hh"
 # include "cell.hh"
@@ -30,12 +32,19 @@ class Api
         Api(GameState* game_state, rules::Player_sptr player);
         virtual ~Api() { }
 
-        //rules::Actions* actions() { return &actions_; }
+        const rules::Player_sptr player() const { return player_; }
+        void player_set(rules::Player_sptr player) { player_ = player; }
+        rules::Actions* actions() { return &actions_; }
+
+        const GameState* game_state() const { return game_state_; }
+        GameState* game_state() { return game_state_; }
+        void game_state_set(rules::GameState* gs)
+            { game_state_ = dynamic_cast<GameState*>(gs); }
 
     private:
         GameState* game_state_;
         rules::Player_sptr player_;
-        //rules::Actions actions_;
+        rules::Actions actions_;
 
     public:
 
