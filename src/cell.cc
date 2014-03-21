@@ -22,7 +22,20 @@ std::set<int>& Cell::get_id_wizards()
     return wizards_ids_;
 }
 
+tourelle Cell::get_tourelle()
+{
+    return tower_;
+}
+
 int Cell::get_player() const
 {
     return player_;
+}
+
+erreur Cell::put_tower(tourelle tower)
+{
+    if (type_ != CASE_SIMPLE)
+        return CASE_UTILISEE;
+    tower_ = tower;
+    return 
 }
