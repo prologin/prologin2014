@@ -37,10 +37,9 @@ case_info Api::info_case(position pos)
 }
 
 ///
-// Retourne la liste des positions des tourelles qui appartiennent au joueur ``joueur``
+// Retourne la liste des tourelles qui appartiennent au joueur ``joueur``
 //
-// FIXME : Plutot les tourelles direct non ?
-std::vector<position> Api::tourelles_joueur(int joueur)
+std::vector<tourelle> Api::tourelles_joueur(int joueur)
 {
   // TODO
   abort();
@@ -56,14 +55,29 @@ int Api::magie(int joueur)
 }
 
 ///
-// Retourne le nombre de sorciers sur la case ``pos``
+// Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos``
 //
-int Api::nb_sorciers(position pos)
+int Api::nb_sorciers(position pos, int joueur)
 {
   Cell* c = game_state_->get_map()->get_cell(pos);
-  if (c)
-      return c->get_id_wizards().size();
-  return -1;
+
+  if (!c)
+      return -1;
+
+  return c->get_nb_wizards(joueur);
+}
+
+///
+// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
+//
+int Api::nb_sorciers_deplacables(position pos, int joueur)
+{
+  Cell *c = game_state_->get_map()->get_cell(pos);
+
+  if (!c)
+      return -1;
+
+  return c->get_nb_wizards_movable(joueur);
 }
 
 ///
@@ -87,7 +101,7 @@ tourelle Api::tourelle_case(position pos)
   // TODO : ERROR
   //if (!c)
   //    return NULL;
-  tourelle t = c->get_tourelle();
+  tourelle t = c->get_tower();
   return t;
 }
 
@@ -166,8 +180,7 @@ std::vector<int> Api::adversaires()
 //
 int Api::tour_actuel()
 {
-  // TODO
-  abort();
+    return game_state_->get_current_turn();
 }
 
 ///

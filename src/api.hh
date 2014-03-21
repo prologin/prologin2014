@@ -53,17 +53,21 @@ class Api
 //
    case_info info_case(position pos);
 ///
-// Retourne la liste des positions des tourelles qui appartiennent au joueur ``joueur``
+// Retourne la liste des tourelles qui appartiennent au joueur ``joueur``
 //
-   std::vector<position> tourelles_joueur(int joueur);
+   std::vector<tourelle> tourelles_joueur(int joueur);
 ///
 // Retourne la magie que possède le joueur ``joueur``
 //
    int magie(int joueur);
 ///
-// Retourne le nombre de sorciers sur la case ``pos``
+// Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos``
 //
-   int nb_sorciers(position pos);
+   int nb_sorciers(position pos, int joueur);
+///
+// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
+//
+   int nb_sorciers_deplacables(position pos, int joueur);
 ///
 // Retourne le numéro du joueur qui contrôle la case ``pos``
 //

@@ -5,8 +5,6 @@ Map::Map()
 }
 
 Map::Map(const Map& map)
-    : fontains_(map.fontains_),
-      artefacts_(map.artefacts_)
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
@@ -33,14 +31,3 @@ Cell* Map::get_cell(position p) const
         return NULL;
     return map_[p.y][p.x];
 }
-
-std::vector<position> Map::get_fontains() const
-{
-    return fontains_;
-}
-
-std::vector<position> Map::get_artefacts() const
-{
-    return artefacts_;
-}
-

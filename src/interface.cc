@@ -68,6 +68,7 @@ std::string convert_to_string(case_info in){
     case CASE_CASE: return "\"case_case\"";
     case CASE_FONTAINE: return "\"case_fontaine\"";
     case CASE_ARTEFACT: return "\"case_artefact\"";
+    case CASE_ERREUR: return "\"case_erreur\"";
   }
   return "bad value";
 }
@@ -85,6 +86,7 @@ std::string convert_to_string(std::vector<case_info> in){
 std::string convert_to_string(erreur in){
   switch (in)
   {
+    case OK: return "\"ok\"";
     case ANNULER_IMPOSSIBLE: return "\"annuler_impossible\"";
     case CASE_IMPOSSIBLE: return "\"case_impossible\"";
     case CASE_ADVERSE: return "\"case_adverse\"";
@@ -168,9 +170,9 @@ extern "C" case_info api_info_case(position pos)
 }
 
 ///
-// Retourne la liste des positions des tourelles qui appartiennent au joueur ``joueur``
+// Retourne la liste des tourelles qui appartiennent au joueur ``joueur``
 //
-extern "C" std::vector<position> api_tourelles_joueur(int joueur)
+extern "C" std::vector<tourelle> api_tourelles_joueur(int joueur)
 {
   return api->tourelles_joueur(joueur);
 }
@@ -184,11 +186,19 @@ extern "C" int api_magie(int joueur)
 }
 
 ///
-// Retourne le nombre de sorciers sur la case ``pos``
+// Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos``
 //
-extern "C" int api_nb_sorciers(position pos)
+extern "C" int api_nb_sorciers(position pos, int joueur)
 {
-  return api->nb_sorciers(pos);
+  return api->nb_sorciers(pos, joueur);
+}
+
+///
+// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
+//
+extern "C" int api_nb_sorciers_deplacables(position pos, int joueur)
+{
+  return api->nb_sorciers_deplacables(pos, joueur);
 }
 
 ///
@@ -306,6 +316,7 @@ std::ostream& operator<<(std::ostream& os, case_info v)
   case CASE_CASE: os << "CASE_CASE"; break;
   case CASE_FONTAINE: os << "CASE_FONTAINE"; break;
   case CASE_ARTEFACT: os << "CASE_ARTEFACT"; break;
+  case CASE_ERREUR: os << "CASE_ERREUR"; break;
   }
   return os;
 }
@@ -320,6 +331,7 @@ extern "C" void api_afficher_case_info(case_info v)
 std::ostream& operator<<(std::ostream& os, erreur v)
 {
   switch (v) {
+  case OK: os << "OK"; break;
   case ANNULER_IMPOSSIBLE: os << "ANNULER_IMPOSSIBLE"; break;
   case CASE_IMPOSSIBLE: os << "CASE_IMPOSSIBLE"; break;
   case CASE_ADVERSE: os << "CASE_ADVERSE"; break;

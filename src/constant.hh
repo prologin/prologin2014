@@ -16,7 +16,7 @@
 ///
 // Taille du terrain (longueur et largeur)
 //
-# define TAILLE_TERRAIN            80
+# define TAILLE_TERRAIN            81
 
 ///
 // Nombre de joueurs dans la partie
@@ -112,6 +112,7 @@ typedef enum case_info {
   CASE_CASE, /* <- Base du joueur */
   CASE_FONTAINE, /* <- Fontaine magique */
   CASE_ARTEFACT, /* <- Artefact magique */
+  CASE_ERREUR, /* <- Erreur */
 } case_info;
 
 
@@ -119,6 +120,7 @@ typedef enum case_info {
 // Erreurs possibles
 //
 typedef enum erreur {
+  OK, /* <- L'action s'est effectuée avec succès */
   ANNULER_IMPOSSIBLE, /* <- Aucune action à annuler */
   CASE_IMPOSSIBLE, /* <- Cette case n'existe pas */
   CASE_ADVERSE, /* <- Vous ne contrôlez pas cette case */

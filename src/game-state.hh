@@ -30,7 +30,7 @@ class GameState : public rules::GameState
 
         /* Towers */
         bool add_tower(position pos, int player);
-        std::vector<tourelle> get_tourelles(int player);
+        std::vector<tourelle> get_tower(int player);
 
         std::vector<int> get_opponents(int player) const;
         Map* get_map() const;

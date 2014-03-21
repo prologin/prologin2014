@@ -13,19 +13,21 @@ class Cell
 
         case_info get_type() const;
 
+        // getter
+        int get_nb_wizards(int player);
+        int get_nb_wizards_movable(int player);
         // FIXME (personalized errors)
         bool put_tower(tourelle tower);
         int get_player() const;
-        std::set<int>& get_id_wizards();
-        tourelle get_tourelle();
+        tourelle get_tower();
 
     private:
         int x;
         int y;
-        case_info type_;
         int player_;
         // several wizards can be in a cell
-        std::set<int> wizards_ids_;
+        std::map<int, int> nb_wizards_;
+        std::map<int, int> nb_wizards_movable_;
         tourelle tower_;
 };
 

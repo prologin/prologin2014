@@ -4,7 +4,7 @@ constant:
 # Constantes de plateau
     -
         cst_name: TAILLE_TERRAIN
-        cst_val: 80
+        cst_val: 81
         cst_comment: Taille du terrain (longueur et largeur)
     -
         cst_name: NB_JOUEURS
@@ -95,10 +95,12 @@ enum:
             - [case_case, "Base du joueur"]
             - [case_fontaine, "Fontaine magique"]
             - [case_artefact, "Artefact magique"]
+            - [case_erreur, "Erreur"]
     -
         enum_name: erreur
         enum_summary: "Erreurs possibles"
         enum_field:
+            - [ ok, "L'action s'est effectuée avec succès" ]
             - [annuler_impossible, "Aucune action à annuler"]
             - [case_impossible, "Cette case n'existe pas"]
             - [case_adverse, "Vous ne contrôlez pas cette case"]
@@ -141,9 +143,9 @@ function:
     -
         fct_name: tourelles_joueur
         fct_summary:
-            "Retourne la liste des positions des tourelles qui appartiennent au
+            "Retourne la liste des tourelles qui appartiennent au
             joueur ``joueur``"
-        fct_ret_type: position array
+        fct_ret_type: tourelle array
         fct_arg:
             - [joueur, int, "Identifiant du joueur"]
     -
@@ -156,10 +158,21 @@ function:
     -
         fct_name: nb_sorciers
         fct_summary:
-            "Retourne le nombre de sorciers sur la case ``pos``"
+            "Retourne le nombre de sorciers du joueur ``joueur`` 
+            sur la case ``pos``"
         fct_ret_type: int
         fct_arg:
             - [pos, position, "Case"]
+            - [joueur, int, "Identifiant du joueur"]
+    -
+        fct_name: nb_sorciers_deplacables
+        fct_summary:
+            "Retourne le nombre de sorciers du joueur ``joueur``
+            déplacables sur la case ``pos``"
+        fct_ret_type: int
+        fct_arg:
+            - [pos, position, "Case"]
+            - [joueur, int, "Identifiant du joueur"]
     -
         fct_name: joueur_case
         fct_summary:
