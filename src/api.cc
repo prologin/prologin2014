@@ -41,8 +41,7 @@ case_info Api::info_case(position pos)
 //
 std::vector<tourelle> Api::tourelles_joueur(int joueur)
 {
-  // TODO
-  abort();
+    return game_state_->get_towers(joueur);
 }
 
 ///

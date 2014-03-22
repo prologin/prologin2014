@@ -31,3 +31,14 @@ Cell* Map::get_cell(position p) const
         return NULL;
     return map_[p.y][p.x];
 }
+
+std::vector<tourelle> Map::get_towers(int player)
+{
+    std::vector<tourelle> towers;
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            if (map_[x][y]->get_player() == player)
+                towers.push_back(map_[x][y]->get_tower());
+
+    return towers;
+}

@@ -39,10 +39,10 @@ erreur Cell::put_tower(tourelle tower)
 
 int Cell::get_nb_wizards(int player)
 {
-    return nb_wizards_[player];
+    return nb_wizards_.find(player)->second();
 }
 
 int Cell::get_nb_wizards_movable(int player)
 {
-    return nb_wizards_movable_[player];
+    return nb_wizards_movable_.find(player)->second();
 }

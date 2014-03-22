@@ -56,11 +56,10 @@ bool GameState::add_tower(position pos, int player)
     return map_->get_cell(pos)->put_tower(tower);
 }
 
-//std::vector<tourelle> GameState::get_tourelles(int player)
-//{
-    //std::vector<tourelle> towers;
-    //return 
-//}
+std::vector<tourelle> GameState::get_towers(int player)
+{
+    return map_->get_towers(player);
+}
 
 GameState::~GameState()
 {
