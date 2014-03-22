@@ -158,7 +158,7 @@ function:
     -
         fct_name: nb_sorciers
         fct_summary:
-            "Retourne le nombre de sorciers du joueur ``joueur`` 
+            "Retourne le nombre de sorciers du joueur ``joueur``
             sur la case ``pos``"
         fct_ret_type: int
         fct_arg:
