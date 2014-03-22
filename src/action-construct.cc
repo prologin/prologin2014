@@ -23,7 +23,7 @@ int ActionConstruct::check(const GameState* st) const
     if (!(cell = st->get_map()->get_cell(pos_)))
         return CASE_IMPOSSIBLE;
 
-    if (cell->get_type() != CASE_SIMPLE || cell->nb_wizards_total())
+    if (cell->get_type() != CASE_SIMPLE || cell->get_nb_wizards_total())
         return CASE_UTILISEE;
 
     // TODO: more checks

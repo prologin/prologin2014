@@ -25,6 +25,7 @@ class GameState : public rules::GameState
         virtual rules::GameState* copy() const;
         ~GameState();
 
+        /* turn handling */
         void increment_turn();
         int get_current_turn() const;
 
@@ -32,12 +33,14 @@ class GameState : public rules::GameState
         bool add_tower(position pos, int player);
         std::vector<tourelle> get_towers(int player);
 
+        int get_magic(int player);
+
         std::vector<int> get_opponents(int player) const;
+
         Map* get_map() const;
 
         rules::Players_sptr get_players() const
         { return players_; }
-
 
     private:
         Map* map_;

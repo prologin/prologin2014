@@ -34,19 +34,14 @@ std::vector<int> GameState::get_opponents(int player_id) const
     return opponents;
 }
 
-int GameState::get_current_turn() const
-{
-    return current_turn_;
-}
-
 void GameState::increment_turn()
 {
     current_turn_++;
 }
 
-Map* GameState::get_map() const
+int GameState::get_current_turn() const
 {
-    return map_;
+    return current_turn_;
 }
 
 bool GameState::add_tower(position pos, int player)
@@ -60,6 +55,17 @@ std::vector<tourelle> GameState::get_towers(int player)
 {
     return map_->get_towers(player);
 }
+
+int GameState::get_magic(int player)
+{
+    return magic_.find(player)->second;
+}
+
+Map* GameState::get_map() const
+{
+    return map_;
+}
+
 
 GameState::~GameState()
 {

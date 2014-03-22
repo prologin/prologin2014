@@ -49,8 +49,7 @@ std::vector<tourelle> Api::tourelles_joueur(int joueur)
 //
 int Api::magie(int joueur)
 {
-  // TODO
-  abort();
+    return game_state_->get_magic(joueur);
 }
 
 ///

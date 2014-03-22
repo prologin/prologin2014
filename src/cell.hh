@@ -13,10 +13,11 @@ class Cell
 
         case_info get_type() const;
 
-        // getter
+        // wizards
         int get_nb_wizards(int player);
         int get_nb_wizards_movable(int player);
-        // FIXME (personalized errors)
+        int get_nb_wizards_total();
+
         bool put_tower(tourelle tower);
         int get_player() const;
         tourelle get_tower();
