@@ -14,6 +14,8 @@
 
 #include "api.hh"
 
+#include "action-create.hh"
+
 // global used in interface.cc
 Api* api;
 
@@ -33,7 +35,7 @@ case_info Api::info_case(position pos)
   if (c)
       return c->get_type();
   // FIXME : Should be CASE_ERROR (we have to add it to the yml file)
-  return CASE_SIMPLE;
+  return CASE_ERREUR;
 }
 
 ///
@@ -121,7 +123,8 @@ bool Api::constructible(position pos, int joueur)
 }
 
 ///
-// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
+// Retourne la liste des positions constituant le plus court chemin allant de
+// la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
 //
 std::vector<position> Api::chemin(position pos1, position pos2)
 {
@@ -148,7 +151,8 @@ erreur Api::supprimer(position pos)
 }
 
 ///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la position ``cible``
+// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la
+// position ``cible``
 //
 erreur Api::tirer(int pts, position tourelle, position cible)
 {
@@ -161,12 +165,22 @@ erreur Api::tirer(int pts, position tourelle, position cible)
 //
 erreur Api::creer(int nb)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionCreate(nb, player_->id));
+
+    erreur err;
+
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///
-// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position ``arrivee``.
+// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position
+// ``arrivee``.
 //
 erreur Api::deplacer(position depart, position arrivee, int nb)
 {
@@ -220,23 +234,10 @@ int Api::distance(position depart, position arrivee)
 //
 erreur Api::annuler()
 {
-  // TODO
-  abort();
+    if (!game_state_->can_cancel())
+        return ANNULER_IMPOSSIBLE;
+
+    game_state_ = rules::cancel(game_state_);
+
+    return OK;
 }
-
-///
-// Affiche le contenu d'une valeur de type case_info
-//
-
-///
-// Affiche le contenu d'une valeur de type erreur
-//
-
-///
-// Affiche le contenu d'une valeur de type position
-//
-
-///
-// Affiche le contenu d'une valeur de type tourelle
-//
-

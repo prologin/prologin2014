@@ -6,7 +6,7 @@
 # include "game-state.hh"
 # include "constant.hh"
 
-class ActionCreate
+class ActionCreate : public rules::Action<GameState>
 {
     public:
         ActionCreate(int nb_wizards, int player);

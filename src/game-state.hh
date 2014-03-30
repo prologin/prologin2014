@@ -14,7 +14,7 @@ enum action_id
     ID_ACTION_CREATE,
     ID_ACTION_MOVE,
     ID_ACTION_ATTACK,
-    ID_ACTION_ERASE
+    ID_ACTION_CANCEL
 };
 
 class GameState : public rules::GameState
