@@ -118,8 +118,7 @@ position Api::base_joueur(int joueur)
 //
 bool Api::constructible(position pos, int joueur)
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->buildable(pos, joueur);
 }
 
 ///
