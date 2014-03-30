@@ -218,6 +218,30 @@ extern "C" tourelle api_tourelle_case(position pos)
 }
 
 ///
+// Retourne la position de la base du joueur ``joueur``
+//
+extern "C" position api_base_joueur(int joueur)
+{
+  return api->base_joueur(joueur);
+}
+
+///
+// Retourne vrai si l'on peut construire sur la case ``pos``
+//
+extern "C" bool api_constructible(position pos, int joueur)
+{
+  return api->constructible(pos, joueur);
+}
+
+///
+// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
+//
+extern "C" std::vector<position> api_chemin(position pos1, position pos2)
+{
+  return api->chemin(pos1, pos2);
+}
+
+///
 // Construire une tourelle à la position ``pos``
 //
 extern "C" erreur api_construire(position pos, int portee)

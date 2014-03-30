@@ -104,6 +104,32 @@ tourelle Api::tourelle_case(position pos)
 }
 
 ///
+// Retourne la position de la base du joueur ``joueur``
+//
+position Api::base_joueur(int joueur)
+{
+    return game_state_->get_map()->get_base(joueur)->get_position();
+}
+
+///
+// Retourne vrai si l'on peut construire sur la case ``pos``
+//
+bool Api::constructible(position pos, int joueur)
+{
+  // TODO
+  abort();
+}
+
+///
+// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
+//
+std::vector<position> Api::chemin(position pos1, position pos2)
+{
+  // TODO
+  abort();
+}
+
+///
 // Construire une tourelle à la position ``pos``
 //
 erreur Api::construire(position pos, int portee)

@@ -19,8 +19,13 @@ class Map
 
         std::vector<tourelle> get_towers(int player);
 
+        // base of the player
+        Cell* get_base(int player) const;
+        void set_bases_players(std::map<int, position> bases);
+
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
+        std::map<int, position> bases_;
 };
 
 #endif /* !MAP_HH_ */

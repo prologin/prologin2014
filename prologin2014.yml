@@ -187,6 +187,31 @@ function:
         fct_ret_type: tourelle
         fct_arg:
             - [pos, position, "Case de la tourelle"]
+    -
+        fct_name: base_joueur
+        fct_summary:
+            "Retourne la position de la base du joueur ``joueur``"
+        fct_ret_type: position
+        fct_arg:
+            - [joueur, int, "Identifiant du joueur"]
+    -
+        fct_name: constructible
+        fct_summary:
+            "Retourne vrai si l'on peut construire sur la case ``pos``"
+        fct_ret_type: bool
+        fct_arg:
+            - [pos, position, "Case"]
+            - [joueur, int, "Identifiant du joueur"]
+    -
+        fct_name: chemin
+        fct_summary:
+            "Retourne la liste des positions constituant le plus court chemin
+            allant de la case ``pos1`` à la case ``pos2``. Attention : Cette
+            fonction est lente."
+        fct_ret_type: position array
+        fct_arg:
+            - [pos1, position, "Case de départ"]
+            - [pos2, position, "Case d'arrivée"]
 
 # Actions
  # Actions tourelles

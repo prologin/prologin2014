@@ -33,7 +33,9 @@ class GameState : public rules::GameState
         bool add_tower(position pos, int player);
         std::vector<tourelle> get_towers(int player);
 
+        /* Magic */
         int get_magic(int player);
+        void set_magic(int player, int magic);
 
         std::vector<int> get_opponents(int player) const;
 
@@ -45,7 +47,7 @@ class GameState : public rules::GameState
     private:
         Map* map_;
         rules::Players_sptr players_;
-        std::map<int, rules::Players_sptr> players_ids_;
+        std::map<int, rules::Player_sptr> players_ids_;
         int current_turn_;
 
         std::vector<tourelle> towers_;

@@ -25,8 +25,14 @@ int ActionCreate::check(const GameState* st) const
 
 void ActionCreate::handle_buffer(utils::Buffer& buf)
 {
+    buf.handle(nb_wizards_);
+    buf.handle(player_id_);
 }
 
 void ActionCreate::apply_on(GameState* gameState) const
 {
+    Cell* base = gameState->get_map()->get_base(player_id_);
+    base->add_wizards(nb_wizards);
+    gameState->set_magic(gameState->get_magic(player_id_)
+                         - COUT_SORCIER * nb_wizards_);
 }

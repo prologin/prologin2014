@@ -77,6 +77,18 @@ class Api
 //
    tourelle tourelle_case(position pos);
 ///
+// Retourne la position de la base du joueur ``joueur``
+//
+   position base_joueur(int joueur);
+///
+// Retourne vrai si l'on peut construire sur la case ``pos``
+//
+   bool constructible(position pos, int joueur);
+///
+// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
+//
+   std::vector<position> chemin(position pos1, position pos2);
+///
 // Construire une tourelle à la position ``pos``
 //
    erreur construire(position pos, int portee);
