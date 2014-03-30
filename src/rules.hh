@@ -13,7 +13,7 @@
 # include "game-state.hh"
 # include "api.hh"
 
-class Rules : public rules::TurnBasedRules
+class Rules : public rules::SynchronousRules
 {
 public:
     explicit Rules(const rules::Options opt);

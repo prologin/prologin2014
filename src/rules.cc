@@ -1,7 +1,7 @@
 #include "rules.hh"
 
 Rules::Rules(const rules::Options opt)
-    : TurnBasedRules(opt)
+    : SynchronousRules(opt)
 {
     if (!opt.champion_lib.empty())
         champion_dll_ = new utils::DLL(opt.champion_lib);
