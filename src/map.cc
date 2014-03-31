@@ -81,7 +81,7 @@ bool Map::buildable(position pos, int player)
     int last_dist = 0; // The last distance from the origin
 
     // BFS loop
-    while (todo.empty())
+    while (!todo.empty())
     {
         auto cp = todo.front();
         todo.pop();
@@ -130,7 +130,7 @@ std::vector<position> Map::path(position start, position end)
     std::map<position, position> parent;
     todo.push(start);
 
-    while (todo.empty())
+    while (!todo.empty())
     {
         auto cp = todo.front();
         todo.pop();
