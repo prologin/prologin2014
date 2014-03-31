@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <queue>
-#include <set>
+#include <unordered_set>
+#include <unordered_map>
 
 #include "map.hh"
 #include "cell.hh"
@@ -75,7 +76,7 @@ bool Map::buildable(position pos, int player)
     if (!valid_position(pos))
         return false;
     std::queue<position> todo;
-    std::set<position> done;
+    std::unordered_set<position, HashPosition> done;
     todo.push(pos);
     bool tower_found = false; // We found a tower which belongs to 'player'
     int last_dist = 0; // The last distance from the origin
@@ -126,25 +127,14 @@ std::vector<position> Map::path(position start, position end)
         return ret;
 
     std::queue<position> todo;
-    std::set<position> done;
-    std::map<position, position> parent;
+    std::unordered_set<position, HashPosition> done;
+    std::unordered_map<position, position, HashPosition> parent;
     todo.push(start);
 
     while (!todo.empty())
     {
         auto cp = todo.front();
         todo.pop();
-        if (cp == end)
-        {
-            position bt_curr = end;
-            while (bt_curr != start)
-            {
-                ret.push_back(bt_curr);
-                bt_curr = parent.find(bt_curr)->second;
-            }
-            std::reverse(ret.begin(), ret.end());
-            return ret;
-        }
 
         for (auto a : adjacents)
         {
@@ -154,9 +144,20 @@ std::vector<position> Map::path(position start, position end)
                 Cell* cell = get_cell(np);
                 if (cell->get_type() != CASE_TOURELLE)
                 {
+                    parent[np] = cp;
+                    if (np == end)
+                    {
+                        position bt_curr = end;
+                        while (bt_curr != start)
+                        {
+                            ret.push_back(bt_curr);
+                            bt_curr = parent.find(bt_curr)->second;
+                        }
+                        std::reverse(ret.begin(), ret.end());
+                        return ret;
+                    }
                     todo.push(np);
                     done.insert(np);
-                    parent[np] = cp;
                 }
             }
         }

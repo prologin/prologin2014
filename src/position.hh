@@ -3,6 +3,7 @@
 
 # include "constant.hh"
 # include <stdlib.h>
+# include <functional>
 
 inline bool operator==(const position& a, const position& b)
 {
@@ -38,5 +39,13 @@ inline int distance(const position& a, const position& b)
 {
     return abs(a.x - b.y) + abs(a.y - b.y);
 }
+
+struct HashPosition
+{
+    size_t operator()(const position& p) const
+    {
+        return std::hash<int>()(p.x) ^ std::hash<int>()(p.y);
+    }
+};
 
 #endif /* !POSITION_HH */
