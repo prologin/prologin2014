@@ -23,7 +23,7 @@ class GameState : public rules::GameState
         GameState(Map* map, rules::Players_sptr players);
         GameState(const GameState& st);
         virtual rules::GameState* copy() const;
-        ~GameState();
+        virtual ~GameState();
 
         /* turn handling */
         void increment_turn();
@@ -42,7 +42,7 @@ class GameState : public rules::GameState
         Map* get_map() const;
 
         rules::Players_sptr get_players() const
-        { return players_; }
+            { return players_; }
 
     private:
         Map* map_;
