@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <queue>
 #include <set>
 
@@ -60,16 +61,19 @@ void Map::set_bases_players(std::map<int, position> bases)
     bases_ = bases;
 }
 
+static const std::array<position, 4> adjacents{{
+    { 0, 1 },
+    { 1, 0 },
+    { 0, -1 },
+    { -1, 0 }
+}};
+
+// BFS from the position to find a tower in CONSTRUCTION_RANGE nearer than an
+// enemy tower
 bool Map::buildable(position pos, int player)
 {
     if (!valid_position(pos))
         return false;
-    std::array<position, 4> adjacent{{
-        { 0, 1 },
-        { 1, 0 },
-        { 0, -1 },
-        { -1, 0 }
-    }};
     std::queue<position> todo;
     std::set<position> done;
     todo.push(pos);
@@ -101,7 +105,7 @@ bool Map::buildable(position pos, int player)
                 tower_found = true; // Tower which belongs to 'player'
         }
 
-        for (auto a : adjacent)
+        for (auto a : adjacents)
         {
             auto np = cp + a;
             if (valid_position(np) && done.find(np) == done.end())
@@ -112,4 +116,50 @@ bool Map::buildable(position pos, int player)
         }
     }
     return false; // Should not happen: TAILLE_TERRAIN > CONSTRUCTION_TOURELLE
+}
+
+// BFS to find the shortest path between start and end
+std::vector<position> Map::path(position start, position end)
+{
+    std::vector<position> ret;
+    if (!valid_position(start) || !valid_position(end))
+        return ret;
+
+    std::queue<position> todo;
+    std::set<position> done;
+    std::map<position, position> parent;
+    todo.push(start);
+
+    while (todo.empty())
+    {
+        auto cp = todo.front();
+        todo.pop();
+        if (cp == end)
+        {
+            position bt_curr = end;
+            while (bt_curr != start)
+            {
+                ret.push_back(bt_curr);
+                bt_curr = parent.find(bt_curr)->second;
+            }
+            std::reverse(ret.begin(), ret.end());
+            return ret;
+        }
+
+        for (auto a : adjacents)
+        {
+            auto np = cp + a;
+            if (valid_position(np) && done.find(np) == done.end())
+            {
+                Cell* cell = get_cell(np);
+                if (cell->get_type() != CASE_TOURELLE)
+                {
+                    todo.push(np);
+                    done.insert(np);
+                    parent[np] = cp;
+                }
+            }
+        }
+    }
+    return ret; // No path found
 }

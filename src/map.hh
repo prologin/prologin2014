@@ -24,6 +24,7 @@ class Map
         Cell* get_base(int player) const;
         void set_bases_players(std::map<int, position> bases);
         bool buildable(position pos, int player);
+        std::vector<position> path(position depart, position);
 
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
