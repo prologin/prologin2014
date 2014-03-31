@@ -127,8 +127,7 @@ bool Api::constructible(position pos, int joueur)
 //
 std::vector<position> Api::chemin(position pos1, position pos2)
 {
-  // TODO
-  abort();
+    return game_state_->get_map()->path(pos1, pos2);
 }
 
 ///
