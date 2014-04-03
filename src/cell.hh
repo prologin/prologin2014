@@ -9,7 +9,7 @@
 class Cell
 {
     public:
-        Cell(int y, int x, case_info type);
+        Cell(int y, int x);
 
         case_info get_type() const;
 

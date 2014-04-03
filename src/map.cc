@@ -2,6 +2,7 @@
 #include <queue>
 #include <unordered_set>
 #include <unordered_map>
+#include <utils/log.hh>
 
 #include "map.hh"
 #include "cell.hh"
@@ -31,7 +32,6 @@ bool Map::valid_position(position p) const
     return 0 <= p.x && p.x < TAILLE_TERRAIN &&
            0 <= p.y && p.y < TAILLE_TERRAIN;
 }
-
 
 Cell* Map::get_cell(position p) const
 {
@@ -164,3 +164,4 @@ std::vector<position> Map::path(position start, position end)
     }
     return ret; // No path found
 }
+

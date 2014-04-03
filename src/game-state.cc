@@ -9,12 +9,31 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     // TODO
 
     std::map<int, position> bases_players;
+
+    // list of the positions of bases
     std::vector<position> list_base =
     {
         { 0, 0 },
         { TAILLE_TERRAIN - 1, 0 },
         { TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1 },
         { 0, TAILLE_TERRAIN - 1 },
+    };
+
+    // list of the positions of fontains
+    std::vector<position> list_fontains =
+    {
+        { 0, TAILLE_TERRAIN / 2 },
+        { TAILLE_TERRAIN, TAILLE_TERRAIN / 2 },
+        { TAILLE_TERRAIN / 2, 0 },
+        { TAILLE_TERRAIN / 2, TAILLE_TERRAIN },
+    };
+
+    // list of the positions of artefacts
+    std::vector<position> list_artefact =
+    {
+        { 0, TAILLE_TERRAIN / 2 },
+        { TAILLE_TERRAIN / 2, 0 },
+
     };
 
     int i = 0;
@@ -27,6 +46,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
             bases_players[p->id] = list_base[i];
             i++;
         }
+
 
 }
 
