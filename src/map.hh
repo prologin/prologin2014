@@ -1,6 +1,7 @@
 #ifndef MAP_HH_
 # define MAP_HH_
 
+# include <array>
 # include <map>
 # include <vector>
 # include <stdlib.h>

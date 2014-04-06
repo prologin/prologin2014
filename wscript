@@ -1,5 +1,7 @@
 #! /usr/bin/env python2
 
+import platform
+
 def options(opt):
     pass
 
@@ -20,7 +22,7 @@ def build(bld):
         use = ['stechec2'],
         defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
             'MODULE_NAME="prologin2014"'],
-        lib = ['dl'],
+        lib = ([] if platform.system()=='FreeBSD' else ['dl']),
     )
 
     for test in []:
