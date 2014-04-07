@@ -71,7 +71,8 @@ static const std::array<position, 4> adjacents{{
     { -1, 0 }
 }};
 
-// BFS from pos to find whether the closest tower in CONSTRUCTION_TOURELLE range is owned by player.
+// BFS from pos to find whether the closest tower in CONSTRUCTION_TOURELLE
+// range is owned by player.
 bool Map::buildable(position pos, int player)
 {
     if (!valid_position(pos))
@@ -85,7 +86,7 @@ bool Map::buildable(position pos, int player)
     std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
     todo.push(pos);
 
-    position dummy={-1, -1};
+    position dummy = {-1, -1};
     todo.push(dummy);
 
     unsigned dist = 0; // Current distance from 'pos'
@@ -96,11 +97,13 @@ bool Map::buildable(position pos, int player)
         position cp = todo.front();
         todo.pop();
 
-        if (cp==dummy)
+        if (cp == dummy)
         {
-            if (tower_found) return true;
+            if (tower_found)
+                return true;
             ++dist;
-            if (dist > CONSTRUCTION_TOURELLE) return false;
+            if (dist > CONSTRUCTION_TOURELLE)
+                return false;
             todo.push(dummy);
             continue;
         }
@@ -117,7 +120,7 @@ bool Map::buildable(position pos, int player)
         for (auto a : adjacents)
         {
             position np = cp + a;
-            unsigned coord=np.y*TAILLE_TERRAIN+np.x;
+            unsigned coord = np.y * TAILLE_TERRAIN + np.x;
             if (valid_position(np) && !done[coord])
             {
                 todo.push(np);
@@ -130,46 +133,48 @@ bool Map::buildable(position pos, int player)
 }
 
 // BFS to find the shortest path between start and end
-// Note : An empty path can mean that start and end are not connected or that start==end.
-// Note : A path will be returned even if a tower is present at one of its extremities.
+// Note : An empty path can mean that start and end are not connected or that
+// start == end.
+// Note : A path will be returned even if a tower is present at one of its
+//  extremities.
 std::vector<position> Map::path(position start, position end)
 {
-    if (!valid_position(start) || !valid_position(end) || start==end)
+    if (!valid_position(start) || !valid_position(end) || start == end)
         return {};
 
     std::queue<position> todo;
-    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
-    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN*2> parent;
+    std::bitset<TAILLE_TERRAIN * TAILLE_TERRAIN> done;
+    std::bitset<TAILLE_TERRAIN * TAILLE_TERRAIN * 2> parent;
     todo.push(start);
 
-    position dummy={-1, -1};
+    position dummy = {-1, -1};
     todo.push(dummy);
 
-    unsigned dist=1;
+    unsigned dist = 1;
 
-    while (todo.size()>1)
+    while (todo.size() > 1)
     {
         position cp = todo.front();
         todo.pop();
 
-        if (cp==dummy)
+        if (cp == dummy)
         {
             ++dist;
             todo.push(dummy);
             continue;
         }
 
-        for (unsigned char a=0; a<4; ++a)
+        for (unsigned char a = 0; a < 4; ++a)
         {
             position np = cp + adjacents[a];
-            unsigned coord=np.y*TAILLE_TERRAIN+np.x;
+            unsigned coord = np.y * TAILLE_TERRAIN + np.x;
             if (valid_position(np) && !done[coord])
             {
                 Cell* cell = get_cell(np);
                 if (cell->get_type() != CASE_TOURELLE)
                 {
-                    parent.set(coord*2, a&1);
-                    parent.set(coord*2+1, a&2);
+                    parent.set(coord * 2, a & 1);
+                    parent.set(coord * 2 + 1, a & 2);
                     todo.push(np);
                     done.set(coord);
                 }
@@ -177,16 +182,18 @@ std::vector<position> Map::path(position start, position end)
                 if (np == end)
                 {
                     std::vector<position> ret;
-                    parent.set(coord*2, a&1);
-                    parent.set(coord*2+1, a&2);
+                    parent.set(coord * 2, a & 1);
+                    parent.set(coord * 2 + 1, a & 2);
                     position bt_curr = end;
                     ret.resize(dist);
-                    auto it=ret.rbegin();
+                    auto it = ret.rbegin();
                     while (bt_curr != start)
                     {
-                        *it++=bt_curr;
-                        unsigned coord=(bt_curr.y*TAILLE_TERRAIN+bt_curr.x)*2;
-                        bt_curr -= adjacents[parent[coord]+parent[coord+1]*2];
+                        *it++ = bt_curr;
+                        unsigned coord = (bt_curr.y * TAILLE_TERRAIN +
+                                          bt_curr.x) * 2;
+                        bt_curr -= adjacents[parent[coord] +
+                                             parent[coord + 1] * 2];
                     }
                     return ret;
                 }
@@ -195,4 +202,3 @@ std::vector<position> Map::path(position start, position end)
     }
     return {}; // No path found
 }
-

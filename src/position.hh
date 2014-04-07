@@ -34,17 +34,17 @@ inline position &operator+=(position &lhs, position rhs)
 
 inline position &operator-=(position &lhs, position rhs)
 {
-    return lhs+=-rhs;
+    return lhs += -rhs;
 }
 
 inline position operator+(position lhs, position rhs)
 {
-    return lhs+=rhs;
+    return lhs += rhs;
 }
 
 inline position operator-(position lhs, position rhs)
 {
-    return lhs-=rhs;
+    return lhs -= rhs;
 }
 
 inline int distance(const position& a, const position& b)
@@ -57,7 +57,7 @@ struct HashPosition
     std::size_t operator()(const position& p) const
     {
         std::size_t s = std::hash<int>()(p.y) + 0x9e3779b9;
-        return s ^ std::hash<int>()(p.x) + 0x9e3779b9 + (s<<6) + (s>>2);
+        return s ^ (std::hash<int>()(p.x) + 0x9e3779b9 + (s << 6) + (s >> 2));
     }
 };
 

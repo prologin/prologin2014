@@ -29,10 +29,10 @@ int Cell::get_player() const
     return player_;
 }
 
-erreur Cell::put_tower(tourelle tower)
+bool Cell::put_tower(tourelle tower)
 {
     if (type_ != CASE_SIMPLE)
-        return CASE_UTILISEE;
+        return false;
     tower_ = tower;
     return 
 }
