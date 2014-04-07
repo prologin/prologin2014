@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cassert>
+#include <bitset>
 #include <queue>
 #include <unordered_set>
 #include <unordered_map>
@@ -69,35 +71,41 @@ static const std::array<position, 4> adjacents{{
     { -1, 0 }
 }};
 
-// BFS from the position to find a tower in CONSTRUCTION_RANGE nearer than an
-// enemy tower
+// BFS from pos to find whether the closest tower in CONSTRUCTION_TOURELLE range is owned by player.
 bool Map::buildable(position pos, int player)
 {
     if (!valid_position(pos))
         return false;
+    Cell *cell = get_cell(pos);
+    if (cell->get_type() == CASE_TOURELLE)
+        return false;
+    // TODO check whether there is a unit
+
     std::queue<position> todo;
-    std::unordered_set<position, HashPosition> done;
+    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
     todo.push(pos);
+
+    position dummy={-1, -1};
+    todo.push(dummy);
+
+    unsigned dist = 0; // Current distance from 'pos'
     bool tower_found = false; // We found a tower which belongs to 'player'
-    int last_dist = 0; // The last distance from the origin
 
-    // BFS loop
-    while (!todo.empty())
+    while (todo.size()>1)
     {
-        auto cp = todo.front();
+        position cp = todo.front();
         todo.pop();
-        int curr_dist = distance(cp, pos);
-        if (curr_dist > CONSTRUCTION_TOURELLE) // Not in build range
-            return false;
 
-        // If curr_dist > last_dist, we completed all this "layer", so if we
-        // found a tower within this layer, there are no enemy towers on the
-        // same layer and so this position is buildable
-        if (curr_dist > last_dist && tower_found)
-            return true;
-        last_dist = curr_dist;
+        if (cp==dummy)
+        {
+            if (tower_found) return true;
+            ++dist;
+            if (dist > CONSTRUCTION_TOURELLE) return false;
+            todo.push(dummy);
+            continue;
+        }
 
-        Cell* cell = get_cell(cp);
+        Cell *cell = get_cell(cp);
         if (cell->get_type() == CASE_TOURELLE)
         {
             if (cell->get_tower().joueur != player) // Enemy tower
@@ -108,60 +116,83 @@ bool Map::buildable(position pos, int player)
 
         for (auto a : adjacents)
         {
-            auto np = cp + a;
-            if (valid_position(np) && done.find(np) == done.end())
+            position np = cp + a;
+            unsigned coord=np.y*TAILLE_TERRAIN+np.x;
+            if (valid_position(np) && !done[coord])
             {
                 todo.push(np);
-                done.insert(np);
+                done.set(coord);
             }
         }
     }
-    return false; // Should not happen: TAILLE_TERRAIN > CONSTRUCTION_TOURELLE
+    assert(false); // Should not happen: TAILLE_TERRAIN > CONSTRUCTION_TOURELLE
+    return false;
 }
 
 // BFS to find the shortest path between start and end
+// Note : An empty path can mean that start and end are not connected or that start==end.
+// Note : A path will be returned even if a tower is present at one of its extremities.
 std::vector<position> Map::path(position start, position end)
 {
-    std::vector<position> ret;
-    if (!valid_position(start) || !valid_position(end))
-        return ret;
+    if (!valid_position(start) || !valid_position(end) || start==end)
+        return {};
 
     std::queue<position> todo;
-    std::unordered_set<position, HashPosition> done;
-    std::unordered_map<position, position, HashPosition> parent;
+    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
+    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN*2> parent;
     todo.push(start);
 
-    while (!todo.empty())
+    position dummy={-1, -1};
+    todo.push(dummy);
+
+    unsigned dist=1;
+
+    while (todo.size()>1)
     {
-        auto cp = todo.front();
+        position cp = todo.front();
         todo.pop();
 
-        for (auto a : adjacents)
+        if (cp==dummy)
         {
-            auto np = cp + a;
-            if (valid_position(np) && done.find(np) == done.end())
+            ++dist;
+            todo.push(dummy);
+            continue;
+        }
+
+        for (unsigned char a=0; a<4; ++a)
+        {
+            position np = cp + adjacents[a];
+            unsigned coord=np.y*TAILLE_TERRAIN+np.x;
+            if (valid_position(np) && !done[coord])
             {
                 Cell* cell = get_cell(np);
                 if (cell->get_type() != CASE_TOURELLE)
                 {
-                    parent[np] = cp;
-                    if (np == end)
-                    {
-                        position bt_curr = end;
-                        while (bt_curr != start)
-                        {
-                            ret.push_back(bt_curr);
-                            bt_curr = parent.find(bt_curr)->second;
-                        }
-                        std::reverse(ret.begin(), ret.end());
-                        return ret;
-                    }
+                    parent.set(coord*2, a&1);
+                    parent.set(coord*2+1, a&2);
                     todo.push(np);
-                    done.insert(np);
+                    done.set(coord);
+                }
+
+                if (np == end)
+                {
+                    std::vector<position> ret;
+                    parent.set(coord*2, a&1);
+                    parent.set(coord*2+1, a&2);
+                    position bt_curr = end;
+                    ret.resize(dist);
+                    auto it=ret.rbegin();
+                    while (bt_curr != start)
+                    {
+                        *it++=bt_curr;
+                        unsigned coord=(bt_curr.y*TAILLE_TERRAIN+bt_curr.x)*2;
+                        bt_curr -= adjacents[parent[coord]+parent[coord+1]*2];
+                    }
+                    return ret;
                 }
             }
         }
     }
-    return ret; // No path found
+    return {}; // No path found
 }
 
