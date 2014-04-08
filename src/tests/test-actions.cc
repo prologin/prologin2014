@@ -1,7 +1,13 @@
 #include <gtest/gtest.h>
 
-#include "../game-state.hh"
 #include <utils/log.hh>
+#include "../constant.hh"
+#include "../map.hh"
+#include "../cell.hh"
+#include "../game-state.hh"
+
+#include "../action-create.hh"
+#include "../action-delete.hh"
 
 class ActionsTest : public ::testing::Test
 {
@@ -21,33 +27,44 @@ class ActionsTest : public ::testing::Test
                         rules::Player_sptr(new rules::Player(2, 0)),
                         rules::Player_sptr(new rules::Player(3, 0)),
                     }
+                }
+            );
             gamestate_ = new GameState(map_, players);
         }
-        std::stringstream f;
-        Map* map;
+        Map* map_;
         GameState* gamestate_;
-}
+};
 
-TEST_F(ActionsTest, AttackTest)
-{
-}
-
-TEST_F(ActionsTest, ConstructTest)
-{
-}
+//TEST_F(ActionsTest, AttackTest)
+//{
+//}
+//
+//TEST_F(ActionsTest, ConstructTest)
+//{
+//}
 
 TEST_F(ActionsTest, CreateTest)
 {
+    ActionCreate a1(10, 0);
+    EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
+        << "There shoudn't be enough magic";
+    Cell* base_p0 = gamestate_->get_map()->get_base(0);
+    EXPECT_EQ(10, base_p0->get_nb_wizards(0))
+              << "There should be 10 wizards";
 }
 
 TEST_F(ActionsTest, DeleteTest)
 {
-}
+    ActionDelete a1( { 2, 2 }, 0);
+    EXPECT_EQ(OK, a1.check(gamestate_))
+        << "It should be possible to put a tower here";
 
-TEST_F(ActionsTest, MoveTest)
-{
-}
+};
 
-TEST_F(ActionsTest, ShootTest)
-{
-}
+//TEST_F(ActionsTest, MoveTest)
+//{
+//}
+//
+//TEST_F(ActionsTest, ShootTest)
+//{
+//}

@@ -13,10 +13,13 @@ def build(bld):
         source = '''
             src/game-state.cc
             src/map.cc
+            src/cell.cc
             src/rules.cc
             src/entry.cc
             src/api.cc
             src/interface.cc
+            src/action-create.cc
+            src/action-delete.cc
         ''',
         target = 'prologin2014',
         use = ['stechec2'],
@@ -25,7 +28,7 @@ def build(bld):
         lib = ([] if platform.system()=='FreeBSD' else ['dl']),
     )
 
-    for test in []:
+    for test in [ 'actions' ]:
         bld.program(
             features = 'gtest',
             source = 'src/tests/test-%s.cc' % test,

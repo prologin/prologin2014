@@ -34,7 +34,7 @@ class GameState : public rules::GameState
         std::vector<tourelle> get_towers(int player);
 
         /* Magic */
-        int get_magic(int player);
+        int get_magic(int player) const;
         void set_magic(int player, int magic);
 
         std::vector<int> get_opponents(int player) const;

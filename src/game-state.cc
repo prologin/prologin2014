@@ -96,14 +96,14 @@ std::vector<tourelle> GameState::get_towers(int player)
     return map_->get_towers(player);
 }
 
-int GameState::get_magic(int player)
+int GameState::get_magic(int player) const
 {
     return magic_.find(player)->second;
 }
 
-void GameState::set_magic(int player, int nb_player)
+void GameState::set_magic(int player, int magic)
 {
-    magic_[player] = nb_player;
+    magic_[player] = magic;
 }
 
 Map* GameState::get_map() const

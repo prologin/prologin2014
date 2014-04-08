@@ -20,14 +20,19 @@ class Cell
         //void add_wizards(int player, int nb);
 
         bool put_tower(tourelle tower);
+        void delete_tower(void);
+
         int get_player() const;
         tourelle get_tower();
+
+        void add_wizards(int player, int nb_wizards);
 
         position get_position() { return { x_, y_ }; }
 
     private:
         int x_;
         int y_;
+        case_info type_;
         int player_;
         // several wizards can be in a cell
         std::map<int, int> nb_wizards_;

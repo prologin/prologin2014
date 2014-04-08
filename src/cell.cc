@@ -7,14 +7,12 @@
 Cell::Cell(int y, int x)
     : x_(x),
       y_(y),
-      type_(type),
-      nb_wizards_(0),
-      nb_wizards_movable_(0),
-      tower_(NULL)
+      type_(CASE_SIMPLE),
+      player_(-1)
 {
 }
 
-terrain Cell::get_type() const
+case_info Cell::get_type() const
 {
     return type_;
 }
@@ -33,8 +31,23 @@ bool Cell::put_tower(tourelle tower)
 {
     if (type_ != CASE_SIMPLE)
         return false;
+
+    // FIXME: buildable ?
+    //else if (buildable(tower.position, player_)
+    //    return false;
+
     tower_ = tower;
-    return 
+    type_ = CASE_TOURELLE;
+    player_ = tower.joueur;
+    return true;
+}
+
+void Cell::delete_tower(void)
+{
+    tower_ = { { -1, -1 }, 0, -1, 0, 0 };
+    type_ = CASE_TOURELLE;
+    // FIXME: player id ?
+    player_ = -1;
 }
 
 int Cell::get_nb_wizards(int player)
@@ -51,13 +64,13 @@ int Cell::get_nb_wizards_total()
 {
     int total = 0;
 
-    for (nb_wizards_::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
-        total += it.second;
+    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+        total += it->second;
 
     return total;
 }
 
-//void Cell::add_wizards(int player, int nb)
-//{
-//    nb_wizards_ 
-//}
+void Cell::add_wizards(int player, int nb_wizards)
+{
+    nb_wizards_[player] = nb_wizards;
+}

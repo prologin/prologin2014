@@ -135,8 +135,6 @@ std::vector<position> Api::chemin(position pos1, position pos2)
 //
 erreur Api::construire(position pos, int portee)
 {
-  // TODO
-  abort();
 }
 
 ///
@@ -144,8 +142,17 @@ erreur Api::construire(position pos, int portee)
 //
 erreur Api::supprimer(position pos)
 {
-  // TODO
-  abort();
+    //rules::IAction_sptr action(new ActionDelete(nb, player_->id));
+
+    //erreur err;
+
+    //if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+    //    return err;
+
+    //actions_.add(action);
+    //game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///
