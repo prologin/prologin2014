@@ -20,10 +20,10 @@ int ActionDelete::check(const GameState* st) const
         || position_.y < 0 || position_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
-    else if (cell->get_type() != CASE_TOURELLE)
+    if (cell->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
 
-    else if (cell->get_player() != player_id_)
+    if (cell->get_player() != player_id_)
         return CASE_ADVERSE;
 
     return OK;

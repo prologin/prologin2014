@@ -17,6 +17,8 @@ class Cell
         int get_nb_wizards(int player);
         int get_nb_wizards_movable(int player);
         int get_nb_wizards_total();
+        void set_wizards(int player, int nb_wizards);
+        void set_wizards_movable(int player, int nb_wizards);
         //void add_wizards(int player, int nb);
 
         bool put_tower(tourelle tower);
@@ -24,8 +26,6 @@ class Cell
 
         int get_player() const;
         tourelle get_tower();
-
-        void add_wizards(int player, int nb_wizards);
 
         position get_position() { return { x_, y_ }; }
 

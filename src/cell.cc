@@ -70,7 +70,12 @@ int Cell::get_nb_wizards_total()
     return total;
 }
 
-void Cell::add_wizards(int player, int nb_wizards)
+void Cell::set_wizards(int player, int nb_wizards)
 {
     nb_wizards_[player] = nb_wizards;
+}
+
+void Cell::set_wizards_movable(int player, int nb_wizards)
+{
+    nb_wizards_movable_[player] = nb_wizards;
 }

@@ -32,7 +32,10 @@ void ActionCreate::handle_buffer(utils::Buffer& buf)
 void ActionCreate::apply_on(GameState* gameState) const
 {
     Cell* base = gameState->get_map()->get_base(player_id_);
-    base->add_wizards(player_id_, nb_wizards_);
+    base->set_wizards(player_id_,
+                      base->get_nb_wizards(player_id_) + nb_wizards_);
+    base->set_wizards_movable(player_id_,
+                              base->get_nb_wizards_movable(player_id_) + nb_wizards_);
     gameState->set_magic(gameState->get_magic(player_id_)
                          - COUT_SORCIER * nb_wizards_, player_id_);
 }

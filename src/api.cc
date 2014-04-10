@@ -15,6 +15,8 @@
 #include "api.hh"
 
 #include "action-create.hh"
+#include "action-delete.hh"
+#include "action-move.hh"
 
 // global used in interface.cc
 Api* api;
@@ -135,6 +137,8 @@ std::vector<position> Api::chemin(position pos1, position pos2)
 //
 erreur Api::construire(position pos, int portee)
 {
+  // TODO
+  abort();
 }
 
 ///
@@ -142,15 +146,15 @@ erreur Api::construire(position pos, int portee)
 //
 erreur Api::supprimer(position pos)
 {
-    //rules::IAction_sptr action(new ActionDelete(nb, player_->id));
+    rules::IAction_sptr action(new ActionDelete(pos, player_->id));
 
-    //erreur err;
+    erreur err;
 
-    //if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-    //    return err;
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
 
-    //actions_.add(action);
-    //game_state_set(action->apply(game_state()));
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
 
     return OK;
 }
@@ -189,8 +193,20 @@ erreur Api::creer(int nb)
 //
 erreur Api::deplacer(position depart, position arrivee, int nb)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionMove(depart,
+                                              arrivee,
+                                              nb,
+                                              player_->id));
+
+    erreur err;
+
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///
