@@ -229,8 +229,17 @@ erreur Api::deplacer(position depart, position arrivee, int nb)
 //
 erreur Api::attaquer(position pos, position cible)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionAttack(pos, cible, player_->id));
+
+    erreur err;
+
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///

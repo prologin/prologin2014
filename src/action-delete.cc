@@ -39,5 +39,8 @@ void ActionDelete::apply_on(GameState* gameState) const
 {
     Cell* cell = gameState->get_map()->get_cell(position_);
     cell->delete_tower();
-    // FIXME: set magic of the player ?
+
+    // Magic gained from the supression
+    gameState->set_magic(player_id_,
+                         gameState->get_magic(player_id_) + MAGIE_SUPPRESSION);
 }

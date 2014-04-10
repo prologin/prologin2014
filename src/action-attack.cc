@@ -16,13 +16,13 @@ ActionAttack::ActionAttack()
 
 int ActionAttack::check(const GameState* st) const
 {
-    Cell* cell_tower = st->get_map()->get_cell(target_);
-    Cell* cell_init = st->get_map()->get_cell(target_);
+    Cell* cell_tower;
+    Cell* cell_init;
 
-    if (!(st->get_map()->get_cell(pos_)))
+    if (!(cell_init = st->get_map()->get_cell(pos_)))
         return CASE_IMPOSSIBLE;
 
-    if (!(st->get_map()->get_cell(target_)))
+    if (!(cell_tower = st->get_map()->get_cell(target_)))
         return CASE_IMPOSSIBLE;
 
     // TODO: Add errors
@@ -56,6 +56,7 @@ void ActionAttack::apply_on(GameState* st) const
     int tower_destroyed = 
         cell_tower->tower_attacked(cell_init->get_nb_wizards(player_id_));
 
-    //if (tower_destroyed)
-        // TODO: Magie gagnee
+    // Magic gained
+    if (tower_destroyed)
+        st->set_magic(player_id_, st->get_magic(player_id_) + MAGIE_TOURELLE);
 }

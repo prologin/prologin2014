@@ -15,21 +15,21 @@
 
 class Rules : public rules::SynchronousRules
 {
-public:
-    explicit Rules(const rules::Options opt);
-    virtual ~Rules();
+    public:
+        explicit Rules(const rules::Options opt);
+        virtual ~Rules();
 
-    // Get the actions structure with registered actions
-    virtual rules::Actions* get_actions();
+        // Get the actions structure with registered actions
+        virtual rules::Actions* get_actions();
 
-    // Apply an action to the game state
-    virtual void apply_action(const rules::IAction_sptr&);
+        // Apply an action to the game state
+        virtual void apply_action(const rules::IAction_sptr&);
 
-    // Check whether the game is over
-    virtual bool is_finished();
+        // Check whether the game is over
+        virtual bool is_finished();
 
-private:
-    utils::DLL* champion_dll_;
+    private:
+        utils::DLL* champion_dll_;
 
     Api* api_;
     // FIXME

@@ -19,7 +19,8 @@ class Cell
         int get_nb_wizards_total();
         void set_wizards(int player, int nb_wizards);
         void set_wizards_movable(int player, int nb_wizards);
-        void wizards_attacked(int points, int player);
+        // return nb_wizards dead
+        int wizards_attacked(int points, int player);
 
         void put_tower(tourelle tower);
         void delete_tower(void);

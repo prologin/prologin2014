@@ -70,17 +70,27 @@ void Cell::set_wizards_movable(int player, int nb_wizards)
     nb_wizards_movable_[player] = nb_wizards;
 }
 
-void Cell::wizards_attacked(int points, int player)
+int Cell::wizards_attacked(int points, int player)
 {
+    int wizards_dead = 0;
+
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
         if (it->first != player)
         {
-            it->second -= points;
-            if (it->second < 0)
+            if (it->second < points)
+            {
+                wizards_dead += it->second;
                 it->second = 0;
+            }
+            else
+            {
+                wizards_dead += points;
+                it->second -= points;
+            }
+
         }
     }
 
-
+    return wizards_dead;
 }

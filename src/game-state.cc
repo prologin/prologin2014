@@ -33,7 +33,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     {
         { 0, TAILLE_TERRAIN / 2 },
         { TAILLE_TERRAIN / 2, 0 },
-
     };
 
     int i = 0;

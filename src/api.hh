@@ -29,6 +29,7 @@
 # include "action-move.hh"
 # include "action-shoot.hh"
 # include "action-construct.hh"
+# include "action-attack.hh"
 
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'
