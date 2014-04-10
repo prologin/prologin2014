@@ -5,6 +5,7 @@
 
 # include "game-state.hh"
 # include "constant.hh"
+# include "position.hh"
 
 class ActionShoot : public rules::Action<GameState>
 {

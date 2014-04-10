@@ -13,15 +13,22 @@
 #ifndef API_HH_
 # define API_HH_
 
-# include <vector>
 # include <rules/game-state.hh>
 # include <rules/player.hh>
 # include <rules/actions.hh>
+
+# include <stdlib.h>
 # include <cstdlib>
+# include <vector>
 
 # include "constant.hh"
 # include "cell.hh"
 # include "game-state.hh"
+# include "action-create.hh"
+# include "action-delete.hh"
+# include "action-move.hh"
+# include "action-shoot.hh"
+# include "action-construct.hh"
 
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'

@@ -19,13 +19,16 @@ class Cell
         int get_nb_wizards_total();
         void set_wizards(int player, int nb_wizards);
         void set_wizards_movable(int player, int nb_wizards);
-        //void add_wizards(int player, int nb);
+        void wizards_attacked(int points, int player);
 
-        bool put_tower(tourelle tower);
+        void put_tower(tourelle tower);
         void delete_tower(void);
+        tourelle get_tower();
+        void set_magic_tower(int magic);
+        // return true if the tower is destroyed
+        bool tower_attacked(int points);
 
         int get_player() const;
-        tourelle get_tower();
 
         position get_position() { return { x_, y_ }; }
 

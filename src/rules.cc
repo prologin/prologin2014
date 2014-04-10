@@ -18,6 +18,7 @@ Rules::~Rules()
 
 rules::Actions* Rules::get_actions()
 {
+    // FIXME
     //return api_->actions();
     return NULL;
 }

@@ -27,27 +27,17 @@ int Cell::get_player() const
     return player_;
 }
 
-bool Cell::put_tower(tourelle tower)
+void Cell::put_tower(tourelle tower)
 {
-    if (type_ != CASE_SIMPLE)
-        return false;
-
-    // FIXME: buildable ?
-    //else if (buildable(tower.position, player_)
-    //    return false;
-
     tower_ = tower;
     type_ = CASE_TOURELLE;
     player_ = tower.joueur;
-    return true;
 }
 
 void Cell::delete_tower(void)
 {
     tower_ = { { -1, -1 }, 0, -1, 0, 0 };
     type_ = CASE_TOURELLE;
-    // FIXME: player id ?
-    player_ = -1;
 }
 
 int Cell::get_nb_wizards(int player)
@@ -78,4 +68,19 @@ void Cell::set_wizards(int player, int nb_wizards)
 void Cell::set_wizards_movable(int player, int nb_wizards)
 {
     nb_wizards_movable_[player] = nb_wizards;
+}
+
+void Cell::wizards_attacked(int points, int player)
+{
+    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    {
+        if (it->first != player)
+        {
+            it->second -= points;
+            if (it->second < 0)
+                it->second = 0;
+        }
+    }
+
+
 }

@@ -23,6 +23,9 @@ int ActionMove::check(const GameState* st) const
 
     int nb_movable = cell_start->get_nb_wizards_movable(player_id_);
 
+    if (nb_wizards_ < 0)
+        return VALEUR_INVALIDE;
+
     if (nb_movable < nb_wizards_)
         return SORCIERS_INSUFFISANTS;
 
@@ -34,37 +37,16 @@ int ActionMove::check(const GameState* st) const
         || dest_.y < 0 || dest_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
-    if (cell_start->get_type() != CASE_SIMPLE)
+    if (cell_start->get_type() == CASE_TOURELLE)
         return CASE_UTILISEE;
 
-    if (cell_dest->get_type() != CASE_SIMPLE)
+    if (cell_dest->get_type() == CASE_TOURELLE)
         return CASE_UTILISEE;
 
-    if (nb_wizards_ < 0)
-        return VALEUR_INVALIDE;
+    std::vector<position> path = st->get_map()->path(start_, dest_);
 
-    // Checks if start pos and dest pos are adjacents
-    bool is_adjacent;
-    std::array<position, 4> adjacents{{
-        { 0, 1 },
-        { 1, 0 },
-        { 0, -1 },
-        { -1, 0 }
-    }};
-
-    for (auto a : adjacents)
-    {
-        // FIXME
-        position next;
-        next.x = a.x + start_.x;
-        next.y = a.y + start_.y;
-
-        if (next.x == dest_.x && next.y == dest_.y)
-            is_adjacent = true;
-    }
-
-    // FIXME: Which error ?
-    if (!is_adjacent)
+    // Checks if the cell is not too far from the wizard
+    if (path.size() > PORTEE_SORCIER)
         return CASE_IMPOSSIBLE;
 
     return OK;

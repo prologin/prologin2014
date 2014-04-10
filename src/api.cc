@@ -10,13 +10,7 @@
 ** Copyright (C) 2014 Prologin
 */
 
-#include <stdlib.h>
-
 #include "api.hh"
-
-#include "action-create.hh"
-#include "action-delete.hh"
-#include "action-move.hh"
 
 // global used in interface.cc
 Api* api;
@@ -36,7 +30,7 @@ case_info Api::info_case(position pos)
   Cell *c = game_state_->get_map()->get_cell(pos);
   if (c)
       return c->get_type();
-  // FIXME : Should be CASE_ERROR (we have to add it to the yml file)
+
   return CASE_ERREUR;
 }
 
@@ -100,9 +94,9 @@ tourelle Api::tourelle_case(position pos)
 {
   Cell* c = game_state_->get_map()->get_cell(pos);
 
-  // TODO : ERROR
-  //if (!c)
-  //    return NULL;
+  if (!c)
+      return { { -1, -1 }, 0, -1, 0, 0 };
+
   tourelle t = c->get_tower();
   return t;
 }
@@ -137,8 +131,17 @@ std::vector<position> Api::chemin(position pos1, position pos2)
 //
 erreur Api::construire(position pos, int portee)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionConstruct(pos, portee, player_->id));
+
+    erreur err;
+
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///
@@ -165,8 +168,20 @@ erreur Api::supprimer(position pos)
 //
 erreur Api::tirer(int pts, position tourelle, position cible)
 {
-  // TODO
-  abort();
+    rules::IAction_sptr action(new ActionShoot(pts,
+                                               tourelle,
+                                               cible,
+                                               player_->id));
+
+    erreur err;
+
+    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
+        return err;
+
+    actions_.add(action);
+    game_state_set(action->apply(game_state()));
+
+    return OK;
 }
 
 ///
@@ -240,14 +255,6 @@ std::vector<int> Api::adversaires()
 int Api::tour_actuel()
 {
     return game_state_->get_current_turn();
-}
-
-///
-// Retourne la distance entre deux positions
-//
-int Api::distance(position depart, position arrivee)
-{
-    return abs(depart.x - arrivee.x) + abs(depart.y - arrivee.y);
 }
 
 ///

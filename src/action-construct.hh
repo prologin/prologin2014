@@ -3,8 +3,8 @@
 
 # include <rules/action.hh>
 
-# include "game.hh"
 # include "constant.hh"
+# include "game-state.hh"
 
 class ActionConstruct : public rules::Action<GameState>
 {

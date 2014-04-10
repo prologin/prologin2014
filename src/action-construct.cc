@@ -1,7 +1,4 @@
 #include "action-construct.hh"
-#include "constant.hh"
-#include "game.hh"
-#include "tools.hh"
 
 ActionConstruct::ActionConstruct(position pos, int range, int player)
     : pos_(pos)
@@ -40,5 +37,16 @@ void ActionConstruct::handle_buffer(utils::Buffer& buf)
 
 void ActionConstruct::apply_on(GameState* st) const
 {
-    // TODO
+    tourelle t = 
+    {
+        {
+            pos_.x,
+            pos_.y
+        },
+        range_,
+        player_id_,
+        VIE_TOURELLE,
+        MAGIE_TOURELLE
+    };
+    st->get_map()->get_cell(pos_)->put_tower(t);
 }

@@ -1,10 +1,13 @@
 #ifndef GAME_STATE_HH
 # define GAME_STATE_HH
 
-# include "map.hh"
-
 # include <rules/game-state.hh>
 # include <rules/player.hh>
+
+#include <unordered_set>
+#include <unordered_map>
+
+# include "map.hh"
 
 enum action_id
 {
@@ -30,7 +33,6 @@ class GameState : public rules::GameState
         int get_current_turn() const;
 
         /* Towers */
-        bool add_tower(position pos, int player);
         std::vector<tourelle> get_towers(int player);
 
         /* Magic */
@@ -50,7 +52,6 @@ class GameState : public rules::GameState
         std::map<int, rules::Player_sptr> players_ids_;
         int current_turn_;
 
-        std::vector<tourelle> towers_;
         std::map<int, int> magic_;
 };
 

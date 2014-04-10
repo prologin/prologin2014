@@ -54,7 +54,7 @@
 # define COUT_SORCIER              2
 
 ///
-// Nombre de points de magie par sorcier
+// Nombre de points de magie par tourelle
 //
 # define COUT_TOURELLE             6
 
@@ -62,6 +62,11 @@
 // Coût pour chaque case de portée supplémentaire
 //
 # define COUT_PORTEE               2
+
+///
+// Nombre maximum de cases qu'un sorcier peut franchir à chaque tour.
+//
+# define PORTEE_SORCIER            4
 
 ///
 // Portée de base d'une tourelle

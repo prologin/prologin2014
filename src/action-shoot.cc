@@ -22,7 +22,6 @@ ActionShoot::ActionShoot()
 int ActionShoot::check(const GameState* st) const
 {
     Cell* cell_tower = st->get_map()->get_cell(tower_);
-    Cell* cell_target = st->get_map()->get_cell(target_);
 
     if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN
         || tower_.y < 0 || tower_.y >= TAILLE_TERRAIN)
@@ -35,12 +34,22 @@ int ActionShoot::check(const GameState* st) const
     if (points_ < 0)
         return VALEUR_INVALIDE;
 
-    // FIXME: Move checks
-    // portee
-    // tower exist
-    // magic
-    // good player
-    // life
+
+    // Check of the tower
+    tourelle tower = cell_tower->get_tower();
+    int dist = distance(tower_, target_);
+
+    if (dist > tower.portee)
+        return VALEUR_INVALIDE;
+
+    if (cell_tower->get_type() != CASE_TOURELLE)
+        return CASE_VIDE;
+
+    if (cell_tower->get_player() == player_id_)
+        return CASE_ADVERSE;
+
+    if (tower.magie < points_)
+        return MAGIE_INSUFFISANTE;
 
     return OK;
 }
@@ -55,4 +64,9 @@ void ActionShoot::handle_buffer(utils::Buffer& buf)
 
 void ActionShoot::apply_on(GameState* gameState) const
 {
+    Cell* cell_target = gameState->get_map()->get_cell(target_);
+    Cell* cell_tower = gameState->get_map()->get_cell(tower_);
+
+    cell_target->wizards_attacked(points_, player_id_);
+    cell_tower->set_magic_tower(cell_tower->get_tower().magie - points_);
 }

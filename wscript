@@ -22,6 +22,8 @@ def build(bld):
             src/action-delete.cc
             src/action-move.cc
             src/action-shoot.cc
+            src/action-construct.cc
+            src/action-attack.cc
         ''',
         target = 'prologin2014',
         use = ['stechec2'],

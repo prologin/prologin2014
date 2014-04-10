@@ -47,7 +47,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
             i++;
         }
 
-
 }
 
 GameState::GameState(const GameState& st)
@@ -57,7 +56,6 @@ GameState::GameState(const GameState& st)
 {
      players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
      magic_.insert(st.magic_.begin(), st.magic_.end());
-     towers_.insert(towers_.begin(), st.towers_.begin(), st.towers_.end());
 }
 
 rules::GameState* GameState::copy() const
@@ -82,13 +80,6 @@ void GameState::increment_turn()
 int GameState::get_current_turn() const
 {
     return current_turn_;
-}
-
-bool GameState::add_tower(position pos, int player)
-{
-    tourelle tower = { pos, PORTEE_TOURELLE, player, VIE_TOURELLE, MAGIE_TOUR };
-    towers_.push_back(tower);
-    return map_->get_cell(pos)->put_tower(tower);
 }
 
 std::vector<tourelle> GameState::get_towers(int player)

@@ -1,15 +1,4 @@
-#include <algorithm>
-#include <cassert>
-#include <bitset>
-#include <queue>
-#include <unordered_set>
-#include <unordered_map>
-#include <utils/log.hh>
-
 #include "map.hh"
-#include "cell.hh"
-#include "constant.hh"
-#include "position.hh"
 
 Map::Map()
 {
@@ -35,7 +24,7 @@ bool Map::valid_position(position p) const
            0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
-Cell* Map::get_cell(position p) const
+Cell* Map::get_cell(position p)
 {
     if (!valid_position(p))
         return NULL;
@@ -53,7 +42,7 @@ std::vector<tourelle> Map::get_towers(int player)
     return towers;
 }
 
-Cell* Map::get_base(int player) const
+Cell* Map::get_base(int player)
 {
     position p = bases_.find(player)->second;
     return get_cell(p);
