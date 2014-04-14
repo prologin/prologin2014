@@ -28,11 +28,20 @@ class Rules : public rules::SynchronousRules
         // Check whether the game is over
         virtual bool is_finished();
 
+        void resolve_score();
+        void resolve_fights();
+
+        void end_of_player_turn(uint32_t player_id);
+        void end_of_turn();
+
+    protected:
+
     private:
         utils::DLL* champion_dll_;
-
-    Api* api_;
-    // FIXME
+        utils::Sandbox sandbox_;
+        Api* api_;
+        rules::Players_sptr players_;
+        // FIXME
 };
 
 #endif // !RULES_RULES_HH_

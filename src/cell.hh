@@ -33,6 +33,7 @@ class Cell
 
         position get_position() { return { x_, y_ }; }
 
+        void resolve_fight();
     private:
         int x_;
         int y_;

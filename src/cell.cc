@@ -94,3 +94,32 @@ int Cell::wizards_attacked(int points, int player)
 
     return wizards_dead;
 }
+
+void Cell::resolve_fight()
+{
+    int currentMax = 0;
+    int currentSecondMax = 0;
+    int temp = 0;
+
+    // find second
+    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    {
+        if (it->second > currentMax)
+            currentMax = it->second;
+    }
+
+    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    {
+        if (it->second > currentSecondMax && it->second < currentMax)
+            currentSecondMax = it->second;
+    }
+
+    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    {
+        temp = it->second - currentSecondMax;
+        if (temp < 0)
+            it->second = 0;
+        else
+            it->second = temp;
+    }
+}

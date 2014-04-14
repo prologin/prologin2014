@@ -9,6 +9,15 @@
 
 # include "map.hh"
 
+enum game_phase
+{
+    PHASE_CONSTRUCTION,
+    PHASE_SPAWN,
+    PHASE_MOVE,
+    PHASE_SHOOT,
+    PHASE_ATTACK_TOWER
+};
+
 enum action_id
 {
     ID_ACTION_CONSTRUCT,
@@ -32,6 +41,9 @@ class GameState : public rules::GameState
         void increment_turn();
         int get_current_turn() const;
 
+        void setPhase(game_phase phase);
+        game_phase getPhase() const;
+
         /* Towers */
         std::vector<tourelle> get_towers(int player);
 
@@ -46,13 +58,24 @@ class GameState : public rules::GameState
         rules::Players_sptr get_players() const
             { return players_; }
 
+        std::map<int, rules::Player_sptr> get_players_ids() const
+            { return players_ids_; }
+        // Function for the score
+        int get_player_artefact();
+        int get_nb_fontains(int player_id);
+
+        // Resolve fights
+        void resolve_fights();
+
     private:
         Map* map_;
         rules::Players_sptr players_;
         std::map<int, rules::Player_sptr> players_ids_;
-        int current_turn_;
 
         std::map<int, int> magic_;
+
+        game_phase game_phase_;
+        int current_turn_;
 };
 
 #endif /* !GAME_STATE_HH */

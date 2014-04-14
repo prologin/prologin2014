@@ -37,6 +37,11 @@ class Map
         bool buildable(position pos, int player);
         std::vector<position> path(position depart, position);
 
+        // Function for the score
+        int get_player_artefact();
+        int get_nb_fontains(int player_id);
+
+        void resolve_fights();
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
         std::map<int, position> bases_;

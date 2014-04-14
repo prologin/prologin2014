@@ -191,3 +191,31 @@ std::vector<position> Map::path(position start, position end)
     }
     return {}; // No path found
 }
+
+int Map::get_player_artefact()
+{
+    return map_[TAILLE_TERRAIN / 2 - 1][TAILLE_TERRAIN / 2 - 1]->get_player();
+}
+
+int Map::get_nb_fontains(int player_id)
+{
+    int nb = 0;
+
+    if (map_[(TAILLE_TERRAIN / 2) - 1][0]->get_player() == player_id)
+        nb++;
+    if (map_[0][(TAILLE_TERRAIN / 2) - 1]->get_player() == player_id)
+        nb++;
+    if (map_[(TAILLE_TERRAIN - 1) - 1][(TAILLE_TERRAIN / 2) - 1]->get_player() == player_id)
+        nb++;
+    if (map_[(TAILLE_TERRAIN / 2) - 1][(TAILLE_TERRAIN - 1) - 1]->get_player() == player_id)
+        nb++;
+
+    return nb;
+}
+
+void Map::resolve_fights()
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            map_[x][y]->resolve_fight();
+}

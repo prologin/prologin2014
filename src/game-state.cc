@@ -101,7 +101,33 @@ Map* GameState::get_map() const
     return map_;
 }
 
+int GameState::get_player_artefact()
+{
+    return map_->get_player_artefact();
+}
+
+int GameState::get_nb_fontains(int player_id)
+{
+    return map_->get_nb_fontains(player_id);
+}
+
+void GameState::resolve_fights()
+{
+    return map_->resolve_fights();
+}
 
 GameState::~GameState()
 {
 }
+
+void GameState::setPhase(game_phase phase)
+{
+    game_phase_ = phase;
+}
+
+game_phase GameState::getPhase() const
+{
+    return game_phase_;
+}
+
+
