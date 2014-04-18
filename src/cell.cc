@@ -1,4 +1,5 @@
 #include <map>
+#include <iostream>
 
 #include "constant.hh"
 //#include "tools.hh"
@@ -37,7 +38,11 @@ void Cell::put_tower(tourelle tower)
 void Cell::delete_tower(void)
 {
     tower_ = { { -1, -1 }, 0, -1, 0, 0 };
-    type_ = CASE_TOURELLE;
+    type_ = CASE_SIMPLE;
+}
+void Cell::set_magic_tower(int magic)
+{
+    tower_.magie = magic;
 }
 
 int Cell::get_nb_wizards(int player)
@@ -93,6 +98,19 @@ int Cell::wizards_attacked(int points, int player)
     }
 
     return wizards_dead;
+}
+
+int Cell::tower_attacked(int points)
+{
+    if (tower_.magie <= points)
+    {
+        tower_.magie = 0;
+        type_ = CASE_SIMPLE;
+        return 1;
+    }
+
+    tower_.magie -= points;
+    return 0;
 }
 
 void Cell::resolve_fight()

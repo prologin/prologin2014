@@ -9,11 +9,18 @@ Rules::Rules(const rules::Options opt)
     {
         champion_dll_ = new utils::DLL(opt.champion_lib);
 
-        //champion_init = champion_dll_->get<f_champion_init>("init_game");
-        //champion_play = champion_dll_->get<f_champion_play>("play_turn");
-        //champion_end = champion_dll_->get<f_champion_end>("end_game");
+//        champion_partie_init = champion_dll_->get<f_champion_partie_init>("partie_init");
+//        champion_jouer_construction = champion_dll_->get<f_champion_jouer_construction>("jouer_construction");
+//        champion_jouer_supression = champion_dll_->get<f_champion_jouer_supression>("jouer_supression");
+//        champion_jouer_tirer = champion_dll_->get<f_champion_jouer_tirer>("jouer_tirer");
+//        champion_jouer_creer = champion_dll_->get<f_champion_jouer_creer>("jouer_creer");
+//        champion_jouer_deplacement = champion_dll_->get<f_champion_jouer_deplacement>("jouer_deplacement");
+//        champion_jouer_attaque = champion_dll_->get<f_champion_jouer_attaque>("jouer_attaque");
+//        champion_partie_fin = champion_dll_->get<f_champion_partie_fin>("partie_fin");
 
-        //sandbox_.execute(champion_init);
+        // spectator
+        //if (opt.player->type == rules::PLAYER)
+        //    sandbox_.execute(champion_partie_init);
     }
     else
         champion_dll_ = nullptr;
@@ -91,26 +98,60 @@ void Rules::resolve_score()
 
 void Rules::resolve_fights()
 {
+    DEBUG("resolve_fight");
     api_->game_state()->resolve_fights();
 }
 
-//void Rules::end_of_player_turn(uint32_t player_id)
-//{
-//}
+void Rules::resolve_magic()
+{
+    DEBUG("resolve_magic");
+    std::map<int, rules::Player_sptr> map_players =
+        api_->game_state()->get_players_ids();
+
+    for (std::map<int, rules::Player_sptr>::iterator it = map_players.begin();
+         it != map_players.end(); it++)
+    {
+        api_->game_state()->set_magic(it->first,
+                                      api_->game_state()->get_magic(it->first)
+                                      + MAGIE_TOUR +
+                                      (MAGIE_FONTAINES
+                                       * api_->game_state()->
+                                       get_nb_fontains(it->first)));
+    }
+}
 
 void Rules::end_of_turn()
 {
+    game_phase phase = api_->game_state()->getPhase();
+
+    //api_->actions()->clear();
+    //
+    switch(phase)
+    {
+        case PHASE_CONSTRUCTION:
+            //sandbox_.execute(champion_jouer_construction);
+            break;
+        case PHASE_SPAWN:
+            //sandbox_.execute(champion_jouer_creer);
+            break;
+        case PHASE_MOVE:
+            //sandbox_.execute(champion_jouer_deplacement);
+            break;
+        case PHASE_SHOOT:
+            //sandbox_.execute(champion_jouer_tirer);
+            break;
+        case PHASE_ATTACK_TOWER:
+            //sandbox_.execute(champion_jouer_attaque);
+            break;
+    }
+    api_->game_state()->increment_turn();
+
     // construction des tours
     //api_->game_state()->resolve_fights();
+    // TODO : Magie gagnee a chaque tour !
     api_->game_state()->resolve_fights();
     resolve_score();
     api_->game_state()->increment_turn();
     //api_->game_state()->clear_wizard_moving();
     // 
 }
-
-//void Rules::at_client_start()
-//{
-//        sandbox_.execute(champion_partie_init);
-//d
-//}

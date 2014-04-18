@@ -266,6 +266,14 @@ int Api::tour_actuel()
     return game_state_->get_current_turn();
 }
 
+// Retourne la distance entre deux positions
+//
+int Api::distance(position depart, position arrivee)
+{
+    // function of position.hh
+    return distance(depart, arrivee);
+}
+///
 ///
 // Annule la dernière action
 //

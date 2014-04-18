@@ -27,7 +27,7 @@ class Cell
         tourelle get_tower();
         void set_magic_tower(int magic);
         // return true if the tower is destroyed
-        bool tower_attacked(int points);
+        int tower_attacked(int points);
 
         int get_player() const;
 

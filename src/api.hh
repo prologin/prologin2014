@@ -23,6 +23,7 @@
 
 # include "constant.hh"
 # include "cell.hh"
+# include "position.hh"
 # include "game-state.hh"
 # include "action-create.hh"
 # include "action-delete.hh"

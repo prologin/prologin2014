@@ -2,6 +2,9 @@
 
 Map::Map()
 {
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            map_[x][y] = new Cell(x, y);
 }
 
 Map::Map(const Map& map)
@@ -15,7 +18,7 @@ Map::~Map()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            delete map_[y][x];
+            delete map_[x][y];
 }
 
 bool Map::valid_position(position p) const
@@ -28,7 +31,7 @@ Cell* Map::get_cell(position p)
 {
     if (!valid_position(p))
         return NULL;
-    return map_[p.y][p.x];
+    return map_[p.x][p.y];
 }
 
 std::vector<tourelle> Map::get_towers(int player)

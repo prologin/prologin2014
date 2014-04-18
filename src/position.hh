@@ -49,7 +49,7 @@ inline position operator-(position lhs, position rhs)
 
 inline int distance(const position& a, const position& b)
 {
-    return std::abs(a.x - b.y) + std::abs(a.y - b.y);
+    return std::abs(a.x - b.x) + std::abs(a.y - b.y);
 }
 
 struct HashPosition
