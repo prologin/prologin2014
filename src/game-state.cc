@@ -45,7 +45,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
             bases_players[p->id] = list_base[i];
             i++;
         }
-
 }
 
 GameState::GameState(const GameState& st)
@@ -116,6 +115,16 @@ void GameState::resolve_fights()
     return map_->resolve_fights();
 }
 
+void GameState::resolve_wizard_movable()
+{
+    return map_->resolve_wizard_movable();
+}
+
+void GameState::resolve_tower_magic()
+{
+    return map_->resolve_tower_magic();
+}
+
 GameState::~GameState()
 {
 }
@@ -130,4 +139,22 @@ game_phase GameState::getPhase() const
     return game_phase_;
 }
 
+void GameState::check_losers()
+{
+    int owner_base = -1;
+    for (std::map<int, rules::Player_sptr>::iterator it = players_ids_.begin();
+         it != players_ids_.end(); it++)
+    {
+        owner_base = map_->get_base(it->first)->get_player();
+        if (owner_base != it->first)
+        {
+            // update score of the winner
+            if (losers_.find(it->first) != losers_.end())
+            {
+                players_->players[owner_base]->score += POINTS_VAINQUEUR;
+                losers_.insert(it->first);
+            }
+        }
+    }
+}
 

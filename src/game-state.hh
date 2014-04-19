@@ -12,10 +12,9 @@
 enum game_phase
 {
     PHASE_CONSTRUCTION,
-    PHASE_SPAWN,
     PHASE_MOVE,
     PHASE_SHOOT,
-    PHASE_ATTACK_TOWER
+    PHASE_SIEGE
 };
 
 enum action_id
@@ -60,17 +59,26 @@ class GameState : public rules::GameState
 
         std::map<int, rules::Player_sptr> get_players_ids() const
             { return players_ids_; }
+
+        std::unordered_set<int> get_losers_ids() const
+            { return losers_; }
+
         // Function for the score
         int get_player_artefact();
         int get_nb_fontains(int player_id);
 
-        // Resolve fights
+        // Resolve everything
         void resolve_fights();
+        void resolve_wizard_movable();
+        void resolve_tower_magic();
+
+        void check_losers();
 
     private:
         Map* map_;
         rules::Players_sptr players_;
         std::map<int, rules::Player_sptr> players_ids_;
+        std::unordered_set<int> losers_;
 
         std::map<int, int> magic_;
 

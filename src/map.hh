@@ -42,6 +42,8 @@ class Map
         int get_nb_fontains(int player_id);
 
         void resolve_fights();
+        void resolve_wizard_movable();
+        void resolve_tower_magic();
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
         std::map<int, position> bases_;

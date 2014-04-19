@@ -48,7 +48,7 @@ int ActionShoot::check(const GameState* st) const
     if (cell_tower->get_player() == player_id_)
         return CASE_ADVERSE;
 
-    if (tower.magie < points_)
+    if (tower.attaque < points_)
         return MAGIE_INSUFFISANTE;
 
     return OK;
@@ -69,7 +69,7 @@ void ActionShoot::apply_on(GameState* gameState) const
 
     int wizards_dead = cell_target->wizards_attacked(points_, player_id_);
 
-    cell_tower->set_magic_tower(cell_tower->get_tower().magie - points_);
+    cell_tower->set_magic_tower(cell_tower->get_tower().attaque - points_);
 
     // magic gained
     gameState->set_magic(player_id_, gameState->get_magic(player_id_) +

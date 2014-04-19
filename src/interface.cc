@@ -136,7 +136,7 @@ std::string convert_to_string(tourelle in){
   std::string portee = convert_to_string(in.portee);
   std::string joueur = convert_to_string(in.joueur);
   std::string vie = convert_to_string(in.vie);
-  std::string magie = convert_to_string(in.magie);
+  std::string attaque = convert_to_string(in.attaque);
   std::string out = "{";
   out += "pos:" + pos;
   out += ", ";
@@ -146,7 +146,7 @@ std::string convert_to_string(tourelle in){
   out += ", ";
   out += "vie:" + vie;
   out += ", ";
-  out += "magie:" + magie;
+  out += "attaque:" + attaque;
   return out + "}";
 }
 
@@ -284,9 +284,9 @@ extern "C" erreur api_deplacer(position depart, position arrivee, int nb)
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-extern "C" erreur api_attaquer(position pos, position cible)
+extern "C" erreur api_assieger(position pos, position cible)
 {
-  return api->attaquer(pos, cible);
+  return api->assieger(pos, cible);
 }
 
 ///
@@ -404,7 +404,7 @@ std::ostream& operator<<(std::ostream& os, tourelle v)
   os << ", ";
   os << "vie" << "=" << v.vie;
   os << ", ";
-  os << "magie" << "=" << v.magie;
+  os << "attaque" << "=" << v.attaque;
   os << " }";
   return os;
 }

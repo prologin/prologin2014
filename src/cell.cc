@@ -40,9 +40,9 @@ void Cell::delete_tower(void)
     tower_ = { { -1, -1 }, 0, -1, 0, 0 };
     type_ = CASE_SIMPLE;
 }
-void Cell::set_magic_tower(int magic)
+void Cell::set_magic_tower(int attaque)
 {
-    tower_.magie = magic;
+    tower_.attaque = attaque;
 }
 
 int Cell::get_nb_wizards(int player)
@@ -102,14 +102,14 @@ int Cell::wizards_attacked(int points, int player)
 
 int Cell::tower_attacked(int points)
 {
-    if (tower_.magie <= points)
+    if (tower_.vie <= points)
     {
-        tower_.magie = 0;
+        tower_.vie = 0;
         type_ = CASE_SIMPLE;
         return 1;
     }
 
-    tower_.magie -= points;
+    tower_.vie -= points;
     return 0;
 }
 
@@ -118,6 +118,8 @@ void Cell::resolve_fight()
     int currentMax = 0;
     int currentSecondMax = 0;
     int temp = 0;
+    // reser owner of the cell
+    player_ = -1;
 
     // find second
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
@@ -138,6 +140,14 @@ void Cell::resolve_fight()
         if (temp < 0)
             it->second = 0;
         else
+        {
             it->second = temp;
+            player_ = it->first;
+        }
     }
+}
+
+void Cell::resolve_wizard_movable()
+{
+    nb_wizards_movable_.clear();
 }

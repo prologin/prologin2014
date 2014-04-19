@@ -120,7 +120,7 @@ class Api
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-   erreur attaquer(position pos, position cible);
+   erreur assieger(position pos, position cible);
 ///
 // Retourne le numéro de votre joueur
 //

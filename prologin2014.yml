@@ -10,6 +10,10 @@ constant:
         cst_name: NB_JOUEURS
         cst_val: 4
         cst_comment: Nombre de joueurs dans la partie
+    -
+        cst_name: MAX_TOUR
+        cst_val: 150
+        cst_comment: Nombre maximum de tours à jouer avant la fin de la partie
 
 # Revenus en magie
     -
@@ -136,7 +140,7 @@ struct:
             - [portee, int, "Portée de la tourelle"]
             - [joueur, int, "Joueur qui possède la tourelle"]
             - [vie, int, "Nombre de points de vie de la tourelle"]
-            - [magie, int, "Nombre de points de magie de la tourelle"]
+            - [attaque, int, "Nombre de points d'attaque de la tourelle"]
 
 function:
 # Observateurs
@@ -267,7 +271,7 @@ function:
             - [arrivee, position, "Position d'arrivée"]
             - [nb, int, "Nombre de sorciers à déplacer"]
     -
-        fct_name: attaquer
+        fct_name: assieger
         fct_summary:
             "Attaquer la tourelle à la position ``cible`` depuis la position
             ``pos``"
@@ -319,6 +323,21 @@ user_function:
     -
         fct_name: phase_construction
         fct_summary: Fonction appelée pendant la phase de construction
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: phase_deplacement
+        fct_summary: Fonction appelée pendant la phase de déplacement
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: phase_tirs
+        fct_summary: Fonction appelée pendant la phase de tirs des tourelles
+        fct_ret_type: void
+        fct_arg: []
+    -
+        fct_name: phase_siege
+        fct_summary: Fonction appelée pendant la phase de siège des tourelles
         fct_ret_type: void
         fct_arg: []
     -

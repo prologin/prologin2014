@@ -24,6 +24,11 @@
 # define NB_JOUEURS                4
 
 ///
+// Nombre maximum de tours à jouer avant la fin de la partie
+//
+# define MAX_TOUR                  150
+
+///
 // Magie gagnée à chaque tour
 //
 # define MAGIE_TOUR                20
@@ -155,7 +160,7 @@ typedef struct tourelle {
   int portee;  /* <- Portée de la tourelle */
   int joueur;  /* <- Joueur qui possède la tourelle */
   int vie;  /* <- Nombre de points de vie de la tourelle */
-  int magie;  /* <- Nombre de points de magie de la tourelle */
+  int attaque;  /* <- Nombre de points d'attaque de la tourelle */
 } tourelle;
 
 

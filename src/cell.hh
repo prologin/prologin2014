@@ -25,7 +25,7 @@ class Cell
         void put_tower(tourelle tower);
         void delete_tower(void);
         tourelle get_tower();
-        void set_magic_tower(int magic);
+        void set_magic_tower(int attaque);
         // return true if the tower is destroyed
         int tower_attacked(int points);
 
@@ -34,6 +34,7 @@ class Cell
         position get_position() { return { x_, y_ }; }
 
         void resolve_fight();
+        void resolve_wizard_movable();
     private:
         int x_;
         int y_;

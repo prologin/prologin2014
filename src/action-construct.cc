@@ -46,7 +46,7 @@ void ActionConstruct::apply_on(GameState* st) const
         range_,
         player_id_,
         VIE_TOURELLE,
-        MAGIE_TOURELLE
+        ATTAQUE_TOURELLE
     };
     st->get_map()->get_cell(pos_)->put_tower(t);
 }

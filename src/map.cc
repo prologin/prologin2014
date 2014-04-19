@@ -220,5 +220,21 @@ void Map::resolve_fights()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            map_[x][y]->resolve_fight();
+            if (map_[x][y]->get_type() != CASE_TOURELLE)
+                map_[x][y]->resolve_fight();
+}
+
+void Map::resolve_wizard_movable()
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            map_[x][y]->resolve_wizard_movable();
+}
+
+void Map::resolve_tower_magic()
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+            if (map_[x][y]->get_type() == CASE_TOURELLE)
+                map_[x][y]->set_magic_tower(ATTAQUE_TOURELLE);
 }
