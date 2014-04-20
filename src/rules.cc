@@ -10,10 +10,10 @@ Rules::Rules(const rules::Options opt)
         champion_dll_ = new utils::DLL(opt.champion_lib);
 
         champion_partie_debut = champion_dll_->get<f_champion_partie_debut>("partie_debut");
-        champion_jouer_construction = champion_dll_->get<f_champion_jouer_construction>("jouer_construction");
-        champion_jouer_deplacement = champion_dll_->get<f_champion_jouer_deplacement>("jouer_deplacement");
-        champion_jouer_tirs = champion_dll_->get<f_champion_jouer_tirs>("jouer_tirs");
-        champion_jouer_siege = champion_dll_->get<f_champion_jouer_siege>("jouer_siege");
+        champion_phase_construction = champion_dll_->get<f_champion_phase_construction>("phase_construction");
+        champion_phase_deplacement = champion_dll_->get<f_champion_phase_deplacement>("phase_deplacement");
+        champion_phase_tirs = champion_dll_->get<f_champion_phase_tirs>("phase_tirs");
+        champion_phase_siege = champion_dll_->get<f_champion_phase_siege>("phase_siege");
         champion_partie_fin = champion_dll_->get<f_champion_partie_fin>("partie_fin");
 
         //if (opt.player->type == rules::PLAYER)
@@ -165,16 +165,16 @@ void Rules::player_turn()
     switch(phase)
     {
         case PHASE_CONSTRUCTION:
-            sandbox_.execute(champion_jouer_construction);
+            sandbox_.execute(champion_phase_construction);
             break;
         case PHASE_MOVE:
-            sandbox_.execute(champion_jouer_deplacement);
+            sandbox_.execute(champion_phase_deplacement);
             break;
         case PHASE_SHOOT:
-            sandbox_.execute(champion_jouer_tirs);
+            sandbox_.execute(champion_phase_tirs);
             break;
         case PHASE_SIEGE:
-            sandbox_.execute(champion_jouer_siege);
+            sandbox_.execute(champion_phase_siege);
             break;
     }
 }
@@ -186,16 +186,16 @@ void Rules::spectator_turn()
     switch(phase)
     {
         case PHASE_CONSTRUCTION:
-            champion_jouer_construction();
+            champion_phase_construction();
             break;
         case PHASE_MOVE:
-            champion_jouer_deplacement();
+            champion_phase_deplacement();
             break;
         case PHASE_SHOOT:
-            champion_jouer_tirs();
+            champion_phase_tirs();
             break;
         case PHASE_SIEGE:
-            champion_jouer_siege();
+            champion_phase_siege();
             break;
     }
 
@@ -234,4 +234,9 @@ void Rules::at_end()
 {
     // Resolve all scores
     resolve_score();
+}
+
+void Rules::start_of_turn()
+{
+    INFO("TURN %d", api_->game_state()->get_current_turn());
 }

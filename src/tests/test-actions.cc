@@ -33,6 +33,9 @@ class ActionsTest : public ::testing::Test
                     }
                 }
             );
+            for (auto& p : players->players)
+                p->type = rules::PLAYER;
+
             gamestate_ = new GameState(map_, players);
         }
         Map* map_;
@@ -114,15 +117,15 @@ TEST_F(ActionsTest, ConstructTest)
         << "There are wizards on the cell";
 }
 
-// Create a tower
+// spawn wizards
 TEST_F(ActionsTest, CreateTest)
 {
     ActionCreate a1(10, 1);
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
         << "There shoudn't be enough magic";
     a1.apply_on(gamestate_);
-    Cell* base_p0 = gamestate_->get_map()->get_base(0);
-    EXPECT_EQ(10, base_p0->get_nb_wizards(0))
+    Cell* base_p0 = gamestate_->get_map()->get_cell(gamestate_->get_base(1));
+    EXPECT_EQ(10, base_p0->get_nb_wizards(1))
               << "There should be 10 wizards";
 }
 
@@ -167,7 +170,7 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_EQ(7, c1->get_nb_wizards_movable(1))
         << "There should be 7 wizards movable on this cell.";
 
-    EXPECT_EQ(3, c2->get_nb_wizards_movable(1))
+    EXPECT_EQ(3, c2->get_nb_wizards(1))
         << "There should be 3 wizards on this cell.";
 
     EXPECT_EQ(0, c2->get_nb_wizards_movable(1))
@@ -184,7 +187,7 @@ TEST_F(ActionsTest, MoveTest)
         << "There is a tower in the initial cell.";
 
     c3->delete_tower();
-    c4->put_tower({ { 2, 5 }, 3, 1, 2, 2 });
+    c4->put_tower({ { 2, 4 }, 3, 1, 2, 2 });
 
     EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
         << "There is a tower in the destination cell.";
@@ -224,17 +227,16 @@ TEST_F(ActionsTest, ShootTest)
     c2->set_wizards(2, 7);
     c2->set_wizards(3, 3);
 
-
     a1.apply(gamestate_);
 
     EXPECT_EQ(3, c2->get_nb_wizards(1))
         << "The tower doesn't attack the wizards of its own team.";
 
-    EXPECT_EQ(3, c2->get_nb_wizards(2))
-        << "There should be 3 wizards left on this cell.";
-
     EXPECT_EQ(0, c2->get_nb_wizards(0))
         << "There should be no wizards left on this cell.";
+
+    EXPECT_EQ(3, c2->get_nb_wizards(2))
+        << "There should be 3 wizards left on this cell.";
 
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
         << "Not enougth magic for the action";

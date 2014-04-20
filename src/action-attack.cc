@@ -59,8 +59,5 @@ void ActionAttack::apply_on(GameState* st) const
 
     // Magic gained
     if (tower_destroyed)
-    {
-        std::cout << "YOLOOO" << std::endl;
         st->set_magic(player_id_, st->get_magic(player_id_) + MAGIE_TOURELLE);
-    }
 }

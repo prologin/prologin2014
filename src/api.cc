@@ -106,7 +106,7 @@ tourelle Api::tourelle_case(position pos)
 //
 position Api::base_joueur(int joueur)
 {
-    return game_state_->get_map()->get_base(joueur)->get_position();
+    return game_state_->get_base(joueur);
 }
 
 ///

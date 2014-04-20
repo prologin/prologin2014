@@ -45,17 +45,6 @@ std::vector<tourelle> Map::get_towers(int player)
     return towers;
 }
 
-Cell* Map::get_base(int player)
-{
-    position p = bases_.find(player)->second;
-    return get_cell(p);
-}
-
-void Map::set_bases_players(std::map<int, position> bases)
-{
-    bases_ = bases;
-}
-
 static const std::array<position, 4> adjacents{{
     { 0, 1 },
     { 1, 0 },

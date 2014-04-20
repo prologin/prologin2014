@@ -50,6 +50,7 @@ class GameState : public rules::GameState
         void set_magic(int player, int magic);
 
         std::vector<int> get_opponents(int player) const;
+        position get_base(int player);
 
         Map* get_map() const;
 
@@ -83,8 +84,8 @@ class GameState : public rules::GameState
         std::unordered_set<int> losers_;
         int current_turn_;
 
-        std::vector<tourelle> towers_;
         std::map<int, int> magic_;
+        std::map<int, position> bases_players_;
 
         game_phase game_phase_;
 };

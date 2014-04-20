@@ -39,13 +39,13 @@ int ActionShoot::check(const GameState* st) const
     tourelle tower = cell_tower->get_tower();
     int dist = distance(tower_, target_);
 
-    if (dist > tower.portee)
-        return VALEUR_INVALIDE;
-
     if (cell_tower->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
 
-    if (cell_tower->get_player() == player_id_)
+    if (dist > tower.portee)
+        return VALEUR_INVALIDE;
+
+    if (cell_tower->get_player() != player_id_)
         return CASE_ADVERSE;
 
     if (tower.attaque < points_)

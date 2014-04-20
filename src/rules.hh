@@ -15,10 +15,10 @@
 # include "api.hh"
 
 typedef void (*f_champion_partie_debut)();
-typedef void (*f_champion_jouer_construction)();
-typedef void (*f_champion_jouer_deplacement)();
-typedef void (*f_champion_jouer_tirs)();
-typedef void (*f_champion_jouer_siege)();
+typedef void (*f_champion_phase_construction)();
+typedef void (*f_champion_phase_deplacement)();
+typedef void (*f_champion_phase_tirs)();
+typedef void (*f_champion_phase_siege)();
 typedef void (*f_champion_partie_fin)();
 
 class Rules : public rules::SynchronousRules
@@ -50,16 +50,16 @@ class Rules : public rules::SynchronousRules
         void player_turn();
         void spectator_turn();
 
-        void end_of_player_turn(uint32_t player_id);
         void end_of_turn();
+        void start_of_turn();
         void at_end();
 
     protected:
         f_champion_partie_debut champion_partie_debut;
-        f_champion_jouer_construction champion_jouer_construction;
-        f_champion_jouer_deplacement champion_jouer_deplacement;
-        f_champion_jouer_tirs champion_jouer_tirs;
-        f_champion_jouer_siege champion_jouer_siege;
+        f_champion_phase_construction champion_phase_construction;
+        f_champion_phase_deplacement champion_phase_deplacement;
+        f_champion_phase_tirs champion_phase_tirs;
+        f_champion_phase_siege champion_phase_siege;
         f_champion_partie_fin champion_partie_fin;
 
     private:

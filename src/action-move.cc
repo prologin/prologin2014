@@ -19,12 +19,18 @@ ActionMove::ActionMove()
 int ActionMove::check(const GameState* st) const
 {
     Cell* cell_start = st->get_map()->get_cell(start_);
-    Cell* cell_dest = st->get_map()->get_cell(start_);
+    Cell* cell_dest = st->get_map()->get_cell(dest_);
 
     int nb_movable = cell_start->get_nb_wizards_movable(player_id_);
 
     if (nb_wizards_ < 0)
         return VALEUR_INVALIDE;
+
+    if (cell_start->get_type() == CASE_TOURELLE)
+        return CASE_UTILISEE;
+
+    if (cell_dest->get_type() == CASE_TOURELLE)
+        return CASE_UTILISEE;
 
     if (nb_movable < nb_wizards_)
         return SORCIERS_INSUFFISANTS;
@@ -36,12 +42,6 @@ int ActionMove::check(const GameState* st) const
     if (dest_.x < 0 || dest_.x >= TAILLE_TERRAIN
         || dest_.y < 0 || dest_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
-
-    if (cell_start->get_type() == CASE_TOURELLE)
-        return CASE_UTILISEE;
-
-    if (cell_dest->get_type() == CASE_TOURELLE)
-        return CASE_UTILISEE;
 
     std::vector<position> path = st->get_map()->path(start_, dest_);
 

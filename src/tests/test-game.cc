@@ -26,6 +26,9 @@ class GameTest : public ::testing::Test
                 }
             }
         );
+        for (auto& p : players->players)
+             p->type = rules::PLAYER;
+
         gamestate_ = new GameState(map_, players);
     }
     Map* map_;
@@ -70,4 +73,20 @@ TEST_F(GameTest, FightTest2)
 
     EXPECT_EQ(3, cell_fight->get_player())
         << "The 3rd player should own this cell";
+}
+
+TEST_F(GameTest, BaseTest)
+{
+    Cell* cell_base = map_->get_cell(gamestate_->get_base(0));
+    cell_base->set_wizards(1, 1);
+    gamestate_->resolve_fights();
+
+    gamestate_->check_losers();
+
+
+    EXPECT_EQ(1, gamestate_->get_losers_ids().size())
+        << "There should be one losers";
+
+    EXPECT_EQ(0, *(gamestate_->get_losers_ids()).begin())
+        << "The loser is the player 0";
 }

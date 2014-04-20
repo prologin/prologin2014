@@ -8,8 +8,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 {
     // TODO
 
-    std::map<int, position> bases_players;
-
     // list of the positions of bases
     std::vector<position> list_base =
     {
@@ -31,13 +29,16 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     int i = 0;
 
     for (auto& p : players_->players)
+    {
         if (p->type == rules::PLAYER)
         {
             players_ids_[p->id] = p;
             magic_[p->id] = 0;
-            bases_players[p->id] = list_base[i];
+            bases_players_[p->id] = list_base[i];
+            map_->get_cell(list_base[i])->set_player(p->id);
             i++;
         }
+    }
 }
 
 GameState::GameState(const GameState& st)
@@ -61,6 +62,11 @@ std::vector<int> GameState::get_opponents(int player_id) const
         if ((int) i->id != player_id)
             opponents.push_back(i->id);
     return opponents;
+}
+
+position GameState::get_base(int player)
+{
+    return bases_players_[player];
 }
 
 void GameState::increment_turn()
@@ -138,11 +144,11 @@ void GameState::check_losers()
     for (std::map<int, rules::Player_sptr>::iterator it = players_ids_.begin();
          it != players_ids_.end(); it++)
     {
-        owner_base = map_->get_base(it->first)->get_player();
+        owner_base = map_->get_cell(bases_players_[it->first])->get_player();
         if (owner_base != it->first)
         {
             // update score of the winner
-            if (losers_.find(it->first) != losers_.end())
+            if (losers_.find(it->first) == losers_.end())
             {
                 players_->players[owner_base]->score += POINTS_VAINQUEUR;
                 losers_.insert(it->first);

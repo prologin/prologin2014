@@ -34,7 +34,10 @@ case_info Cell::get_type() const
 
 tourelle Cell::get_tower()
 {
-    return tower_;
+    if (tower_)
+        return *tower_;
+    else
+        return { { -1, -1 }, -1, -1, -1, -1 };
 }
 
 int Cell::get_player() const
@@ -42,21 +45,26 @@ int Cell::get_player() const
     return player_;
 }
 
+void Cell::set_player(int player)
+{
+    player_ = player;
+}
+
 void Cell::put_tower(tourelle tower)
 {
-    tower_ = tower;
+    tower_ = &tower;
     type_ = CASE_TOURELLE;
     player_ = tower.joueur;
 }
 
 void Cell::delete_tower(void)
 {
-    tower_ = { { -1, -1 }, 0, -1, 0, 0 };
+    tower_ = NULL;
     type_ = CASE_SIMPLE;
 }
 void Cell::set_magic_tower(int attaque)
 {
-    tower_.attaque = attaque;
+    tower_->attaque = attaque;
 }
 
 int Cell::get_nb_wizards(int player)
@@ -116,14 +124,14 @@ int Cell::wizards_attacked(int points, int player)
 
 int Cell::tower_attacked(int points)
 {
-    if (tower_.vie <= points)
+    if (tower_->vie <= points)
     {
-        tower_.vie = 0;
+        tower_->vie = 0;
         type_ = CASE_SIMPLE;
         return 1;
     }
 
-    tower_.vie -= points;
+    tower_->vie -= points;
     return 0;
 }
 
@@ -153,7 +161,6 @@ void Cell::resolve_fight()
             && it->second <= currentMax)
             currentSecondMax = it->second;
     }
-    std::cout << currentSecondMax << std::endl;
 
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {

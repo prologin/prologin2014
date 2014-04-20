@@ -30,6 +30,7 @@ class Cell
         int tower_attacked(int points);
 
         int get_player() const;
+        void set_player(int player);
 
         position get_position() { return { x_, y_ }; }
 
@@ -43,7 +44,7 @@ class Cell
         // several wizards can be in a cell
         std::map<int, int> nb_wizards_;
         std::map<int, int> nb_wizards_movable_;
-        tourelle tower_;
+        tourelle* tower_;
 };
 
 #endif // !CELL_H_

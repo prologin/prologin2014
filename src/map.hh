@@ -31,9 +31,6 @@ class Map
 
         std::vector<tourelle> get_towers(int player);
 
-        // base of the player
-        Cell* get_base(int player);
-        void set_bases_players(std::map<int, position> bases);
         bool buildable(position pos, int player);
         std::vector<position> path(position depart, position);
 
@@ -46,7 +43,7 @@ class Map
         void resolve_tower_magic();
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
-        std::map<int, position> bases_;
+
 };
 
 #endif /* !MAP_HH_ */
