@@ -11,6 +11,20 @@ Cell::Cell(int y, int x)
       type_(CASE_SIMPLE),
       player_(-1)
 {
+    // if base
+    if ((x_ == 0 && (y_ == 0 || y == TAILLE_TERRAIN - 1))
+        || (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
+            type_ = CASE_CASE;
+
+    // if fontain
+    if (((x_ == TAILLE_TERRAIN / 2 - 1)
+         && (y_ == TAILLE_TERRAIN - 1 || y_ == 0))
+        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2 - 1))
+        type_ = CASE_FONTAINE;
+
+    // if artefact
+    if (x_ == TAILLE_TERRAIN / 2 - 1 && y_ == TAILLE_TERRAIN / 2 - 1)
+        type_ = CASE_ARTEFACT;
 }
 
 case_info Cell::get_type() const
@@ -117,6 +131,7 @@ void Cell::resolve_fight()
 {
     int currentMax = 0;
     int currentSecondMax = 0;
+    int idcurrentMax = -1;
     int temp = 0;
     // reser owner of the cell
     player_ = -1;
@@ -125,19 +140,25 @@ void Cell::resolve_fight()
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
         if (it->second > currentMax)
+        {
             currentMax = it->second;
+            idcurrentMax = it->first;
+        }
     }
 
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
-        if (it->second > currentSecondMax && it->second < currentMax)
+        if (it->first != idcurrentMax
+            && it->second > currentSecondMax
+            && it->second <= currentMax)
             currentSecondMax = it->second;
     }
+    std::cout << currentSecondMax << std::endl;
 
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
         temp = it->second - currentSecondMax;
-        if (temp < 0)
+        if (temp <= 0)
             it->second = 0;
         else
         {

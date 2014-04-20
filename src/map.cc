@@ -220,7 +220,8 @@ void Map::resolve_fights()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            if (map_[x][y]->get_type() != CASE_TOURELLE)
+            if (map_[x][y]->get_type() != CASE_TOURELLE
+                && map_[x][y]->get_nb_wizards_total() > 0)
                 map_[x][y]->resolve_fight();
 }
 

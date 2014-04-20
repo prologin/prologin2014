@@ -11,6 +11,7 @@
 # include <rules/actions.hh>
 
 # include "game-state.hh"
+# include "action-ack.hh"
 # include "api.hh"
 
 typedef void (*f_champion_partie_debut)();
@@ -41,6 +42,13 @@ class Rules : public rules::SynchronousRules
         void resolve_magic();
         void resolve_wizard_movable();
         void resolve_tower_magic();
+
+        void at_client_start();
+        void at_spectator_start();
+        void at_client_end();
+        void at_spectator_end();
+        void player_turn();
+        void spectator_turn();
 
         void end_of_player_turn(uint32_t player_id);
         void end_of_turn();

@@ -1,13 +1,13 @@
 #ifndef GAME_STATE_HH
 # define GAME_STATE_HH
 
+# include "map.hh"
+
 # include <rules/game-state.hh>
 # include <rules/player.hh>
 
-#include <unordered_set>
-#include <unordered_map>
-
-# include "map.hh"
+# include <unordered_set>
+# include <unordered_map>
 
 enum game_phase
 {
@@ -25,7 +25,8 @@ enum action_id
     ID_ACTION_CREATE,
     ID_ACTION_MOVE,
     ID_ACTION_ATTACK,
-    ID_ACTION_CANCEL
+    ID_ACTION_ERASE,
+    ID_ACTION_ACK
 };
 
 class GameState : public rules::GameState
@@ -34,16 +35,14 @@ class GameState : public rules::GameState
         GameState(Map* map, rules::Players_sptr players);
         GameState(const GameState& st);
         virtual rules::GameState* copy() const;
-        virtual ~GameState();
+        ~GameState();
 
         /* turn handling */
         void increment_turn();
         int get_current_turn() const;
 
-        void setPhase(game_phase phase);
-        game_phase getPhase() const;
-
         /* Towers */
+        bool add_tower(position pos, int player);
         std::vector<tourelle> get_towers(int player);
 
         /* Magic */
@@ -55,13 +54,16 @@ class GameState : public rules::GameState
         Map* get_map() const;
 
         rules::Players_sptr get_players() const
-            { return players_; }
+        { return players_; }
 
         std::map<int, rules::Player_sptr> get_players_ids() const
-            { return players_ids_; }
+        { return players_ids_; }
 
         std::unordered_set<int> get_losers_ids() const
-            { return losers_; }
+        { return losers_; }
+
+        void setPhase(game_phase phase);
+        game_phase getPhase() const;
 
         // Function for the score
         int get_player_artefact();
@@ -79,11 +81,12 @@ class GameState : public rules::GameState
         rules::Players_sptr players_;
         std::map<int, rules::Player_sptr> players_ids_;
         std::unordered_set<int> losers_;
+        int current_turn_;
 
+        std::vector<tourelle> towers_;
         std::map<int, int> magic_;
 
         game_phase game_phase_;
-        int current_turn_;
 };
 
 #endif /* !GAME_STATE_HH */

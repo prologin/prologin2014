@@ -16,8 +16,8 @@ Rules::Rules(const rules::Options opt)
         champion_jouer_siege = champion_dll_->get<f_champion_jouer_siege>("jouer_siege");
         champion_partie_fin = champion_dll_->get<f_champion_partie_fin>("partie_fin");
 
-        if (opt.player->type == rules::PLAYER)
-            sandbox_.execute(champion_partie_debut);
+        //if (opt.player->type == rules::PLAYER)
+        //    sandbox_.execute(champion_partie_debut);
     }
     else
         champion_dll_ = nullptr;
@@ -54,6 +54,27 @@ Rules::~Rules()
 {
     if (champion_dll_)
         delete champion_dll_;
+    //delete api_;
+}
+
+void Rules::at_client_start()
+{
+    sandbox_.execute(champion_partie_debut);
+}
+
+void Rules::at_spectator_start()
+{
+    champion_partie_debut();
+}
+
+void Rules::at_client_end()
+{
+    sandbox_.execute(champion_partie_fin);
+}
+
+void Rules::at_spectator_end()
+{
+    champion_partie_fin();
 }
 
 rules::Actions* Rules::get_actions()
@@ -137,7 +158,7 @@ void Rules::resolve_tower_magic()
     api_->game_state()->resolve_tower_magic();
 }
 
-void Rules::end_of_turn()
+void Rules::player_turn()
 {
     game_phase phase = api_->game_state()->getPhase();
 
@@ -145,20 +166,61 @@ void Rules::end_of_turn()
     {
         case PHASE_CONSTRUCTION:
             sandbox_.execute(champion_jouer_construction);
-            api_->game_state()->setPhase(PHASE_MOVE);
             break;
         case PHASE_MOVE:
             sandbox_.execute(champion_jouer_deplacement);
+            break;
+        case PHASE_SHOOT:
+            sandbox_.execute(champion_jouer_tirs);
+            break;
+        case PHASE_SIEGE:
+            sandbox_.execute(champion_jouer_siege);
+            break;
+    }
+}
+
+void Rules::spectator_turn()
+{
+    game_phase phase = api_->game_state()->getPhase();
+
+    switch(phase)
+    {
+        case PHASE_CONSTRUCTION:
+            champion_jouer_construction();
+            break;
+        case PHASE_MOVE:
+            champion_jouer_deplacement();
+            break;
+        case PHASE_SHOOT:
+            champion_jouer_tirs();
+            break;
+        case PHASE_SIEGE:
+            champion_jouer_siege();
+            break;
+    }
+
+    api_->actions()->add(
+                    rules::IAction_sptr(new ActionAck(api_->player()->id)));
+}
+
+void Rules::end_of_turn()
+{
+    game_phase phase = api_->game_state()->getPhase();
+
+    switch(phase)
+    {
+        case PHASE_CONSTRUCTION:
+            api_->game_state()->setPhase(PHASE_MOVE);
+            break;
+        case PHASE_MOVE:
             resolve_fights();
             resolve_losers();
             api_->game_state()->setPhase(PHASE_SHOOT);
             break;
         case PHASE_SHOOT:
-            sandbox_.execute(champion_jouer_tirs);
             api_->game_state()->setPhase(PHASE_SIEGE);
             break;
         case PHASE_SIEGE:
-            sandbox_.execute(champion_jouer_siege);
             resolve_magic();
             resolve_wizard_movable();
             resolve_tower_magic();

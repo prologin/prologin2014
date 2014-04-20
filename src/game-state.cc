@@ -22,17 +22,10 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     // list of the positions of fontains
     std::vector<position> list_fontains =
     {
-        { 0, TAILLE_TERRAIN / 2 },
-        { TAILLE_TERRAIN, TAILLE_TERRAIN / 2 },
-        { TAILLE_TERRAIN / 2, 0 },
-        { TAILLE_TERRAIN / 2, TAILLE_TERRAIN },
-    };
-
-    // list of the positions of artefacts
-    std::vector<position> list_artefact =
-    {
-        { 0, TAILLE_TERRAIN / 2 },
-        { TAILLE_TERRAIN / 2, 0 },
+        { 0, TAILLE_TERRAIN / 2  - 1},
+        { TAILLE_TERRAIN, TAILLE_TERRAIN / 2 - 1 },
+        { TAILLE_TERRAIN / 2 - 1, 0 },
+        { TAILLE_TERRAIN / 2 - 1, TAILLE_TERRAIN },
     };
 
     int i = 0;
