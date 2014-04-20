@@ -70,9 +70,24 @@
 \begin{itemize}
 \item{L'API est fournie par le module \texttt{api}, dont tout le contenu est
       importé par défaut par le code à compléter ;}
-\item{Les constantes des énumérations sont représentées par des entiers ;}
+\item{Les énumérations sont représentées par des \texttt{IntEnum} Python, qui
+    peuvent-être utilisés comme ceci : \texttt{nom\_enum.CHAMP}. ;}
 \item{Les structures sont représentés par des \texttt{namedtuple} Python, dont
       on peut accéder aux champs via la notation pointée habituelle, et
       qui peuvent être créés comme ceci : \texttt{foo(bar=42, x=3)}, sauf pour
       la structure \texttt{position} qui est représentée par un couple (x, y).}
+\end{itemize}
+
+\subsubsection{Python 2}
+
+La version de Python par défaut est Python 3. Cependant, si vous souhaitez
+toujours coder en Python 2, vous pouvez utiliser le dossier \emph{python2} à la
+place du dossier \emph{python}.
+
+Les différences par rapport à Python 3 sont les suivantes :
+
+\begin{itemize}
+\item{Les constantes des énumérations sont représentées par des simples entiers
+      ;}
+\item{Les gens dans la rue vous jettent des tomates et crient au scandale.}
 \end{itemize}
