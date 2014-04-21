@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <cmath>
+
 #include "action-construct.hh"
 
 ActionConstruct::ActionConstruct(position pos, int range, int player)
@@ -14,6 +17,14 @@ ActionConstruct::ActionConstruct()
 {
 }
 
+int ActionConstruct::cost() const
+{
+    int c = COUT_TOURELLE;
+    if (range_ > PORTEE_TOURELLE)
+        c += std::pow(COUT_PORTEE, range_ - PORTEE_TOURELLE);
+    return c;
+}
+
 int ActionConstruct::check(const GameState* st) const
 {
     if (st->getPhase() != PHASE_CONSTRUCTION)
@@ -26,7 +37,14 @@ int ActionConstruct::check(const GameState* st) const
     if (cell->get_type() != CASE_SIMPLE || cell->get_nb_wizards_total())
         return CASE_UTILISEE;
 
-    // TODO: more checks
+    if (!st->get_map()->buildable(pos_, player_id_))
+        return CASE_IMPOSSIBLE;
+
+    if (range_ < PORTEE_TOURELLE)
+        return VALEUR_INVALIDE;
+
+    if (!st->get_magic(player_id_) < cost())
+        return MAGIE_INSUFFISANTE;
 
     return OK;
 }
@@ -40,7 +58,7 @@ void ActionConstruct::handle_buffer(utils::Buffer& buf)
 
 void ActionConstruct::apply_on(GameState* st) const
 {
-    tourelle t = 
+    tourelle t =
     {
         {
             pos_.x,
@@ -52,4 +70,5 @@ void ActionConstruct::apply_on(GameState* st) const
         ATTAQUE_TOURELLE
     };
     st->get_map()->get_cell(pos_)->put_tower(t);
+    st->set_magic(player_id_, st->get_magic(player_id_) - cost());
 }

@@ -49,7 +49,7 @@ constant:
     -
         cst_name: COUT_PORTEE
         cst_val: 2
-        cst_comment: Coût pour chaque case de portée supplémentaire
+        cst_comment: Coût exponentiel pour chaque case de portée supplémentaire
 
 # "Portée" des sorciers
     -

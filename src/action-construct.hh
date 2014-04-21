@@ -19,6 +19,8 @@ class ActionConstruct : public rules::Action<GameState>
         uint32_t player_id() const { return player_id_; }
         uint32_t id() const { return ID_ACTION_CONSTRUCT; }
 
+        int cost() const;
+
     private:
         position pos_;
         int range_;

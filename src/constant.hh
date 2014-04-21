@@ -64,7 +64,7 @@
 # define COUT_TOURELLE             6
 
 ///
-// Coût pour chaque case de portée supplémentaire
+// Coût exponentiel pour chaque case de portée supplémentaire
 //
 # define COUT_PORTEE               2
 
