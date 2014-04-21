@@ -37,7 +37,7 @@ case_info Cell::get_type() const
     // if base
     if ((x_ == 0 && (y_ == 0 || y_ == TAILLE_TERRAIN - 1))
         || (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
-            return CASE_CASE;
+            return CASE_BASE;
 
     // if fontain
     if (((x_ == TAILLE_TERRAIN / 2 + 1)

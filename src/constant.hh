@@ -119,7 +119,7 @@
 typedef enum case_info {
   CASE_SIMPLE, /* <- Case simple */
   CASE_TOURELLE, /* <- Tourelle */
-  CASE_CASE, /* <- Base du joueur */
+  CASE_BASE, /* <- Base du joueur */
   CASE_FONTAINE, /* <- Fontaine magique */
   CASE_ARTEFACT, /* <- Artefact magique */
   CASE_ERREUR, /* <- Erreur */

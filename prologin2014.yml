@@ -103,7 +103,7 @@ enum:
         enum_field:
             - [case_simple, "Case simple"]
             - [case_tourelle, "Tourelle"]
-            - [case_case, "Base du joueur"]
+            - [case_base, "Base du joueur"]
             - [case_fontaine, "Fontaine magique"]
             - [case_artefact, "Artefact magique"]
             - [case_erreur, "Erreur"]

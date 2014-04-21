@@ -42,19 +42,19 @@ TEST_F(MapTest, MapCreated)
         << "Cell(TAILLE_TERRAIN - 1 / 2, TAILLE_TERRAIN / 2) should be a fontain";
 
     // Bases
-    EXPECT_EQ(CASE_CASE, map.get_cell(position { 0, 0 })->
+    EXPECT_EQ(CASE_BASE, map.get_cell(position { 0, 0 })->
               get_type())
         << "Cell(0, 0) should be a base";
 
-    EXPECT_EQ(CASE_CASE, map.get_cell(position { TAILLE_TERRAIN - 1, 0  })->
+    EXPECT_EQ(CASE_BASE, map.get_cell(position { TAILLE_TERRAIN - 1, 0  })->
               get_type())
         << "Cell(TAILLE_TERRAIN -1, 0) should be a base";
 
-    EXPECT_EQ(CASE_CASE, map.get_cell(position { TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1  })->
+    EXPECT_EQ(CASE_BASE, map.get_cell(position { TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1  })->
               get_type())
         << "Cell(TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1) should be a base";
 
-    EXPECT_EQ(CASE_CASE, map.get_cell(position { 0, TAILLE_TERRAIN - 1  })->
+    EXPECT_EQ(CASE_BASE, map.get_cell(position { 0, TAILLE_TERRAIN - 1  })->
               get_type())
         << "Cell(0, TAILLE_TERRAIN - 1) should be a base";
 }

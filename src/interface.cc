@@ -65,7 +65,7 @@ std::string convert_to_string(case_info in){
   {
     case CASE_SIMPLE: return "\"case_simple\"";
     case CASE_TOURELLE: return "\"case_tourelle\"";
-    case CASE_CASE: return "\"case_case\"";
+    case CASE_BASE: return "\"case_base\"";
     case CASE_FONTAINE: return "\"case_fontaine\"";
     case CASE_ARTEFACT: return "\"case_artefact\"";
     case CASE_ERREUR: return "\"case_erreur\"";
@@ -338,7 +338,7 @@ std::ostream& operator<<(std::ostream& os, case_info v)
   switch (v) {
   case CASE_SIMPLE: os << "CASE_SIMPLE"; break;
   case CASE_TOURELLE: os << "CASE_TOURELLE"; break;
-  case CASE_CASE: os << "CASE_CASE"; break;
+  case CASE_BASE: os << "CASE_BASE"; break;
   case CASE_FONTAINE: os << "CASE_FONTAINE"; break;
   case CASE_ARTEFACT: os << "CASE_ARTEFACT"; break;
   case CASE_ERREUR: os << "CASE_ERREUR"; break;
