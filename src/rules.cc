@@ -140,14 +140,12 @@ void Rules::resolve_magic()
 void Rules::resolve_losers()
 {
     DEBUG("resolve_losers");
-
     api_->game_state()->check_losers();
 }
 
 void Rules::resolve_wizard_movable()
 {
     DEBUG("resolve_wizard_movable");
-
     api_->game_state()->resolve_wizard_movable();
 }
 
@@ -238,5 +236,6 @@ void Rules::at_end()
 
 void Rules::start_of_turn()
 {
-    INFO("TURN %d", api_->game_state()->get_current_turn());
+    if (api_->game_state()->getPhase() == PHASE_CONSTRUCTION)
+        INFO("TURN %d", api_->game_state()->get_current_turn());
 }
