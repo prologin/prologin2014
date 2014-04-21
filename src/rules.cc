@@ -35,7 +35,7 @@ Rules::Rules(const rules::Options opt)
 
     // Register actions
     api_->actions()->register_action(ID_ACTION_CONSTRUCT,
-            []() -> rules::IAction* { return new ActionAttack(); });
+            []() -> rules::IAction* { return new ActionConstruct(); });
     api_->actions()->register_action(ID_ACTION_DELETE,
             []() -> rules::IAction* { return new ActionDelete(); });
     api_->actions()->register_action(ID_ACTION_SHOOT,
