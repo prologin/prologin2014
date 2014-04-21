@@ -18,6 +18,9 @@ ActionMove::ActionMove()
 
 int ActionMove::check(const GameState* st) const
 {
+    if (st->getPhase() != PHASE_MOVE)
+        return PHASE_INCORRECTE;
+
     Cell* cell_start = st->get_map()->get_cell(start_);
     Cell* cell_dest = st->get_map()->get_cell(dest_);
 

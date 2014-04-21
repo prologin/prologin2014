@@ -14,6 +14,9 @@ ActionCreate::ActionCreate()
 
 int ActionCreate::check(const GameState* st) const
 {
+    if (st->getPhase() != PHASE_CONSTRUCTION)
+        return PHASE_INCORRECTE;
+
     if (nb_wizards_ <= 0)
         return VALEUR_INVALIDE;
 

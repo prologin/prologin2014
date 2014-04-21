@@ -16,6 +16,9 @@ ActionConstruct::ActionConstruct()
 
 int ActionConstruct::check(const GameState* st) const
 {
+    if (st->getPhase() != PHASE_CONSTRUCTION)
+        return PHASE_INCORRECTE;
+
     Cell* cell;
     if (!(cell = st->get_map()->get_cell(pos_)))
         return CASE_IMPOSSIBLE;

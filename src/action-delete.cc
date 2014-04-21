@@ -14,6 +14,9 @@ ActionDelete::ActionDelete()
 
 int ActionDelete::check(const GameState* st) const
 {
+    if (st->getPhase() != PHASE_CONSTRUCTION)
+        return PHASE_INCORRECTE;
+
     Cell* cell = st->get_map()->get_cell(position_);
 
     if (position_.x < 0 || position_.x >= TAILLE_TERRAIN
