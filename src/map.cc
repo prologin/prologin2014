@@ -27,11 +27,12 @@ bool Map::valid_position(position p) const
            0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
-Cell* Map::get_cell(position p)
+Cell* Map::get_cell(position p) const
 {
     if (!valid_position(p))
         return NULL;
-    return map_[p.x][p.y];
+
+    return map_[p.y][p.x];
 }
 
 std::vector<tourelle> Map::get_towers(int player)
@@ -39,8 +40,8 @@ std::vector<tourelle> Map::get_towers(int player)
     std::vector<tourelle> towers;
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            if (map_[x][y]->get_player() == player)
-                towers.push_back(map_[x][y]->get_tower());
+            if (map_[x][y]->get_player() == player && map_[x][y]->get_tower())
+                towers.push_back(*(map_[x][y]->get_tower()));
 
     return towers;
 }
@@ -92,7 +93,8 @@ bool Map::buildable(position pos, int player)
         Cell *cell = get_cell(cp);
         if (cell->get_type() == CASE_TOURELLE)
         {
-            if (cell->get_tower().joueur != player) // Enemy tower
+            if (!(cell->get_tower())
+                || cell->get_tower()->joueur != player) // Enemy tower
                 return false;
             else
                 tower_found = true; // Tower which belongs to 'player'

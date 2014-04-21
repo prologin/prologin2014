@@ -27,7 +27,7 @@ class Map
         ~Map();
 
         bool valid_position(position p) const;
-        Cell* get_cell(position p);
+        Cell* get_cell(position p) const;
 
         std::vector<tourelle> get_towers(int player);
 

@@ -97,8 +97,12 @@ tourelle Api::tourelle_case(position pos)
   if (!c)
       return { { -1, -1 }, 0, -1, 0, 0 };
 
-  tourelle t = c->get_tower();
-  return t;
+  tourelle* t = c->get_tower();
+
+  if (!t)
+      return { { -1, -1 }, 0, -1, 0, 0 };
+
+  return *t;
 }
 
 ///

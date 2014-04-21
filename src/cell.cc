@@ -8,36 +8,53 @@
 Cell::Cell(int y, int x)
     : x_(x),
       y_(y),
-      type_(CASE_SIMPLE),
-      player_(-1)
+      player_(-1),
+      tower_(NULL)
 {
-    // if base
-    if ((x_ == 0 && (y_ == 0 || y == TAILLE_TERRAIN - 1))
-        || (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
-            type_ = CASE_CASE;
-
-    // if fontain
-    if (((x_ == TAILLE_TERRAIN / 2 - 1)
-         && (y_ == TAILLE_TERRAIN - 1 || y_ == 0))
-        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2 - 1))
-        type_ = CASE_FONTAINE;
-
-    // if artefact
-    if (x_ == TAILLE_TERRAIN / 2 - 1 && y_ == TAILLE_TERRAIN / 2 - 1)
-        type_ = CASE_ARTEFACT;
 }
+Cell::Cell(const Cell &c)
+    : x_(c.x_)
+    , y_(c.y_)
+    , player_(c.player_)
+    , nb_wizards_(c.nb_wizards_)
+    , nb_wizards_movable_(c.nb_wizards_)
+    , tower_(c.tower_)
+{
+}
+
+Cell::~Cell()
+{
+    delete tower_;
+}
+
 
 case_info Cell::get_type() const
 {
-    return type_;
+    // if tower
+    if (tower_ && tower_->vie != 0)
+        return CASE_TOURELLE;
+
+    // if base
+    if ((x_ == 0 && (y_ == 0 || y_ == TAILLE_TERRAIN - 1))
+        || (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
+            return CASE_CASE;
+
+    // if fontain
+    if (((x_ == TAILLE_TERRAIN / 2 + 1)
+         && (y_ == TAILLE_TERRAIN - 1 || y_ == 0))
+        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2 + 1))
+        return CASE_FONTAINE;
+
+    // if artefact
+    if (x_ == TAILLE_TERRAIN / 2 + 1 && y_ == TAILLE_TERRAIN / 2 + 1)
+        return CASE_ARTEFACT;
+
+    return CASE_SIMPLE;
 }
 
-tourelle Cell::get_tower()
+tourelle* Cell::get_tower()
 {
-    if (tower_)
-        return *tower_;
-    else
-        return { { -1, -1 }, -1, -1, -1, -1 };
+    return tower_;
 }
 
 int Cell::get_player() const
@@ -53,14 +70,12 @@ void Cell::set_player(int player)
 void Cell::put_tower(tourelle tower)
 {
     tower_ = &tower;
-    type_ = CASE_TOURELLE;
     player_ = tower.joueur;
 }
 
 void Cell::delete_tower(void)
 {
     tower_ = NULL;
-    type_ = CASE_SIMPLE;
 }
 void Cell::set_magic_tower(int attaque)
 {
@@ -126,8 +141,7 @@ int Cell::tower_attacked(int points)
 {
     if (tower_->vie <= points)
     {
-        tower_->vie = 0;
-        type_ = CASE_SIMPLE;
+        tower_ = NULL;
         return 1;
     }
 

@@ -53,11 +53,10 @@ void ActionAttack::handle_buffer(utils::Buffer& buf)
 
 void ActionAttack::apply_on(GameState* st) const
 {
-    Cell* cell_tower = st->get_map()->get_cell(target_);
     Cell* cell_init = st->get_map()->get_cell(pos_);
 
     int tower_destroyed =
-        cell_tower->tower_attacked(cell_init->get_nb_wizards(player_id_));
+        st->get_map()->get_cell(target_)->tower_attacked(cell_init->get_nb_wizards(player_id_));
 
     // Magic gained
     if (tower_destroyed)

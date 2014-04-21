@@ -10,6 +10,8 @@ class Cell
 {
     public:
         Cell(int y, int x);
+        Cell(const Cell &source);
+        ~Cell();
 
         case_info get_type() const;
 
@@ -24,7 +26,7 @@ class Cell
 
         void put_tower(tourelle tower);
         void delete_tower(void);
-        tourelle get_tower();
+        tourelle* get_tower();
         void set_magic_tower(int attaque);
         // return true if the tower is destroyed
         int tower_attacked(int points);
@@ -39,7 +41,6 @@ class Cell
     private:
         int x_;
         int y_;
-        case_info type_;
         int player_;
         // several wizards can be in a cell
         std::map<int, int> nb_wizards_;

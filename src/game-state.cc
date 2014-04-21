@@ -44,7 +44,11 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 GameState::GameState(const GameState& st)
     : rules::GameState(st)
     , map_(new Map(*st.map_))
+    , losers_(st.losers_)
     , current_turn_(st.current_turn_)
+    , magic_(st.magic_)
+    , bases_players_(st.bases_players_)
+    , game_phase_(st.game_phase_)
 {
      players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
      magic_.insert(st.magic_.begin(), st.magic_.end());

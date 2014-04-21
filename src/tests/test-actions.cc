@@ -48,6 +48,11 @@ TEST_F(ActionsTest, AttackTest)
 {
     ActionAttack a1({ 2, 2 }, { 2, 5 }, 1);
 
+    EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
+        << "Wrong phase of the game.";
+
+    gamestate_->setPhase(PHASE_SIEGE);
+
     EXPECT_EQ(VALEUR_INVALIDE, a1.check(gamestate_))
         << "The distance between the two cells is too far away.";
 
@@ -80,14 +85,14 @@ TEST_F(ActionsTest, AttackTest)
     EXPECT_EQ(OK, a2.check(gamestate_))
         << "It should be possible to attack a tower.";
 
-    a2.apply(gamestate_);
+    a2.apply_on(gamestate_);
 
     EXPECT_EQ(CASE_TOURELLE, c2->get_type())
         << "The tower should not be down yet.";
 
-    a2.apply(gamestate_);
+    a2.apply_on(gamestate_);
 
-    EXPECT_EQ(CASE_SIMPLE, c2->get_type())
+    EXPECT_EQ(CASE_SIMPLE, gamestate_->get_map()->get_cell({2, 3})->get_type())
         << "The tower should be down now.";
 
 }
@@ -150,6 +155,12 @@ TEST_F(ActionsTest, DeleteTest)
 TEST_F(ActionsTest, MoveTest)
 {
     ActionMove a1({ 2, 2 }, { 2, 3 }, 3, 1);
+
+    EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
+        << "Wrong phase of the game.";
+
+    gamestate_->setPhase(PHASE_MOVE);
+
     EXPECT_EQ(SORCIERS_INSUFFISANTS, a1.check(gamestate_))
         << "There are no wizards on the cell";
 
@@ -204,6 +215,11 @@ TEST_F(ActionsTest, ShootTest)
 {
     ActionShoot a1(4, { 2, 2 }, { 2, 5 }, 1);
 
+    EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
+        << "Wrong phase of the game.";
+
+    gamestate_->setPhase(PHASE_SHOOT);
+
     EXPECT_EQ(CASE_VIDE, a1.check(gamestate_))
         << "There is no tower in this cell.";
 
@@ -227,15 +243,18 @@ TEST_F(ActionsTest, ShootTest)
     c2->set_wizards(2, 7);
     c2->set_wizards(3, 3);
 
-    a1.apply(gamestate_);
+    a1.apply_on(gamestate_);
 
-    EXPECT_EQ(3, c2->get_nb_wizards(1))
+    EXPECT_EQ(3, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(1))
         << "The tower doesn't attack the wizards of its own team.";
 
-    EXPECT_EQ(0, c2->get_nb_wizards(0))
+    EXPECT_EQ(0, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(0))
         << "There should be no wizards left on this cell.";
 
-    EXPECT_EQ(3, c2->get_nb_wizards(2))
+    EXPECT_EQ(0, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(3))
+        << "There should be 3 wizards left on this cell.";
+
+    EXPECT_EQ(3, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(2))
         << "There should be 3 wizards left on this cell.";
 
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
