@@ -156,6 +156,8 @@ void GameState::check_losers()
             {
                 players_->players[owner_base]->score += POINTS_VAINQUEUR;
                 losers_.insert(it->first);
+                // delete all his wizards and all his towers
+                map_->delete_all(it->first);
             }
         }
     }

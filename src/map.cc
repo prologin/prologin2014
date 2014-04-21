@@ -230,3 +230,18 @@ void Map::resolve_tower_magic()
             if (map_[x][y]->get_type() == CASE_TOURELLE)
                 map_[x][y]->set_magic_tower(ATTAQUE_TOURELLE);
 }
+
+void Map::delete_all(int player)
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+        {
+            if (map_[x][y]->get_type() == CASE_TOURELLE
+                && map_[x][y]->get_player() == player)
+                map_[x][y]->delete_tower();
+            else
+                map_[x][y]->set_wizards(player, 0);
+            if (map_[x][y]->get_player() == player)
+                map_[x][y]->set_player(-1);
+        }
+}

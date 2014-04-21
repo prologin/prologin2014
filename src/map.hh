@@ -41,6 +41,9 @@ class Map
         void resolve_fights();
         void resolve_wizard_movable();
         void resolve_tower_magic();
+
+        // delete every element of the player
+        void delete_all(int player);
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
 
