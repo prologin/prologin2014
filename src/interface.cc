@@ -96,6 +96,7 @@ std::string convert_to_string(erreur in){
     case MAGIE_INSUFFISANTE: return "\"magie_insuffisante\"";
     case SORCIERS_INSUFFISANTS: return "\"sorciers_insuffisants\"";
     case ATTAQUE_INSUFFISANTE: return "\"attaque_insuffisante\"";
+    case PHASE_INCORRECTE: return "\"phase_incorrecte\"";
   }
   return "bad value";
 }
@@ -365,6 +366,7 @@ std::ostream& operator<<(std::ostream& os, erreur v)
   case MAGIE_INSUFFISANTE: os << "MAGIE_INSUFFISANTE"; break;
   case SORCIERS_INSUFFISANTS: os << "SORCIERS_INSUFFISANTS"; break;
   case ATTAQUE_INSUFFISANTE: os << "ATTAQUE_INSUFFISANTE"; break;
+  case PHASE_INCORRECTE: os << "PHASE_INCORRECTE"; break;
   }
   return os;
 }

@@ -59,7 +59,7 @@
 # define COUT_SORCIER              2
 
 ///
-// Nombre de points de magie par tourelle
+// Nombre de points de magie par sorcier
 //
 # define COUT_TOURELLE             6
 
@@ -140,6 +140,7 @@ typedef enum erreur {
   MAGIE_INSUFFISANTE, /* <- Vous n'avez pas assez de magie */
   SORCIERS_INSUFFISANTS, /* <- Vous n'avez pas assez de sorciers */
   ATTAQUE_INSUFFISANTE, /* <- Vous n'avez pas assez de points d'attaque */
+  PHASE_INCORRECTE, /* <- Cette action ne peut pas être utilisée lors de cette phase du jeu. */
 } erreur;
 
 
