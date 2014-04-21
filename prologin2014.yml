@@ -111,7 +111,7 @@ enum:
         enum_name: erreur
         enum_summary: "Erreurs possibles"
         enum_field:
-            - [ ok, "L'action s'est effectuée avec succès" ]
+            - [ok, "L'action s'est effectuée avec succès"]
             - [annuler_impossible, "Aucune action à annuler"]
             - [case_impossible, "Cette case n'existe pas"]
             - [case_adverse, "Vous ne contrôlez pas cette case"]
@@ -122,6 +122,8 @@ enum:
             - [sorciers_insuffisants, "Vous n'avez pas assez de sorciers"]
             - [attaque_insuffisante, "Vous n'avez pas assez de points
                                       d'attaque"]
+            - [phase_incorrecte, "Cette action ne peut pas être utilisée lors
+                                  de cette phase du jeu."]
 
 struct:
     -
@@ -338,11 +340,6 @@ user_function:
     -
         fct_name: phase_siege
         fct_summary: Fonction appelée pendant la phase de siège des tourelles
-        fct_ret_type: void
-        fct_arg: []
-    -
-        fct_name: phase_jeu
-        fct_summary: Fonction appelée pendant la phase de jeu
         fct_ret_type: void
         fct_arg: []
     -
