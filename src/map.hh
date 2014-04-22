@@ -27,12 +27,13 @@ class Map
         ~Map();
 
         bool valid_position(position p) const;
-        Cell* get_cell(position p) const;
+        const Cell* get_cell(position p) const;
+        Cell* get_cell(position p);
 
         std::vector<tourelle> get_towers(int player);
 
-        bool buildable(position pos, int player);
-        std::vector<position> path(position depart, position);
+        bool buildable(position pos, int player) const;
+        std::vector<position> path(position depart, position) const;
 
         // Function for the score
         int get_player_artefact();

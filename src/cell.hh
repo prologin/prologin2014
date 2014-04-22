@@ -16,9 +16,9 @@ class Cell
         case_info get_type() const;
 
         // wizards
-        int get_nb_wizards(int player);
-        int get_nb_wizards_movable(int player);
-        int get_nb_wizards_total();
+        int get_nb_wizards(int player) const;
+        int get_nb_wizards_movable(int player) const;
+        int get_nb_wizards_total() const;
         void set_wizards(int player, int nb_wizards);
         void set_wizards_movable(int player, int nb_wizards);
         // return nb_wizards dead
@@ -26,7 +26,7 @@ class Cell
 
         void put_tower(tourelle tower);
         void delete_tower(void);
-        tourelle* get_tower();
+        tourelle* get_tower() const;
         void set_magic_tower(int attaque);
         // return true if the tower is destroyed
         int tower_attacked(int points);

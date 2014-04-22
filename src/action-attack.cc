@@ -16,8 +16,8 @@ ActionAttack::ActionAttack()
 
 int ActionAttack::check(const GameState* st) const
 {
-    Cell* cell_tower;
-    Cell* cell_init;
+    const Cell* cell_tower;
+    const Cell* cell_init;
 
     if (st->getPhase() != PHASE_SIEGE)
         return PHASE_INCORRECTE;

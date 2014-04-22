@@ -99,7 +99,8 @@ TEST_F(ActionsTest, AttackTest)
 
 TEST_F(ActionsTest, ConstructTest)
 {
-    ActionConstruct a1({ 2, 2 }, 3, 1);
+    ActionConstruct a1({ gamestate_->get_base(1).x + 2,
+                         gamestate_->get_base(1).y + 2 }, 3, 1);
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to put a tower here";
     a1.apply_on(gamestate_);
@@ -108,6 +109,9 @@ TEST_F(ActionsTest, ConstructTest)
 
     EXPECT_EQ(CASE_TOURELLE, c->get_type())
         << "There should be a tower here.";
+
+    EXPECT_EQ(1, gamestate_->get_towers(1).size())
+        << "There should be one tower in the list of towers of the player";
 
     a1.apply_on(gamestate_);
 

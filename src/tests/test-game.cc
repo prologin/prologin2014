@@ -83,7 +83,6 @@ TEST_F(GameTest, BaseTest)
 
     gamestate_->check_losers();
 
-
     EXPECT_EQ(1, gamestate_->get_losers_ids().size())
         << "There should be one losers";
 

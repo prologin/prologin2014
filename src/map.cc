@@ -27,7 +27,15 @@ bool Map::valid_position(position p) const
            0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
-Cell* Map::get_cell(position p) const
+const Cell* Map::get_cell(position p) const
+{
+    if (!valid_position(p))
+        return NULL;
+
+    return map_[p.y][p.x];
+}
+
+Cell* Map::get_cell(position p)
 {
     if (!valid_position(p))
         return NULL;
@@ -55,11 +63,13 @@ static const std::array<position, 4> adjacents{{
 
 // BFS from pos to find whether the closest tower in CONSTRUCTION_TOURELLE
 // range is owned by player.
-bool Map::buildable(position pos, int player)
+bool Map::buildable(position pos, int player) const
 {
     if (!valid_position(pos))
         return false;
-    Cell *cell = get_cell(pos);
+
+    const Cell *cell = get_cell(pos);
+
     if (cell->get_type() == CASE_TOURELLE)
         return false;
     // TODO check whether there is a unit
@@ -90,7 +100,8 @@ bool Map::buildable(position pos, int player)
             continue;
         }
 
-        Cell *cell = get_cell(cp);
+        const Cell *cell = get_cell(cp);
+
         if (cell->get_type() == CASE_TOURELLE || cell->get_type() == CASE_BASE)
         {
             if (!(cell->get_tower())
@@ -120,7 +131,7 @@ bool Map::buildable(position pos, int player)
 // start == end.
 // Note : A path will be returned even if a tower is present at one of its
 //  extremities.
-std::vector<position> Map::path(position start, position end)
+std::vector<position> Map::path(position start, position end) const
 {
     if (!valid_position(start) || !valid_position(end) || start == end)
         return {};
@@ -153,7 +164,7 @@ std::vector<position> Map::path(position start, position end)
             unsigned coord = np.y * TAILLE_TERRAIN + np.x;
             if (valid_position(np) && !done[coord])
             {
-                Cell* cell = get_cell(np);
+                const Cell* cell = get_cell(np);
                 if (cell->get_type() != CASE_TOURELLE)
                 {
                     parent.set(coord * 2, a & 1);

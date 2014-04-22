@@ -52,7 +52,7 @@ case_info Cell::get_type() const
     return CASE_SIMPLE;
 }
 
-tourelle* Cell::get_tower()
+tourelle* Cell::get_tower() const
 {
     return tower_;
 }
@@ -76,28 +76,30 @@ void Cell::put_tower(tourelle tower)
 void Cell::delete_tower(void)
 {
     tower_ = NULL;
+    player_ = -1;
 }
 void Cell::set_magic_tower(int attaque)
 {
     tower_->attaque = attaque;
 }
 
-int Cell::get_nb_wizards(int player)
+int Cell::get_nb_wizards(int player) const
 {
     return nb_wizards_.find(player)->second;
 }
 
-int Cell::get_nb_wizards_movable(int player)
+int Cell::get_nb_wizards_movable(int player) const
 {
     return nb_wizards_movable_.find(player)->second;
 }
 
-int Cell::get_nb_wizards_total()
+int Cell::get_nb_wizards_total() const
 {
     int total = 0;
 
-    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
-        total += it->second;
+
+    for (const auto& it : nb_wizards_)
+        total += it.second;
 
     return total;
 }
@@ -142,6 +144,7 @@ int Cell::tower_attacked(int points)
     if (tower_->vie <= points)
     {
         tower_ = NULL;
+        player_ = -1;
         return 1;
     }
 

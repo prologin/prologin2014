@@ -24,7 +24,7 @@ int ActionShoot::check(const GameState* st) const
     if (st->getPhase() != PHASE_SHOOT)
         return PHASE_INCORRECTE;
 
-    Cell* cell_tower = st->get_map()->get_cell(tower_);
+    const Cell* cell_tower = st->get_map()->get_cell(tower_);
 
     if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN
         || tower_.y < 0 || tower_.y >= TAILLE_TERRAIN)

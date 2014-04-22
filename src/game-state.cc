@@ -68,9 +68,9 @@ std::vector<int> GameState::get_opponents(int player_id) const
     return opponents;
 }
 
-position GameState::get_base(int player)
+position GameState::get_base(int player) const
 {
-    return bases_players_[player];
+    return bases_players_.find(player)->second;
 }
 
 void GameState::increment_turn()
@@ -98,7 +98,12 @@ void GameState::set_magic(int player, int magic)
     magic_[player] = magic;
 }
 
-Map* GameState::get_map() const
+const Map* GameState::get_map() const
+{
+    return map_;
+}
+
+Map* GameState::get_map()
 {
     return map_;
 }

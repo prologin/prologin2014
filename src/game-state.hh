@@ -50,9 +50,10 @@ class GameState : public rules::GameState
         void set_magic(int player, int magic);
 
         std::vector<int> get_opponents(int player) const;
-        position get_base(int player);
+        position get_base(int player) const;
 
-        Map* get_map() const;
+        const Map* get_map() const;
+        Map* get_map();
 
         rules::Players_sptr get_players() const
         { return players_; }
