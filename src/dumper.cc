@@ -74,7 +74,7 @@ static void dump_map(std::ostream& ss, const GameState& st)
             if (c.get_player() != -1 || c.get_type() != CASE_SIMPLE)
             {
                 if (c.get_type() == CASE_TOURELLE)
-                    towers.push_back(*c.get_tower());
+                    towers.push_back(c.get_tower());
 
                 if (first_cell)
                     first_cell = false;

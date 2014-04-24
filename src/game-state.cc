@@ -61,7 +61,6 @@ std::vector<int> GameState::get_opponents(int player_id) const
 
 position GameState::get_base(int player) const
 {
-    Cell* c = map_->get_cell(bases_players_.find(player)->second);
     return bases_players_.find(player)->second;
 }
 

@@ -26,7 +26,7 @@ class Cell
 
         void put_tower(tourelle tower);
         void delete_tower(void);
-        tourelle* get_tower() const;
+        tourelle get_tower() const;
         void set_magic_tower(int attaque);
         // return true if the tower is destroyed
         int tower_attacked(int points);
@@ -45,7 +45,7 @@ class Cell
         // several wizards can be in a cell
         std::map<int, int> nb_wizards_;
         std::map<int, int> nb_wizards_movable_;
-        tourelle* tower_;
+        tourelle tower_;
 };
 
 #endif // !CELL_H_

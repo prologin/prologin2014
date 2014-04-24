@@ -48,8 +48,9 @@ std::vector<tourelle> Map::get_towers(int player)
     std::vector<tourelle> towers;
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            if (map_[x][y]->get_player() == player && map_[x][y]->get_tower())
-                towers.push_back(*(map_[x][y]->get_tower()));
+            if (map_[x][y]->get_player() == player
+                && map_[x][y]->get_type() == CASE_TOURELLE)
+                towers.push_back(map_[x][y]->get_tower());
 
     return towers;
 }
@@ -99,7 +100,6 @@ bool Map::buildable(position pos, int player) const
             todo.push(dummy);
             continue;
         }
-
         const Cell *cell = get_cell(cp);
 
         if (cell->get_type() == CASE_TOURELLE || cell->get_type() == CASE_BASE)

@@ -41,7 +41,7 @@ int ActionShoot::check(const GameState* st) const
         return CASE_VIDE;
 
     // Check of the tower
-    tourelle tower = *(cell_tower->get_tower());
+    tourelle tower = cell_tower->get_tower();
     int dist = distance(tower_, target_);
 
     if (dist > tower.portee)
@@ -71,9 +71,8 @@ void ActionShoot::apply_on(GameState* gameState) const
 
     int wizards_dead = cell_target->wizards_attacked(points_, player_id_);
 
-    tourelle* t = cell_tower->get_tower();
-    if (t)
-        cell_tower->set_magic_tower(t->attaque - points_);
+    tourelle t = cell_tower->get_tower();
+    cell_tower->set_magic_tower(t.attaque - points_);
 
     // magic gained
     gameState->set_magic(player_id_, gameState->get_magic(player_id_) +

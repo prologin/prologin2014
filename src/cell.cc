@@ -9,7 +9,7 @@ Cell::Cell(int y, int x)
     : x_(x),
       y_(y),
       player_(-1),
-      tower_(NULL)
+      tower_({ { -1, -1 }, -1, -1, -1, -1 })
 {
 }
 Cell::Cell(const Cell &c)
@@ -24,14 +24,13 @@ Cell::Cell(const Cell &c)
 
 Cell::~Cell()
 {
-    delete tower_;
 }
 
 
 case_info Cell::get_type() const
 {
     // if tower
-    if (tower_ && tower_->vie != 0)
+    if (tower_.vie > 0)
         return CASE_TOURELLE;
 
     // if base
@@ -52,7 +51,7 @@ case_info Cell::get_type() const
     return CASE_SIMPLE;
 }
 
-tourelle* Cell::get_tower() const
+tourelle Cell::get_tower() const
 {
     return tower_;
 }
@@ -69,18 +68,18 @@ void Cell::set_player(int player)
 
 void Cell::put_tower(tourelle tower)
 {
-    tower_ = &tower;
-    player_ = tower.joueur;
+    tower_ = tower;
+    player_ = tower_.joueur;
 }
 
 void Cell::delete_tower(void)
 {
-    tower_ = NULL;
+    tower_ = { { -1, -1 }, -1, -1, -1, -1 };
     player_ = -1;
 }
 void Cell::set_magic_tower(int attaque)
 {
-    tower_->attaque = attaque;
+    tower_.attaque = attaque;
 }
 
 int Cell::get_nb_wizards(int player) const
@@ -141,14 +140,14 @@ int Cell::wizards_attacked(int points, int player)
 
 int Cell::tower_attacked(int points)
 {
-    if (tower_->vie <= points)
+    if (tower_.vie <= points)
     {
-        tower_ = NULL;
+        tower_ = { { -1, -1 }, -1, -1, -1, -1 };
         player_ = -1;
         return 1;
     }
 
-    tower_->vie -= points;
+    tower_.vie -= points;
     return 0;
 }
 
