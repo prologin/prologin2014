@@ -46,10 +46,16 @@ int ActionMove::check(const GameState* st) const
         || dest_.y < 0 || dest_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
+    if (start_ == dest_)
+        return OK;
+
+    if (distance(start_, dest_) > PORTEE_SORCIER)
+        return CASE_IMPOSSIBLE;
+
     std::vector<position> path = st->get_map()->path(start_, dest_);
 
     // Checks if the cell is not too far from the wizard
-    if (path.size() > PORTEE_SORCIER)
+    if (path.size() > PORTEE_SORCIER || path.size() == 0)
         return CASE_IMPOSSIBLE;
 
     return OK;

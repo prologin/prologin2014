@@ -104,8 +104,7 @@ bool Map::buildable(position pos, int player) const
 
         if (cell->get_type() == CASE_TOURELLE || cell->get_type() == CASE_BASE)
         {
-            if (!(cell->get_tower())
-                || cell->get_player() != player) // Enemy tower
+            if (cell->get_player() != player) // Enemy tower
                 return false;
             else
                 tower_found = true; // Tower which belongs to 'player'

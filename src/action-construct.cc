@@ -44,7 +44,7 @@ int ActionConstruct::check(const GameState* st) const
     if (range_ < PORTEE_TOURELLE)
         return VALEUR_INVALIDE;
 
-    if (!st->get_magic(player_id_) < cost())
+    if (st->get_magic(player_id_) < cost())
         return MAGIE_INSUFFISANTE;
 
     return OK;

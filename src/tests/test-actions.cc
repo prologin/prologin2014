@@ -99,15 +99,17 @@ TEST_F(ActionsTest, AttackTest)
 
 TEST_F(ActionsTest, ConstructTest)
 {
-    ActionConstruct a1({ gamestate_->get_base(1).x + 2,
-                         gamestate_->get_base(1).y + 2 }, 3, 1);
+    gamestate_->set_magic(1, 1000);
+
+    ActionConstruct a1({ 79,
+                         1 }, 4, 1);
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to put a tower here";
     a1.apply_on(gamestate_);
 
-    Cell* c = gamestate_->get_map()->get_cell({2, 2});
+    Cell* cbase = gamestate_->get_map()->get_cell({ 79, 1 });
 
-    EXPECT_EQ(CASE_TOURELLE, c->get_type())
+    EXPECT_EQ(CASE_TOURELLE, cbase->get_type())
         << "There should be a tower here.";
 
     EXPECT_EQ(1, gamestate_->get_towers(1).size())
@@ -124,6 +126,15 @@ TEST_F(ActionsTest, ConstructTest)
     ActionConstruct a2({ 2, 3 }, 3, 2);
     EXPECT_EQ(CASE_UTILISEE, a2.check(gamestate_))
         << "There are wizards on the cell";
+
+
+    Cell* c = gamestate_->get_map()->get_cell({2, 2});
+    c->put_tower({ { 2, 2 }, 2, 1, 2, 2 });
+
+    ActionConstruct a4({ 2, 4 }, 4, 1);
+
+    EXPECT_EQ(OK, a4.check(gamestate_))
+        << "It should be possible to put a tower here, OK ??";
 }
 
 // spawn wizards

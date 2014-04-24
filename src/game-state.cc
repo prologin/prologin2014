@@ -17,15 +17,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
         { 0, TAILLE_TERRAIN - 1 },
     };
 
-    // list of the positions of fontains
-    std::vector<position> list_fontains =
-    {
-        { 0, TAILLE_TERRAIN / 2  - 1},
-        { TAILLE_TERRAIN, TAILLE_TERRAIN / 2 - 1 },
-        { TAILLE_TERRAIN / 2 - 1, 0 },
-        { TAILLE_TERRAIN / 2 - 1, TAILLE_TERRAIN },
-    };
-
     int i = 0;
 
     for (auto& p : players_->players)
@@ -70,6 +61,7 @@ std::vector<int> GameState::get_opponents(int player_id) const
 
 position GameState::get_base(int player) const
 {
+    Cell* c = map_->get_cell(bases_players_.find(player)->second);
     return bases_players_.find(player)->second;
 }
 
