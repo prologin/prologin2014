@@ -130,11 +130,39 @@ TEST_F(ActionsTest, ConstructTest)
 
     Cell* c = gamestate_->get_map()->get_cell({2, 2});
     c->put_tower({ { 2, 2 }, 2, 1, 2, 2 });
+    c = gamestate_->get_map()->get_cell({7, 7});
+    c->put_tower({ { 7, 7 }, 2, 2, 2, 2 });
 
     ActionConstruct a4({ 2, 4 }, 4, 1);
-
     EXPECT_EQ(OK, a4.check(gamestate_))
         << "It should be possible to put a tower here, OK ??";
+
+    ActionConstruct a5({ 4, 2 }, 4, 1);
+    EXPECT_EQ(OK, a5.check(gamestate_))
+        << "It should be possible to put a tower here";
+
+    ActionConstruct a6({ 4, 4 }, 4, 1);
+    EXPECT_EQ(OK, a6.check(gamestate_))
+        << "It should be possible to put a tower here";
+
+    ActionConstruct a7({ 5, 4 }, 4, 1);
+    EXPECT_EQ(CASE_ADVERSE, a7.check(gamestate_))
+        << "It shouldn't be possible to put a tower here";
+
+    ActionConstruct a8({ 4, 5 }, 4, 1);
+    EXPECT_EQ(CASE_ADVERSE, a8.check(gamestate_))
+        << "It shouldn't be possible to put a tower here";
+
+    ActionConstruct a9({ 5, 5 }, 4, 1);
+    EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
+        << "It shouldn't be possible to put a tower here";
+
+
+    a4.apply_on(gamestate_);
+    ActionConstruct a10({ 2, 9 }, 4, 1);
+    EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
+        << "It shouldn't be possible to put a tower here (yet!)";
+
 }
 
 // spawn wizards
