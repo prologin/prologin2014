@@ -39,7 +39,7 @@ int ActionConstruct::check(const GameState* st) const
         return CASE_UTILISEE;
 
     if (!st->get_map()->buildable(pos_, player_id_))
-        return CASE_IMPOSSIBLE;
+        return CASE_ADVERSE;
 
     if (range_ < PORTEE_TOURELLE)
         return VALEUR_INVALIDE;

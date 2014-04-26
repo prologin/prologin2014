@@ -70,11 +70,6 @@ bool Map::buildable(position pos, int player) const
     if (!valid_position(pos))
         return false;
 
-    const Cell *cell = get_cell(pos);
-
-    if (cell->get_type() == CASE_TOURELLE)
-        return false;
-
     std::queue<position> todo;
     std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
     todo.push(pos);
@@ -85,7 +80,7 @@ bool Map::buildable(position pos, int player) const
     unsigned dist = 0; // Current distance from 'pos'
     bool tower_found = false; // We found a tower which belongs to 'player'
 
-    while (todo.size()>1)
+    while (todo.size() > 1)
     {
         position cp = todo.front();
         todo.pop();
