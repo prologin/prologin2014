@@ -71,5 +71,6 @@ void ActionConstruct::apply_on(GameState* st) const
         ATTAQUE_TOURELLE
     };
     st->get_map()->get_cell(pos_)->put_tower(t);
+    st->get_map()->add_constructing(pos_);
     st->set_magic(player_id_, st->get_magic(player_id_) - cost());
 }

@@ -208,6 +208,7 @@ void Rules::end_of_turn()
     switch(phase)
     {
         case PHASE_CONSTRUCTION:
+            api_->game_state()->get_map()->resolve_constructing();
             api_->game_state()->setPhase(PHASE_MOVE);
             break;
         case PHASE_MOVE:

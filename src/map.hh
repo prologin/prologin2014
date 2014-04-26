@@ -39,14 +39,20 @@ class Map
         int get_player_artefact();
         int get_nb_fontains(int player_id);
 
+        void add_constructing(position pos);
+
         void resolve_fights();
         void resolve_wizard_movable();
         void resolve_tower_magic();
+        void resolve_constructing();
 
         // delete every element of the player
         void delete_all(int player);
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
+
+        // Still constructing towers
+        std::unordered_set<position, HashPosition> constructing_;
 
 };
 

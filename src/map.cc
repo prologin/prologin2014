@@ -12,6 +12,7 @@ Map::Map(const Map& map)
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
             map_[x][y] = new Cell(*map.map_[x][y]);
+    constructing_ = map.constructing_;
 }
 
 Map::~Map()
@@ -73,7 +74,6 @@ bool Map::buildable(position pos, int player) const
 
     if (cell->get_type() == CASE_TOURELLE)
         return false;
-    // TODO check whether there is a unit
 
     std::queue<position> todo;
     std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
@@ -102,11 +102,14 @@ bool Map::buildable(position pos, int player) const
         }
         const Cell *cell = get_cell(cp);
 
-        if (cell->get_type() == CASE_TOURELLE || cell->get_type() == CASE_BASE)
+        if (cell->get_type() == CASE_BASE && cell->get_player() == player)
+            tower_found = true;
+        else if (cell->get_type() == CASE_TOURELLE)
         {
-            if (cell->get_player() != player) // Enemy tower
+            tourelle t = cell->get_tower();
+            if (t.joueur != player) // Enemy tower
                 return false;
-            else
+            else if (constructing_.find(t.pos) == constructing_.end())
                 tower_found = true; // Tower which belongs to 'player'
         }
 
@@ -217,6 +220,11 @@ int Map::get_nb_fontains(int player_id)
     return nb;
 }
 
+void Map::add_constructing(position pos)
+{
+    constructing_.insert(pos);
+}
+
 void Map::resolve_fights()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
@@ -239,6 +247,11 @@ void Map::resolve_tower_magic()
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
             if (map_[x][y]->get_type() == CASE_TOURELLE)
                 map_[x][y]->set_magic_tower(ATTAQUE_TOURELLE);
+}
+
+void Map::resolve_constructing()
+{
+    constructing_.clear();
 }
 
 void Map::delete_all(int player)
