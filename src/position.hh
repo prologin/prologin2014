@@ -52,12 +52,6 @@ inline int distance(const position& a, const position& b)
     return std::abs(a.x - b.x) + std::abs(a.y - b.y);
 }
 
-inline std::ostream& operator<<(std::ostream& out, const position& pos)
-{
-    out << "(" << pos.x << ", " << pos.y << ")";
-    return out;
-}
-
 struct HashPosition
 {
     std::size_t operator()(const position& p) const
