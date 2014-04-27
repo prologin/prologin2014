@@ -11,6 +11,7 @@
 */
 
 #include "api.hh"
+#include "dumper.hh"
 
 // global used in interface.cc
 Api* api;
@@ -286,4 +287,15 @@ erreur Api::annuler()
     game_state_ = rules::cancel(game_state_);
 
     return OK;
+}
+
+
+///
+// Return un dump JSON de l’état complet du jeu.
+//
+char* Api::get_dump()
+{
+    if (player_->type != rules::SPECTATOR)
+        return NULL;
+    return dump_game_state(*game_state_, actions_);
 }

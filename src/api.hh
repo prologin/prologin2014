@@ -142,20 +142,9 @@ class Api
 //
    erreur annuler();
 ///
-// Affiche le contenu d'une valeur de type case_info
+// Return un dump JSON de l’état complet du jeu.
 //
-
-///
-// Affiche le contenu d'une valeur de type erreur
-//
-
-///
-// Affiche le contenu d'une valeur de type position
-//
-
-///
-// Affiche le contenu d'une valeur de type tourelle
-//
+   char* get_dump();
 
 };
 

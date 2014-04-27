@@ -415,3 +415,7 @@ extern "C" void api_afficher_tourelle(tourelle v)
   std::cerr << v << std::endl;
 }
 
+extern "C" char* api_get_dump()
+{
+      return api->get_dump();
+}
