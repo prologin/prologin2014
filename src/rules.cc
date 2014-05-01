@@ -65,6 +65,8 @@ Rules::Rules(const rules::Options opt)
             []() -> rules::IAction* { return new ActionMove(); });
     api_->actions()->register_action(ID_ACTION_ATTACK,
             []() -> rules::IAction* { return new ActionAttack(); });
+    api_->actions()->register_action(ID_ACTION_ACK,
+            []() -> rules::IAction* { return new ActionAck(); });
 
     // FIXME: spectator
 }
