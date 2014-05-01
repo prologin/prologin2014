@@ -1,13 +1,9 @@
 # -*- Makefile -*-
 
-lib_TARGETS = champion
+lib_TARGETS = dumper
 
-# Tu peux rajouter des fichiers sources, headers, ou changer
-# des flags de compilation.
-champion-srcs = main.cc
-champion-dists =
-champion-cxxflags = -ggdb3 -Wall -std=c++11
+dumper-srcs = main.cc
+dumper-dists =
+dumper-cxxflags = -ggdb3 -Wall -std=c++11
 
-# Evite de toucher a ce qui suit
-#champion-dists += prologin.hh
 include ../includes/rules.mk
