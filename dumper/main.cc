@@ -29,10 +29,10 @@ void dump_line()
 
 extern "C"
 {
-    auto phase_construction = dump_line;
-    auto phase_deplacement = dump_line;
-    auto phase_tirs = dump_line;
-    auto phase_siege = dump_line;
+    void phase_construction() { dump_line(); }
+    void phase_deplacement() { dump_line(); }
+    void phase_tirs() { dump_line(); }
+    void phase_siege() { dump_line(); }
 }
 
 void partie_fin()
