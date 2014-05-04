@@ -37,16 +37,15 @@ class GameState:
 
         game_map = json['map']
 
-        self.map_width = game_map['width']
-        self.map_height = game_map['height']
+        self.map_width = self.map_height = TAILLE_TERRAIN
 
         # initialization of a map of simple cell
         self.cells = [
                 [
                     DEFAULT_CELL._replace(towers=[])
-                    for _ in range(game_map['width'])
+                    for _ in range(self.map_width)
                 ]
-                for _ in range(game_map['height'])
+                for _ in range(self.map_height)
         ]
 
         for cell in game_map['cells']:

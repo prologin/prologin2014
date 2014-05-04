@@ -87,8 +87,6 @@ static void dump_players(std::ostream& ss, const GameState& st)
 static void dump_map(std::ostream& ss, const GameState& st)
 {
     ss << "{"
-       << "\"width\": " << TAILLE_TERRAIN << ", "
-       << "\"height\": " << TAILLE_TERRAIN << ", "
        << "\"cells\": [";
     auto& map = *st.get_map();
     bool first_cell = true;
