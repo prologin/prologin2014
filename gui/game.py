@@ -57,18 +57,20 @@ class GameState:
             self.cells[y][x].towers.append(tower_from_json(tower))
 
         self.players = {}
-        self.player_id_to_order = {}
-        ordered_players_ids = []
-        # recuperates all the player
+        self.player_id_to_rank = {}
+
+        # Get all the players
         for i, player in json['players'].items():
+            # The "key" of each player is the JSON dump is supposed to be an
+            # integer. It enables us to order players and thus to
+            # deterministically assign them colors.
             i = int(i)
+
             self.players[i] = Player(
-                    player['name'] or (u'Equipe %d' % i),
+                    player['name'] or (u'Équipe %d' % i),
                     player['score'],
                     player['magic']
             )
-            self.player_id_to_order[i] = len(ordered_players_ids)
-            ordered_players_ids.append(i)
-        # list ordered
-        self.ordered_players_ids = sorted(ordered_players_ids)
 
+        for i, player_id in enumerate(sorted(self.players.keys())):
+            self.player_id_to_rank[player_id] = i

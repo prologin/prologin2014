@@ -56,8 +56,8 @@ PLAYER_COLORS = [
 ]
 
 def get_player_color(game_state, player_id):
-    player_order = game_state.player_id_to_order[player_id]
-    return PLAYER_COLORS[player_order]
+    rank = game_state.player_id_to_rank[player_id]
+    return PLAYER_COLORS[rank]
 
 def get_colored_images(pattern):
     return [

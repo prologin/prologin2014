@@ -79,7 +79,7 @@ class DetailsWidget(ScrolledWidget):
 
         for i, (id, stats) in enumerate(utils.iter_dict(
             stats_per_player,
-            self.game_state.ordered_players_ids
+            sorted(self.game_state.players)
         ), 1):
             entry_y = self.PADDING + i * self.LINE_HEIGHT
             self._display_player_stats(id, stats, entry_y)
