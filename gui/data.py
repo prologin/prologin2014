@@ -33,7 +33,7 @@ def get_images(names):
 def load_images():
     global tiles, gui_icons, icon_shadow, wizards
     gui_icons = get_images(
-        'score magic simple_big tower'
+        'score magic simple_big tower_icon'
         ' fontain_big artefact_big base_big'
         ' phase-construction'
         ' phase-move'

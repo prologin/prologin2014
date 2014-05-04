@@ -5,26 +5,6 @@ import data
 import utils
 from widgets.base import BaseWidget
 
-# TODO:  sprites magic wizard
-class StatsAggregate:
-
-    ICONS = 'magic tower wizard'.split()
-
-    def __init__(self):
-        self.magic = 0
-        self.tower_count = 0
-        self.wizard_count = 0
-
-    def update(self, nbwizards):
-        self.wizard_count += nbwizards;\
-
-    def update(self, tower):
-        self.tower_count += 1
-
-    def __iter__(self):
-        return iter(zip(
-            self.ICONS, (self.magic, self.tower_count, self.wizard_count)
-        ))
 # widget describing the state of the players
 class StateWidget(BaseWidget):
     ICONS_PADDING = 3
@@ -34,7 +14,7 @@ class StateWidget(BaseWidget):
     LINE_HEIGHT = 70
     TEXT_SIZE = 12
     TEXT_HEIGHT = 15
-    LINES = 11
+    LINES = 12
 
     PHASE_TEXT = {
         'construction': u'construction',
@@ -44,8 +24,7 @@ class StateWidget(BaseWidget):
     }
     PHASES = 'construction move shoot siege'.split()
 
-    HEIGHT = TEXT_HEIGHT * LINES + 4 * LINE_HEIGHT
-
+    HEIGHT = TEXT_HEIGHT * LINES 
     def __init__(self, x, y, width):
         super(StateWidget, self).__init__(x, y, width, self.HEIGHT)
         self.font = pygame.font.Font(data.get_font_path('font.ttf'), self.TEXT_SIZE)
@@ -95,6 +74,12 @@ class StateWidget(BaseWidget):
                 utils.YELLOW,
                 (i, cols)
             )
+            self._display_text(
+                str(len(player.towers)),
+                3 * self.TEXT_HEIGHT,
+                utils.BLUE,
+                (i, cols)
+            )
 
         # Put gui_icons in a left margin to explain the meaning of these
         # statistics.
@@ -105,6 +90,10 @@ class StateWidget(BaseWidget):
         self.surface.blit(
             data.gui_icons['magic'],
             (0, 2 * self.TEXT_HEIGHT)
+        )
+        self.surface.blit(
+            data.gui_icons['tower_icon'],
+            (0, 3 * self.TEXT_HEIGHT)
         )
 
     def _display_turn(self):

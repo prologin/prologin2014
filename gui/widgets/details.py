@@ -50,7 +50,6 @@ class DetailsWidget(BaseWidget):
 
     # display details of a cell
     def _display_cell(self, x, y, cell):
-        print("display cell")
         # clean
         self.surface.fill(utils.BLACK)
         # Left side:

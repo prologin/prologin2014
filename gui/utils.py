@@ -11,6 +11,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 YELLOW = (253, 179, 0)
+BLUE = (0, 137, 253)
 
 def make_surface(width, height):
     result = pygame.Surface((width, height))
