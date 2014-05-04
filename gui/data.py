@@ -31,7 +31,7 @@ def get_images(names):
     return result
 
 def load_images():
-    global tiles, gui_icons, icon_shadow#, icons, settlement, icon_shadow
+    global tiles, gui_icons, icon_shadow, wizards
     gui_icons = get_images(
         'score magic'
         ' phase-construction'
@@ -39,10 +39,8 @@ def load_images():
         ' phase-shoot'
         ' phase-siege'
         ''.split())
-    tiles = get_images('simple tower fontain artefact base'.split())
-    # TODO: Icons ?
-    #icons = get_images('caravelle galion gold'.split())
-    #settlement = get_colored_images(tiles['settlement'])
+    tiles = get_images('simple tower fontain artefact base wizard'.split())
+    wizards = get_colored_images(tiles['wizard'])
 
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT, alpha=128)
 

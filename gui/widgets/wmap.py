@@ -10,6 +10,16 @@ from widgets.base import BaseWidget
 
 class MapWidget(BaseWidget):
 
+    DYNAMIC_TILES = {
+        case_info.CASE_TOURELLE: 'tower',
+        case_info.CASE_BASE:     'base',
+        case_info.CASE_FONTAINE: 'fontain',
+        case_info.CASE_ARTEFACT: 'artefact',
+    }
+
+    # Size of the text used to represent the number of wizards on a cell.
+    FONT_SIZE = 7
+
     def __init__(self, *args):
         super(MapWidget, self).__init__(*args)
 
@@ -18,6 +28,10 @@ class MapWidget(BaseWidget):
         self.position = None
         self.static_map_surface = None
         self.map_surface = None
+        self.font = pygame.font.Font(
+            data.get_font_path('font.ttf'),
+            self.FONT_SIZE
+        )
 
         self.cells_width = self.width / data.TILE_WIDTH
         self.cells_height = (self.height - data.TILE_OVERLAY) / (data.TILE_HEIGHT - data.TILE_OVERLAY)
@@ -92,33 +106,33 @@ class MapWidget(BaseWidget):
             coord_x = 0
             for x, cell in enumerate(row):
                 coords = (coord_x, coord_y)
-                if cell.player != game.NO_PLAYER:
+
+                # Add a tile on top of the static one for "dynamic" cells (such
+                # as towers).
+                try:
                     self.map_surface.blit(
-                            data.tiles['simple'],
-                            coords
-                        )
-                # FIXME: this is just for tests
-                if cell.type == 1:
+                        data.tiles[self.DYNAMIC_TILES[cell.type]],
+                        coords
+                    )
+                except KeyError:
+                    pass
+
+                # Likewise for wizards
+                if cell.wizards > 0:
                     self.map_surface.blit(
-                            data.tiles['tower'],
-                            coords
-                            )
-                elif cell.type == 2:
-                    self.map_surface.blit(
-                            data.tiles['base'],
-                            coords
-                            )
-                elif cell.type == 3:
-                    self.map_surface.blit(
-                            data.tiles['fontain'],
-                            coords
-                            )
-                elif cell.type == 4:
-                    self.map_surface.blit(
-                            data.tiles['artefact'],
-                            coords
-                            )
-                    # TODO
+                        data.wizards[cell.player],
+                        coords
+                    )
+                    count_text = utils.make_bordered_text(
+                        str(cell.wizards), self.font,
+                        fgcolor=data.get_player_color(game_state, cell.player)
+                    )
+                    count_width, count_height = count_text.get_size()
+                    self.map_surface.blit(count_text, (
+                        coord_x + data.TILE_WIDTH - count_width,
+                        coord_y
+                    ))
+
                 coord_x += data.TILE_WIDTH
             coord_y += data.TILE_HEIGHT - data.TILE_OVERLAY
 

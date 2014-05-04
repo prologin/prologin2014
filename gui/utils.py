@@ -67,3 +67,23 @@ def iter_dict(dict, keys):
     for key in keys:
         yield key, dict[key]
 
+def set_color(surface, color):
+    '''
+    Return a copy on the given surface where fuchsia pixels are replaced using
+    the given color. Lighting and saturation are handled, but not blending with
+    another color.
+    '''
+    result = surface.copy()
+    width, height = result.get_size()
+    # TODO: handle saturation
+    for y in range(height):
+        for x in range(width):
+            (r, g, b, a) = result.get_at((x, y))
+            if r == b and g < r:
+                light = r
+                saturation = 255 # TODO
+                r = color[0] * light / 255
+                g = color[1] * light / 255
+                b = color[2] * light / 255
+                result.set_at((x, y), (r, g, b, a))
+    return result
