@@ -54,7 +54,7 @@ class GameState:
 
         for tower in game_map['towers']:
             x, y = tower['x'], tower['y']
-            self.cells[y][x].towers.append(tower_from_json(boad))
+            self.cells[y][x].towers.append(tower_from_json(tower))
 
         self.players = {}
         self.player_id_to_order = {}
