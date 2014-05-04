@@ -1,0 +1,295 @@
+/* Prologin final - Main theme - satreix*/
+
+@font-face {
+    font-family: 'harry_pregular';
+    src: url('../font/hp-webfont.eot');
+    src: url('../font/hp-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/hp-webfont.woff') format('woff'),
+         url('../font/hp-webfont.ttf') format('truetype'),
+         url('../font/hp-webfont.svg#harry_pregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* RESET ------------------------------------------------------------------- */
+
+* { margin: 0; padding: 0 }
+
+body {
+    font: 0.8em Verdana;
+    font-weight: 700;
+    background: white url(../img/white_plaster.png);
+    color: #000;
+}
+
+a,
+a:visited {
+    color: #0077AA;
+    text-decoration: none;
+}
+
+a:hover { color: #0077CC }
+
+/* HEADER ------------------------------------------------------------------ */
+
+header {
+    background: #1F2D47 ;
+    padding-top: 5px;
+    height: 120px;
+    box-shadow: 10px 1px 6px #888888;
+}
+
+header #logo {
+    background: url(../img/logo.png) no-repeat;
+    background-size: 240px;
+    margin-left: -20px;
+    height: 132px;
+    width: 235px;
+    float: left;
+    margin-top: -12px;
+}
+
+header h1 {
+    color: #FFF595;
+    font-size: 4em;
+    font-family: 'harry_pregular';
+    font-weight: normal;
+    margin-top: 50px;
+    margin-left: 25%;
+}
+
+/* NAV --------------------------------------------------------------------- */
+
+nav {
+    padding-left: 8px;
+    float: left;
+    width: 187px;
+    background: #FFF595;
+    border-right: 3px solid #1F2D47;
+    border-bottom: 3px solid #1F2D47;
+    border-bottom-right-radius: 5px;
+}
+
+nav div.block {
+    border-bottom: 1px dotted #C4BD72;
+    padding: 10px 6px;
+    margin: 8px 15px 0 0;
+}
+
+nav div.block:last-child { border:none }
+nav div.block:first-child { padding-top:none }
+
+nav div.block h1 {
+    font-size: 1.5em;
+    color: #B02C48;
+    margin-bottom: 10px;
+}
+
+nav div.block ul {
+    list-style-type: none;
+    margin-left: 10px;
+}
+
+nav div.block li {
+    color: #0077AA;
+    list-style-image: none;
+    margin-bottom: 2px;
+}
+
+nav div.block li:hover { list-style-type: circle }
+
+/* CONTENT ----------------------------------------------------------------- */
+
+#content { margin: 20px 10px 8px 210px }
+
+#footer {
+    clear: both;
+    color: gray;
+    font-size: 0.7em;
+    text-align: center;
+    margin: 8px 20px;
+}
+
+#content p {
+    margin: 2px 0;
+    padding: 0;
+    text-align: justify;
+}
+
+#content p.intro { margin-bottom: 8px !important }
+
+/* FORMS ------------------------------------------------------------------- */
+
+form {
+    border: 1px solid gray;
+    margin: 0;
+    padding: 6px  10px;
+}
+
+label {
+    float: left;
+    width: 200px;
+    font-weight: bold;
+    text-align: right;
+    margin: 4px;
+}
+
+input,
+select,
+button,
+textarea {
+    margin: 4px;
+    padding: 1px;
+    border-radius : 2px;
+    border: 1px solid #777;
+    background-color: #FFFAD9;
+    color: #444;
+    font-size: 1em;
+}
+
+button,
+input[type=submit] {
+    margin-left:210px;
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: 1px solid #8F8F8F;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+    font: 11px/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    background-color: #ececec;
+    background-image: linear-gradient(#f4f4f4, #ddd);
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    border-radius: 0.2em;
+    zoom: 1;
+}
+
+button:hover,
+input[type=submit]:hover {
+    border-color: #6A6EA6;
+    border-bottom-color: #494397;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #fff;
+    background-color: #D8DE3C;
+    background-image: linear-gradient(#565986, #1F2D47);
+}
+
+button:active,
+input[type=submit]:active {
+    border-color: #2A2AA0;
+    border-bottom-color: #3838CD;
+    background-color: #6A6EA6;
+    background-image: linear-gradient(#324870, #6A6EA6);
+}
+
+input[type=text],
+input[type=password],
+input[type=file] {
+    width: 180px;
+    height: 22px;
+    line-height: 22px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border: 1px solid #333;
+}
+
+#content ul.errorlist {
+    margin-left: 120px; /* 130 + 4*2 + 4 */
+    color: #c50;
+    list-style-type: none;
+}
+
+#content ul.errorlist li {
+    background: url('../img/err.png') no-repeat left center;
+    padding-left: 20px;
+}
+
+/* TABLES ------------------------------------------------------------------ */
+
+table {
+    border-collapse: collapse;
+    width: 98%;
+    margin: 10px 6px;
+    border: 1px solid #004;
+    font-weight: normal;
+}
+
+thead th,
+tfoot td {
+    background: #6A6EA6;
+    border-bottom: 1px solid #1F2D47;
+    color: #FFF;
+    text-align: left;
+    padding: 1px 4px;
+}
+
+td,
+th {
+    padding: 3px;
+    vertical-align: top;
+    border-bottom: 1px solid #1F2D47;
+    border-left: 1px solid #1F2D47;
+}
+
+tr:nth-child(odd){ background-color:#ddd; }
+tr:nth-child(even){ background-color:#eee; }
+
+tr a,
+tr a:visited {
+    color: gray;
+    font-weight: bold;
+    text-decoration:underline;
+}
+
+table tbody tr:hover { background-color: #FDF8C7 }
+
+/* PAGINATION -------------------------------------------------------------- */
+
+p.pagination {
+    background: url('../img/page.png') no-repeat;
+    background-position: 3px center;
+    padding: 1px 8px 1px 28px !important;
+    text-align: left !important;
+    display: block;
+    margin: 12px 0 !important;
+}
+
+/* MISC -------------------------------------------------------------------- */
+dl { margin: 10px 0 }
+
+dt {
+    font-weight: bold;
+    color: #030;
+    margin-top: 0.75em;
+}
+
+dd { padding-left: 20px }
+
+#content ul {
+    margin: 4px 10px;
+    padding: 0 0 0 20px;
+}
+
+#content ul li {
+    margin: 1px;
+    padding: 0;
+}
+
+div.pbar { height: 18px }
+
+#edit_tabs { float: left }
+
+.itsme {
+  font-weight: bold;
+  background: url(../img/silhouette.png) left no-repeat;
+  padding-left: 20px;
+}
