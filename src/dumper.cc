@@ -103,7 +103,7 @@ static void dump_map(std::ostream& ss, const GameState& st)
                    << "\"x\": " << x << ", "
                    << "\"y\": " << y << ", "
                    << "\"type\": " << c.get_type() << ", "
-                   << "\"player\": " << c.get_player()
+                   << "\"player\": " << c.get_player() << ", "
                    << "\"wizards\" : " << c.get_nb_wizards_total()
                    << "}";
             }

@@ -67,15 +67,13 @@ Rules::Rules(const rules::Options opt)
             []() -> rules::IAction* { return new ActionAttack(); });
     api_->actions()->register_action(ID_ACTION_ACK,
             []() -> rules::IAction* { return new ActionAck(); });
-
-    // FIXME: spectator
 }
 
 Rules::~Rules()
 {
     if (champion_dll_)
         delete champion_dll_;
-    //delete api_;
+    delete api_;
 }
 
 void Rules::at_client_start()
