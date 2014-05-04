@@ -26,6 +26,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
       current_turn_(0)
 {
     // TODO
+    game_phase_ = PHASE_CONSTRUCTION;
 
     // list of the positions of bases
     std::vector<position> list_base =
@@ -54,6 +55,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 GameState::GameState(const GameState& st)
     : rules::GameState(st)
     , map_(new Map(*st.map_))
+    , players_(st.players_)
     , losers_(st.losers_)
     , current_turn_(st.current_turn_)
     , magic_(st.magic_)
