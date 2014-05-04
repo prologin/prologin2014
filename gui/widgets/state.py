@@ -5,12 +5,33 @@ import data
 import utils
 from widgets.base import BaseWidget
 
-# widget describing the state of the player
-# FIXME: magic ?
+# TODO:  sprites magic wizard
+class StatsAggregate:
+
+    ICONS = 'magic tower wizard'.split()
+
+    def __init__(self):
+        self.magic = 0
+        self.tower_count = 0
+        self.wizard_count = 0
+
+    def update(self, nbwizards):
+        self.wizard_count += nbwizards;\
+
+    def update(self, tower):
+        self.tower_count += 1
+
+    def __iter__(self):
+        return iter(zip(
+            self.ICONS, (self.magic, self.tower_count, self.wizard_count)
+        ))
+# widget describing the state of the players
 class StateWidget(BaseWidget):
     ICONS_PADDING = 3
     LEFT_MARGIN = data.GUI_ICON_WIDTH + ICONS_PADDING
 
+    PADDING = 50
+    LINE_HEIGHT = 70
     TEXT_SIZE = 12
     TEXT_HEIGHT = 15
     LINES = 11
@@ -23,7 +44,7 @@ class StateWidget(BaseWidget):
     }
     PHASES = 'construction move shoot siege'.split()
 
-    HEIGHT = TEXT_HEIGHT * LINES
+    HEIGHT = TEXT_HEIGHT * LINES + 4 * LINE_HEIGHT
 
     def __init__(self, x, y, width):
         super(StateWidget, self).__init__(x, y, width, self.HEIGHT)
@@ -71,11 +92,11 @@ class StateWidget(BaseWidget):
             self._display_text(
                 str(player.magic),
                 2 * self.TEXT_HEIGHT,
-                utils.WHITE,
+                utils.YELLOW,
                 (i, cols)
             )
 
-        # Put icons in a left margin to explain the meaning of these
+        # Put gui_icons in a left margin to explain the meaning of these
         # statistics.
         self.surface.blit(
             data.gui_icons['score'],
@@ -103,7 +124,7 @@ class StateWidget(BaseWidget):
             5 * self.TEXT_HEIGHT, utils.WHITE
         )
 
-        # Display icons for the phase
+        # Display gui_icons for the phase
         list_width = (
             (data.GUI_ICON_WIDTH + self.ICONS_PADDING) * len(self.PHASE_TEXT)
             - self.ICONS_PADDING
@@ -118,7 +139,7 @@ class StateWidget(BaseWidget):
                 data.gui_icons['phase-{}'.format(phase)],
                 pos
             )
-            # Put a shadow over all icons but the one that represents the
+            # Put a shadow over all gui_icons but the one that represents the
             # current phase.
             if phase != self.phase:
                 self.surface.blit(data.icon_shadow, pos)

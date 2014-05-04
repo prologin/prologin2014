@@ -3,12 +3,13 @@ import struct
 
 from api import *
 
+# FIXME: no need to have a list of towers
 Cell = namedtuple('Cell', 'type player wizards towers')
 Tower = namedtuple('Tower', 'player scope life attack')
 Player = namedtuple('Player', 'name score magic')
 
 CELL_TYPES = {
-        case_info.CASE_SIMPLE:    u'base',
+        case_info.CASE_SIMPLE:    u'simple',
         case_info.CASE_TOURELLE:  u'tower',
         case_info.CASE_BASE:      u'base',
         case_info.CASE_FONTAINE:  u'fontain',

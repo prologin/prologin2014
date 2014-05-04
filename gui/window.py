@@ -53,8 +53,10 @@ class Window(object):
 
         # details
         details_rect = (
-            rcol_x, get_below(state_rect),
-            RIGHT_COLUMN_WIDTH, 250 # FIXME: height - state_rect[1] - StateWidget.HEIGHT - 2 * WIDGETS_PADDING
+            rcol_x,
+            get_below(state_rect),
+            RIGHT_COLUMN_WIDTH,
+            height - state_rect[1] - StateWidget.HEIGHT - 2 * WIDGETS_PADDING
         )
 
         screen_dim = (width, height)

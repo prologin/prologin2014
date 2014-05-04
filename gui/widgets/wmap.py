@@ -50,7 +50,7 @@ class MapWidget(BaseWidget):
 
         if but1:
             self.details_widget.update_position(x, y)
-            self.update_subjective()
+            #self.update_subjective()
         elif but3:
             self.update_display((x - self.center[0], y - self.center[1]))
 
