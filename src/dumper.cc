@@ -38,9 +38,18 @@ static void dump_binary(
 
     ss << "\"";
     for (unsigned i = 0; i < size; ++i)
-        ss << "\\u00"
-           << hextable[bytes[i] >> 4]
-           << hextable[bytes[i] & 0x0f];
+    {
+        if (bytes[i] == '"')
+            ss << "\\\"";
+        else if (bytes[i] == '\\')
+            ss << "\\\\";
+        else if (0x20 <= bytes[i] && bytes[i] <= 0x7e)
+            ss << (char) bytes[i];
+        else
+            ss << "\\u00"
+               << hextable[bytes[i] >> 4]
+               << hextable[bytes[i] & 0x0f];
+    }
     ss << "\"";
 }
 
