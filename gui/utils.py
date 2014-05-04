@@ -38,9 +38,9 @@ def make_bordered_text(caption, font, fgcolor=WHITE, bgcolor=BLACK):
     result.blit(text, (1, 1))
     return result
 
-def make_shadow(width, height):
+def make_shadow(width, height, alpha=192):
     result = make_surface(width, height)
-    result.fill((0, 0, 0, 192))
+    result.fill((0, 0, 0, alpha))
     return result
 
 

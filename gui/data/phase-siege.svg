@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="12"
+   height="12"
+   id="svg4371"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="phase-siege.svg"
+   inkscape:export-filename="/home/pmderodat/prologin/prologin2014/gui/data/phase-siege.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4373" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="55.507882"
+     inkscape:cx="2.5922069"
+     inkscape:cy="4.4328481"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1918"
+     inkscape:window-height="1059"
+     inkscape:window-x="0"
+     inkscape:window-y="19"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata4376">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1040.3622)">
+    <rect
+       style="color:#000000;fill:#785111;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4985"
+       width="1.5328993"
+       height="13.518968"
+       x="-833.43323"
+       y="630.2287"
+       transform="matrix(0.60183741,-0.79861864,0.79861864,0.60183741,0,0)"
+       rx="0.43221578"
+       ry="0.52229297" />
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:#616161;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4989"
+       sodipodi:cx="6.9990058"
+       sodipodi:cy="3.9651504"
+       sodipodi:rx="0.80168796"
+       sodipodi:ry="1.2971584"
+       d="m 7.8006938,3.9651504 c 0,0.7164007 -0.358928,1.2971583 -0.801688,1.2971583 -0.44276,0 -0.801688,-0.5807576 -0.801688,-1.2971583 0,-0.7164008 0.358928,-1.2971584 0.801688,-1.2971584 0.44276,0 0.801688,0.5807576 0.801688,1.2971584 z"
+       transform="matrix(1.2025645,-1.5957639,1.1009534,0.82967625,-8.6345271,1051.6681)" />
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:#9a9a9a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4987"
+       sodipodi:cx="6.3414416"
+       sodipodi:cy="2.4788296"
+       sodipodi:rx="1.3511595"
+       sodipodi:ry="1.3781826"
+       d="m 6.3414417,3.8570123 c -0.7462248,0 -1.3511595,-0.6170334 -1.3511595,-1.3781826 0,-0.7611493 0.6049346,-1.3781827 1.3511594,-1.3781827 0,0 0,0 1e-7,0"
+       transform="matrix(1.4107751,-1.8720526,1.8720526,1.4107751,-9.7058552,1052.538)"
+       sodipodi:start="1.5707963"
+       sodipodi:end="4.712389"
+       sodipodi:open="true" />
+    <rect
+       ry="0.52229297"
+       rx="0.43221578"
+       transform="matrix(0.81769344,0.57565392,-0.57565392,0.81769344,0,0)"
+       y="854.79181"
+       x="605.09198"
+       height="4.233633"
+       width="0.21618551"
+       id="rect3217"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       ry="0.52229297"
+       rx="0.43221578"
+       transform="matrix(0.81769344,0.57565392,-0.57565392,0.81769344,0,0)"
+       y="853.84253"
+       x="606.84723"
+       height="4.233633"
+       width="0.21618551"
+       id="rect3219"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3215"
+       width="0.21618551"
+       height="4.233633"
+       x="608.61743"
+       y="854.07245"
+       transform="matrix(0.81769344,0.57565392,-0.57565392,0.81769344,0,0)"
+       rx="0.43221578"
+       ry="0.52229297" />
+  </g>
+</svg>

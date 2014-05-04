@@ -8,10 +8,12 @@ from widgets.base import BaseWidget
 # widget describing the state of the player
 # FIXME: magic ?
 class StateWidget(BaseWidget):
-    LEFT_MARGIN = 15
+    ICONS_PADDING = 3
+    LEFT_MARGIN = data.GUI_ICON_WIDTH + ICONS_PADDING
+
     TEXT_SIZE = 12
     TEXT_HEIGHT = 15
-    LINES = 8
+    LINES = 11
 
     PHASE_TEXT = {
         'construction': u'construction',
@@ -19,6 +21,7 @@ class StateWidget(BaseWidget):
         'shoot':        u'tir',
         'siege':        u'siège',
     }
+    PHASES = 'construction move shoot siege'.split()
 
     HEIGHT = TEXT_HEIGHT * LINES
 
@@ -90,19 +93,39 @@ class StateWidget(BaseWidget):
                 if self.last_turn else
                 u'Tour %d' % self.turn
             ),
-            3 * self.TEXT_HEIGHT, utils.WHITE
+            4 * self.TEXT_HEIGHT, utils.WHITE
         )
 
         self._display_text(
             u'Phase de {}'.format(
                 self.PHASE_TEXT.get(self.phase, self.phase)
             ),
-            4 * self.TEXT_HEIGHT, utils.WHITE
+            5 * self.TEXT_HEIGHT, utils.WHITE
         )
+
+        # Display icons for the phase
+        list_width = (
+            (data.GUI_ICON_WIDTH + self.ICONS_PADDING) * len(self.PHASE_TEXT)
+            - self.ICONS_PADDING
+        )
+        list_start = (self.width - list_width) // 2
+        for i, phase in enumerate(self.PHASES):
+            pos = (
+                list_start + i * (data.GUI_ICON_WIDTH + self.ICONS_PADDING),
+                (6 * self.TEXT_HEIGHT)
+            )
+            self.surface.blit(
+                data.gui_icons['phase-{}'.format(phase)],
+                pos
+            )
+            # Put a shadow over all icons but the one that represents the
+            # current phase.
+            if phase != self.phase:
+                self.surface.blit(data.icon_shadow, pos)
 
     def _display_help(self):
         self._display_text(
-            u'H: afficher/cacher l’aide', 6 * self.TEXT_HEIGHT, utils.WHITE
+            u'H: afficher/cacher l’aide', 8 * self.TEXT_HEIGHT, utils.WHITE
         )
 
     def _update(self):
@@ -120,15 +143,15 @@ class StateWidget(BaseWidget):
 
     def update_wait(self):
         self._update()
-        self._display_text(u'Attente du prochain', 6 * self.TEXT_HEIGHT, utils.GREY)
-        self._display_text(u'champion…', 7 * self.TEXT_HEIGHT, utils.GREY)
+        self._display_text(u'Attente du prochain', 9 * self.TEXT_HEIGHT, utils.GREY)
+        self._display_text(u'champion…', 10 * self.TEXT_HEIGHT, utils.GREY)
 
     def update_end(self):
         self._update()
-        self._display_text(u'Match terminé', 3 * self.TEXT_HEIGHT, utils.GREY)
+        self._display_text(u'Match terminé', 9 * self.TEXT_HEIGHT, utils.GREY)
 
     def update_wait_end(self, turn):
         self.turn = turn
         self._update()
-        self._display_text(u'Attente de la fin', 3 * self.TEXT_HEIGHT, utils.RED)
-        self._display_text(u'du match', 4 * self.TEXT_HEIGHT, utils.RED)
+        self._display_text(u'Attente de la fin', 9 * self.TEXT_HEIGHT, utils.RED)
+        self._display_text(u'du match', 10 * self.TEXT_HEIGHT, utils.RED)
