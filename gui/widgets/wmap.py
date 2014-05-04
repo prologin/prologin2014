@@ -63,6 +63,11 @@ class MapWidget(BaseWidget):
         self.handle_view_click(coords[0], coords[1], but1, but2, but3)
         return True
 
+    def update_subjective(self):
+        # TODO: determine if there is a subjective view in the first place. If
+        # there is, implement it there!
+        pass
+
     def make_map_surface(self, game_state):
         surf_size = (
             game_state.map_width * data.TILE_WIDTH,
