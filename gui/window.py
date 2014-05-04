@@ -30,8 +30,8 @@ class Window(object):
     def __init__(self, state_reader):
         self.state = State()
         self.state_reader = state_reader
-        width = 1100 #settings.options.width
-        height = 900 #settings.options.height
+        width = 1120 #settings.options.width
+        height = 800 #settings.options.height
         lcol_w = width - RIGHT_COLUMN_WIDTH - 3 * WIDGETS_PADDING
         rcol_x = lcol_w + 2 * WIDGETS_PADDING
 

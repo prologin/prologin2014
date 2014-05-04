@@ -7,8 +7,8 @@ import api
 import utils
 
 
-TILE_WIDTH = 10
-TILE_HEIGHT = 10
+TILE_WIDTH = 25
+TILE_HEIGHT = 25
 TILE_OVERLAY = 0
 GUI_ICON_WIDTH = 12
 GUI_ICON_HEIGHT = 12
@@ -41,7 +41,7 @@ def load_images():
         ' phase-siege'
         ' wizard'
         ''.split())
-    tiles = get_images('simple tower fontain artefact base wizard'.split())
+    tiles = get_images('simple_big tower fontain_big artefact_big base_big wizard'.split())
     wizards = get_colored_images(tiles['wizard'])
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT, alpha=128)
 

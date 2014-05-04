@@ -35,7 +35,7 @@
 ///
 // Taille du terrain (longueur et largeur)
 //
-# define TAILLE_TERRAIN            81
+# define TAILLE_TERRAIN            31
 
 ///
 // Nombre de joueurs dans la partie

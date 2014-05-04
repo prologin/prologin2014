@@ -6,7 +6,7 @@ except ImportError:
     pass
 
 # Taille du terrain (longueur et largeur)
-TAILLE_TERRAIN = 81
+TAILLE_TERRAIN = 31
 
 # Nombre de joueurs dans la partie
 NB_JOUEURS = 4

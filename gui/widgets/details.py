@@ -57,7 +57,7 @@ class DetailsWidget(BaseWidget):
         tile_y = 0 * (self.LINE_HEIGHT * 2 - data.TILE_HEIGHT) / 2
         # recuperate right image and 'blit' it
         self.surface.blit(
-            data.gui_icons[
+            data.tiles[
                 {
                     case_info.CASE_SIMPLE:        'simple_big',
                     case_info.CASE_TOURELLE:      'tower',

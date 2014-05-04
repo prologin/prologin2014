@@ -4,7 +4,7 @@ constant:
 # Constantes de plateau
     -
         cst_name: TAILLE_TERRAIN
-        cst_val: 81
+        cst_val: 31
         cst_comment: Taille du terrain (longueur et largeur)
     -
         cst_name: NB_JOUEURS
