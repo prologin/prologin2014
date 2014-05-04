@@ -40,7 +40,6 @@ class GameState:
         self.map_width = self.map_height = TAILLE_TERRAIN
 
         # initialization of a map of simple cell
-        print(self.map_width)
         self.cells = [
                 [
                     DEFAULT_CELL._replace(towers=[])

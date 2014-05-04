@@ -116,21 +116,21 @@ class DetailsWidget(BaseWidget):
         third_line_y = second_line_y + text.get_size()[1] + self.PADDING
 
         # towers
-        if (cell.type is case_info.CASE_TOURELLE):
+        if (cell.type == 1):
             text = self.font.render(
                     u'Scope: %d, Life: %d, Attack: %d' %
-                    cell.towers[0].scope,
+                    (cell.towers[0].scope,
                     cell.towers[0].life,
-                    cell.towers[0].attack,
+                    cell.towers[0].attack),
                     False,
-                    color)
+                    utils.WHITE)
             text_w, text_h = text.get_size()
 
             self.surface.blit(
                 text,
                 (
-                    data.TILE_WIDTH + self.PADDING * 20,
-                    second_line_y + (data.ICON_HEIGHT - text_h) / 2
+                    data.TILE_WIDTH + self.PADDING * 6,
+                    third_line_y
                 )
 
             )

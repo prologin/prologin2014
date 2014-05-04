@@ -16,7 +16,7 @@ from widgets import (
 )
 
 WIDGETS_PADDING = 5
-RIGHT_COLUMN_WIDTH = 250
+RIGHT_COLUMN_WIDTH = 300
 
 def get_below(rect):
     return rect[1] + rect[3] + WIDGETS_PADDING

@@ -58,13 +58,13 @@ case_info Cell::get_type() const
             return CASE_BASE;
 
     // if fontain
-    if (((x_ == TAILLE_TERRAIN / 2 + 1)
+    if (((x_ == TAILLE_TERRAIN / 2)
          && (y_ == TAILLE_TERRAIN - 1 || y_ == 0))
-        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2 + 1))
+        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2))
         return CASE_FONTAINE;
 
     // if artefact
-    if (x_ == TAILLE_TERRAIN / 2 + 1 && y_ == TAILLE_TERRAIN / 2 + 1)
+    if (x_ == TAILLE_TERRAIN / 2 && y_ == TAILLE_TERRAIN / 2)
         return CASE_ARTEFACT;
 
     return CASE_SIMPLE;
