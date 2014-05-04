@@ -42,8 +42,8 @@ class MapWidget(BaseWidget):
         self.details_widget = widgets['details']
 
     def handle_view_click(self, x, y, but1, but2, but3, absolute=False):
-        x = x / data.TILE_WIDTH
-        y = (y - data.TILE_OVERLAY) / (data.TILE_HEIGHT - data.TILE_OVERLAY)
+        x = x // data.TILE_WIDTH
+        y = (y - data.TILE_OVERLAY) // (data.TILE_HEIGHT - data.TILE_OVERLAY)
         if not absolute:
             x += self.position[0]
             y += self.position[1]
