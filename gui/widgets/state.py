@@ -8,6 +8,7 @@ from widgets.base import BaseWidget
 # widget describing the state of the player
 # FIXME: magic ?
 class StateWidget(BaseWidget):
+    LEFT_MARGIN = 15
     TEXT_SIZE = 12
     TEXT_HEIGHT = 15
     LINES = 8
@@ -34,9 +35,10 @@ class StateWidget(BaseWidget):
         if any.
         '''
         if column_info:
+            available_width = self.width - self.LEFT_MARGIN
             col_no, cols = column_info
-            col_width = int(self.width / cols)
-            col_start = col_width * col_no
+            col_width = int(available_width / cols)
+            col_start = self.LEFT_MARGIN + col_width * col_no
         else:
             col_start = 0
             col_width = self.width
@@ -69,6 +71,17 @@ class StateWidget(BaseWidget):
                 utils.WHITE,
                 (i, cols)
             )
+
+        # Put icons in a left margin to explain the meaning of these
+        # statistics.
+        self.surface.blit(
+            data.gui_icons['score'],
+            (0, 1 * self.TEXT_HEIGHT)
+        )
+        self.surface.blit(
+            data.gui_icons['magic'],
+            (0, 2 * self.TEXT_HEIGHT)
+        )
 
     def _display_turn(self):
         self._display_text(

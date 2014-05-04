@@ -29,7 +29,8 @@ def get_images(names):
     return result
 
 def load_images():
-    global tiles, icon_shadow#, icons, settlement, icon_shadow
+    global tiles, gui_icons, icon_shadow#, icons, settlement, icon_shadow
+    gui_icons = get_images('score magic'.split())
     tiles = get_images('simple tower fontain artefact base'.split())
     # TODO: Icons ?
     #icons = get_images('caravelle galion gold'.split())
