@@ -12,6 +12,13 @@ class StateWidget(BaseWidget):
     TEXT_HEIGHT = 15
     LINES = 8
 
+    PHASE_TEXT = {
+        'construction': u'construction',
+        'move':         u'déplacement',
+        'shoot':        u'tir',
+        'siege':        u'siège',
+    }
+
     HEIGHT = TEXT_HEIGHT * LINES
 
     def __init__(self, x, y, width):
@@ -73,9 +80,16 @@ class StateWidget(BaseWidget):
             3 * self.TEXT_HEIGHT, utils.WHITE
         )
 
+        self._display_text(
+            u'Phase de {}'.format(
+                self.PHASE_TEXT.get(self.phase, self.phase)
+            ),
+            4 * self.TEXT_HEIGHT, utils.WHITE
+        )
+
     def _display_help(self):
         self._display_text(
-            u'H: afficher/cacher l’aide', 5 * self.TEXT_HEIGHT, utils.WHITE
+            u'H: afficher/cacher l’aide', 6 * self.TEXT_HEIGHT, utils.WHITE
         )
 
     def _update(self):
@@ -88,6 +102,7 @@ class StateWidget(BaseWidget):
         self.game_state = game_state
         self.turn = self.game_state.turn
         self.last_turn = self.game_state.turn_max
+        self.phase = self.game_state.phase
         self._update()
 
     def update_wait(self):
