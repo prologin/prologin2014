@@ -88,13 +88,8 @@ void ActionShoot::apply_on(GameState* gameState) const
     Cell* cell_target = gameState->get_map()->get_cell(target_);
     Cell* cell_tower = gameState->get_map()->get_cell(tower_);
 
-    int wizards_dead = cell_target->wizards_attacked(points_, player_id_);
+    cell_target->wizards_attacked(points_, player_id_);
 
     tourelle t = cell_tower->get_tower();
     cell_tower->set_magic_tower(t.attaque - points_);
-
-    // magic gained
-    gameState->set_magic(player_id_, gameState->get_magic(player_id_) +
-                  (wizards_dead * MAGIE_COMBAT));
-
 }
