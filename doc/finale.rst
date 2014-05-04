@@ -2,9 +2,9 @@
 Finale Prologin 2014 − Tours de magie
 =====================================
 
-------
-Règles
-------
+------------
+Introduction
+------------
 
 Le sujet de la finale de Prologin 2014 est un jeu de stratégie divisé en
 plusieurs phases. Le but du jeu est de vaincre les joueurs ennemis et de
@@ -81,8 +81,9 @@ résultat des actions des autres joueurs.  Il n'existe aucun conflit d'action
 possible (par exemple, deux joueurs qui poseraient deux tours au même endroit).
 
 
+------
 Phases
-======
+------
 
 Chaque tour se déroule en 4 phases :
 
@@ -126,7 +127,7 @@ entre ces deux points, la fonction de déplacement renverra une erreur.
 
 
 Attaque des sorciers
-====================
+--------------------
 
 À la fin de chaque phase de déplacement, lorsque plusieurs sorciers ennemis se
 retrouvent sur la même case, ils s'attaquent automatiquement. Le nombre de
@@ -169,8 +170,7 @@ libre aux sorciers.
 
 
 Capture
-=======
-
+-------
 
 À la fin de chaque tour :
 
@@ -180,15 +180,14 @@ Capture
   de points de magie.
 
 
+----------------
 Fin de la partie
-================
+----------------
 
 La partie s'arrête au bout d'un certain nombre de tours fixe.
 
-
------
 Score
------
+=====
 
 Le score de chaque joueur est déterminé à la fin de la partie :
 
