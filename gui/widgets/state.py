@@ -10,13 +10,12 @@ from widgets.base import BaseWidget
 class StateWidget(BaseWidget):
     TEXT_SIZE = 12
     TEXT_HEIGHT = 15
-    LINES = 6
+    LINES = 8
 
     HEIGHT = TEXT_HEIGHT * LINES
 
     def __init__(self, x, y, width):
         super(StateWidget, self).__init__(x, y, width, self.HEIGHT)
-        # FIXME
         self.font = pygame.font.Font(data.get_font_path('font.ttf'), self.TEXT_SIZE)
         self.game_state = None
         self.turn = 0
@@ -38,7 +37,7 @@ class StateWidget(BaseWidget):
         surf_w, surf_h = surf.get_size()
         self.surface.blit(surf, (col_start + (col_width - surf_w) / 2, height))
 
-    def _display_scores(self):
+    def _display_scores(self): # (And magic)
         if self.game_state is None:
             return
         players = self.game_state.players
@@ -57,6 +56,12 @@ class StateWidget(BaseWidget):
                 utils.WHITE,
                 (i, cols)
             )
+            self._display_text(
+                str(player.magic),
+                2 * self.TEXT_HEIGHT,
+                utils.WHITE,
+                (i, cols)
+            )
 
     def _display_turn(self):
         self._display_text(
@@ -65,7 +70,7 @@ class StateWidget(BaseWidget):
                 if self.last_turn else
                 u'Tour %d' % self.turn
             ),
-            2 * self.TEXT_HEIGHT, utils.WHITE
+            3 * self.TEXT_HEIGHT, utils.WHITE
         )
 
     def _display_help(self):
@@ -87,8 +92,8 @@ class StateWidget(BaseWidget):
 
     def update_wait(self):
         self._update()
-        self._display_text(u'Attente du prochain', 3 * self.TEXT_HEIGHT, utils.GREY)
-        self._display_text(u'champion…', 4 * self.TEXT_HEIGHT, utils.GREY)
+        self._display_text(u'Attente du prochain', 6 * self.TEXT_HEIGHT, utils.GREY)
+        self._display_text(u'champion…', 7 * self.TEXT_HEIGHT, utils.GREY)
 
     def update_end(self):
         self._update()

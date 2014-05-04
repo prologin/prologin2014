@@ -30,10 +30,5 @@ def phase_tirs():
 def phase_siege():
     game_state_reader.put_state()
 
-#def jouer_tour():
-#    pass
-    #state_reader.put_state()
-
 def partie_fin():
-    pass
     game_state_reader.do_end()

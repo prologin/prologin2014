@@ -11,7 +11,28 @@ import utils
 from widgets.scrolled import ScrolledWidget
 from widgets.scrolled import BaseWidget
 
-# TODO: Stats Aggregate
+# TODO:  sprites magic wizard
+class StatsAggregate:
+
+    ICONS = 'magic tower wizard'.split()
+
+    def __init__(self):
+        self.magic = 0
+        self.tower_count = 0
+        self.wizard_count = 0
+
+    def update(self, nbwizards):
+        self.wizard_count += nbwizards;\
+
+    def update(self, tower):
+        self.magic += tower.magic
+        self.tower_count += 1
+
+    def __iter__(self):
+        return iter(zip(
+            self.ICONS, (self.magic, self.tower_count, self.wizard_count)
+        ))
+
 # display details on the map
 class DetailsWidget(ScrolledWidget):
     PADDING = 8
@@ -31,6 +52,39 @@ class DetailsWidget(ScrolledWidget):
         self.game_state = game
         if self.position:
             self.update_position(*self.position)
+
+    def update_position(self, x, y, selection=None):
+        if not self.game_state:
+            return
+        if (
+            x < 0 or self.game_state.map_width <= x or
+            y < 0 or self.game_state.map_height <= y
+        ):
+            self.list_surface = None
+            self.scroll(0)
+            return
+
+        self.position = (x, y)
+        self.selection = selection
+        cell = self.game_state.cells[y][x]
+        self.set_list_length(1 + len(self.game_state.players))
+        self._display_cell(x, y, cell)
+
+        stats_per_player = {
+            id: StatsAggregate()
+            for id in self.game_state.players
+        }
+        for tower in cell.towers:
+            stats_per_player[tower.player].update(tower)
+
+        for i, (id, stats) in enumerate(utils.iter_dict(
+            stats_per_player,
+            self.game_state.ordered_players_ids
+        ), 1):
+            entry_y = self.PADDING + i * self.LINE_HEIGHT
+            self._display_player_stats(id, stats, entry_y)
+
+        self.scroll(0)
 
     # display details of a cell
     def _display_cell(self, x, y, cell):
@@ -104,20 +158,22 @@ class DetailsWidget(ScrolledWidget):
             text, (data.TILE_WIDTH + self.PADDING, third_line_y)
         )
 
-        # TODO: tower ?
+        # TODO
+        # display gold
+        # display towers
 
-#    def _display_player_stats(self, id, stats, entry_y):
-#        player_label = self.font.render(
-#            self.game_state.players[id].name,
-#            True, data.get_player_color(self.game_state, id)
-#        )
-#        if not any(stat for _, stat in stats):
-#            player_label.blit(self.line_shadow, (0, 0))
-#
-#        self.list_surface.blit(
-#            player_label,
-#            (self.PADDING, entry_y)
-#        )
+    def _display_player_stats(self, id, stats, entry_y):
+        player_label = self.font.render(
+            self.game_state.players[id].name,
+            True, data.get_player_color(self.game_state, id)
+        )
+        if not any(stat for _, stat in stats):
+            player_label.blit(self.line_shadow, (0, 0))
+
+        self.list_surface.blit(
+            player_label,
+            (self.PADDING, entry_y)
+        )
 
 
 #    def _display_tower(self, tower, i):
@@ -130,7 +186,6 @@ class DetailsWidget(ScrolledWidget):
         )
         if result:
             return True
-        # TODO: selecting a boat -> draw its way
         return False
         if not self.position:
             return False
