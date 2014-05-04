@@ -232,13 +232,13 @@ void Rules::end_of_turn()
             break;
         case PHASE_MOVE:
             resolve_fights();
-            resolve_losers();
             api_->game_state()->setPhase(PHASE_SHOOT);
             break;
         case PHASE_SHOOT:
             api_->game_state()->setPhase(PHASE_SIEGE);
             break;
         case PHASE_SIEGE:
+            resolve_losers();
             resolve_magic();
             resolve_wizard_movable();
             resolve_tower_magic();
