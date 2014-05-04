@@ -108,7 +108,6 @@ class Window(object):
             self.update_state()
             self.handle_events()
             self.update_window()
-            time.sleep(3)
 
         # The game is finished or the user has quitted: if the used hasn’t
         # quitted, display a final screen.
