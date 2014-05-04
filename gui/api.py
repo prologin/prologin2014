@@ -1,5 +1,9 @@
 # -*- coding: iso-8859-1 -*-
-from _api import *
+
+try:
+    from _api import *
+except ImportError:
+    pass
 
 # Taille du terrain (longueur et largeur)
 TAILLE_TERRAIN = 81
