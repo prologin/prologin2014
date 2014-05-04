@@ -153,7 +153,7 @@ class DetailsWidget(ScrolledWidget):
 
         nb_wizards = cell.wizards
 
-        text = self.font.render(nb_wizards, True, utils.WHITE)
+        text = self.font.render(str(nb_wizards), True, utils.WHITE)
         self.list_surface.blit(
             text, (data.TILE_WIDTH + self.PADDING, third_line_y)
         )
