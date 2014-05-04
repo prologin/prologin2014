@@ -49,10 +49,10 @@ def get_font_path(name):
 
 
 PLAYER_COLORS = [
-    (0, 128, 192),
-    (192, 0, 0),
-    (0, 192, 0),
-    (234, 192, 0),
+    (64, 128, 192),
+    (192, 64, 64),
+    (48, 192, 64),
+    (234, 192, 64),
 ]
 
 def get_player_color(game_state, player_id):
