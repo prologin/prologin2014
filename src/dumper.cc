@@ -142,6 +142,17 @@ static void dump_actions(std::ostream& ss, rules::Actions& acts)
     dump_binary(ss, buf.data(), buf.size());
 }
 
+static void dump_phase(std::ostream& ss, const GameState& st)
+{
+    static const char *phase_names[] = {
+        "construction",
+        "move",
+        "shoot",
+        "siege",
+    };
+    ss << '"' << phase_names[st.getPhase()] << '"';
+}
+
 /*
  * Return a JSON representation of the given GameState, including the given
  * list of actions.
@@ -161,7 +172,11 @@ char* dump_game_state(const GameState& st, rules::Actions& acts)
         << MAX_TOUR
         << "], ";
 
-    ss << "\"players\": ";
+    ss << "\"phase\": ";
+    dump_phase(ss, st);
+
+    ss << ", "
+       << "\"players\": ";
     dump_players(ss, st);
 
     ss << ", "
