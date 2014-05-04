@@ -3,8 +3,7 @@ import struct
 
 from api import *
 
-# FIXME: no need to have a list of towers
-Cell = namedtuple('Cell', 'type player wizards tower')
+Cell = namedtuple('Cell', 'type player wizards towers')
 Tower = namedtuple('Tower', 'player scope life attack')
 Player = namedtuple('Player', 'name score magic towers')
 
@@ -22,7 +21,7 @@ NO_PLAYER = -1
 DEFAULT_CELL = Cell(case_info.CASE_SIMPLE, -1, 0, [])
 
 def cell_from_json(cell):
-    return Cell(cell['type'], cell['player'], cell['wizards'], None)
+    return Cell(cell['type'], cell['player'], cell['wizards'], [])
 
 def tower_from_json(tower):
     return Tower(tower['player'], tower['scope'], tower['life'],
@@ -43,7 +42,7 @@ class GameState:
         # initialization of a map of simple cell
         self.cells = [
                 [
-                    DEFAULT_CELL._replace(tower=None)
+                    DEFAULT_CELL._replace(towers=[])
                     for _ in range(self.map_width)
                 ]
                 for _ in range(self.map_height)
@@ -52,11 +51,6 @@ class GameState:
         for cell in game_map['cells']:
             x, y = cell['x'], cell['y']
             self.cells[y][x] = cell_from_json(cell)
-
-        for tower in game_map['towers']:
-            x, y = tower['x'], tower['y']
-            self.cells[y][x].tower = tower_from_json(tower)
-            self.players[int(tower['player'])].towers.append(tower_from_json(tower))
 
         self.players = {}
         self.player_id_to_rank = {}
@@ -74,6 +68,12 @@ class GameState:
                     player['magic'],
                     []
             )
+
+        for tower in game_map['towers']:
+            x, y = tower['x'], tower['y']
+            self.cells[y][x].towers.append(tower_from_json(tower))
+            self.players[int(tower['player'])].towers.append(tower_from_json(tower))
+
 
         for i, player_id in enumerate(sorted(self.players.keys())):
             self.player_id_to_rank[player_id] = i

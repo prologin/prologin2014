@@ -134,7 +134,7 @@ static void dump_map(std::ostream& ss, const GameState& st)
            << "\"player\": " << tower.joueur << ", "
            << "\"scope\": " << tower.portee << ", "
            << "\"life\": " << tower.vie << ", "
-           << "\"attack\": " << tower.attaque << ", "
+           << "\"attack\": " << tower.attaque
            << "}";
     }
 
