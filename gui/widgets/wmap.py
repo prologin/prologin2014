@@ -18,7 +18,7 @@ class MapWidget(BaseWidget):
     }
 
     # Size of the text used to represent the number of wizards on a cell.
-    FONT_SIZE = 7
+    FONT_SIZE = 12
 
     def __init__(self, *args):
         super(MapWidget, self).__init__(*args)
