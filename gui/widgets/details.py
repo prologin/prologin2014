@@ -44,7 +44,7 @@ class DetailsWidget(BaseWidget):
 
         self.position = (x, y)
         self.selection = selection
-        cell = self.game_state.cells[int(x)][int(y)] # FIXME: test
+        cell = self.game_state.cells[y][x]
         #self.set_list_length(1 + len(self.game_state.players))
         self._display_cell(x, y, cell)
 
