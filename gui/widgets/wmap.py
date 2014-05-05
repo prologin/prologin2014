@@ -124,10 +124,10 @@ class MapWidget(BaseWidget):
 
                 # Likewise for wizards
                 if cell.wizards > 0:
-                    self.map_surface.blit(
-                        data.wizards[cell.player],
-                        coords
+                    wizard_tile = data.get_player_image(
+                        data.wizards, game_state, cell.player
                     )
+                    self.map_surface.blit(wizard_tile, coords)
                     count_text = utils.make_bordered_text(
                         str(cell.wizards), self.font,
                         fgcolor=data.get_player_color(game_state, cell.player)

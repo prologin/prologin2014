@@ -56,6 +56,10 @@ PLAYER_COLORS = [
     (234, 192, 64),
 ]
 
+def get_player_image(images, game_state, player_id):
+    rank = game_state.player_id_to_rank[player_id]
+    return images[rank]
+
 def get_player_color(game_state, player_id):
     rank = game_state.player_id_to_rank[player_id]
     return PLAYER_COLORS[rank]
