@@ -33,9 +33,10 @@ def make_button(caption, font):
 def make_bordered_text(caption, font, fgcolor=WHITE, bgcolor=BLACK):
     text = font.render(caption, True, fgcolor)
     border = font.render(caption, True, bgcolor)
-    result = make_surface(*(unit + 2 for unit in text.get_size()))
-    for dx in (0, 2):
-        for dy in (0, 2):
+    text_w, text_h = text.get_size()
+    result = make_surface(text_w + 2, text_h + 2)
+    for dx in range(3):
+        for dy in range(3):
             result.blit(border, (dx, dy))
     result.blit(text, (1, 1))
     return result
