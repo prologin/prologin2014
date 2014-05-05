@@ -76,7 +76,7 @@ static void dump_players(std::ostream& ss, const GameState& st)
             players[i]->name.size()
         );
         ss << ", "
-           << "\"magic\": " << st.get_magic(i);
+           << "\"magic\": " << st.get_magic(players[i]->id);
         ss << ", "
            << "\"score\": " << players[i]->score
            << "}";
