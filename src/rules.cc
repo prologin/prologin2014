@@ -126,10 +126,10 @@ void Rules::resolve_score()
     if (api_->game_state()->get_player_artefact() != -1)
         players_->players[api_->game_state()->get_player_artefact()]->score +=
             POINTS_CONTROLE_ARTEFACT;
-    for (std::map<int, rules::Player_sptr>::iterator it = map_players.begin();
-         it != map_players.end(); it++)
-        if (losers.find(it->first) != losers.end())
-            players_->players[it->first]->score += POINTS_SURVIVRE;
+    for (auto& p : players_->players)
+        if (p->type == rules::PLAYER)
+            if (losers.find(p->id) == losers.end())
+                    p->score += POINTS_SURVIVRE;
 }
 
 void Rules::resolve_fights()
