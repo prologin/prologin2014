@@ -33,15 +33,15 @@ def get_images(names):
 def load_images():
     global tiles, gui_icons, icon_shadow, wizards
     gui_icons = get_images(
-        'score magic simple_big tower_icon'
-        ' fontain_big artefact_big base_big'
+        'score magic simple tower_icon'
+        ' fontain artefact base'
         ' phase-construction'
         ' phase-move'
         ' phase-shoot'
         ' phase-siege'
         ' wizard'
         ''.split())
-    tiles = get_images('simple_big tower fontain_big artefact_big base_big wizard'.split())
+    tiles = get_images('simple tower fontain artefact base wizard'.split())
     wizards = get_colored_images(tiles['wizard'])
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT, alpha=128)
 

@@ -12,9 +12,9 @@ class MapWidget(BaseWidget):
 
     DYNAMIC_TILES = {
         case_info.CASE_TOURELLE: 'tower',
-        case_info.CASE_BASE:     'base_big',
-        case_info.CASE_FONTAINE: 'fontain_big',
-        case_info.CASE_ARTEFACT: 'artefact_big',
+        case_info.CASE_BASE:     'base',
+        case_info.CASE_FONTAINE: 'fontain',
+        case_info.CASE_ARTEFACT: 'artefact',
     }
 
     # Size of the text used to represent the number of wizards on a cell.
@@ -77,7 +77,7 @@ class MapWidget(BaseWidget):
 
     def update_static_map(self, game_state):
         self.static_map_surface = self.make_map_surface(game_state)
-        simple_pix = data.tiles['simple_big']
+        simple_pix = data.tiles['simple']
         coord_y = 0
         for y, row in enumerate(game_state.cells):
             coord_x = 0

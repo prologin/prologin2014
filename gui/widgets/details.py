@@ -59,11 +59,11 @@ class DetailsWidget(BaseWidget):
         self.surface.blit(
             data.tiles[
                 {
-                    case_info.CASE_SIMPLE:        'simple_big',
+                    case_info.CASE_SIMPLE:        'simple',
                     case_info.CASE_TOURELLE:      'tower',
-                    case_info.CASE_BASE:          'base_big',
-                    case_info.CASE_FONTAINE:      'fontain_big',
-                    case_info.CASE_ARTEFACT:      'artefact_big',
+                    case_info.CASE_BASE:          'base',
+                    case_info.CASE_FONTAINE:      'fontain',
+                    case_info.CASE_ARTEFACT:      'artefact',
                 }[cell.type]
             ], (0, tile_y)
         )
