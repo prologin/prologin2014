@@ -13,8 +13,10 @@ from widgets.base import BaseWidget
 
 # display details on the map
 class DetailsWidget(BaseWidget):
-    PADDING = 8
-    LINE_HEIGHT = 70
+    PADDING = 10
+    LINE_HEIGHT = 16
+
+    ICON_MARGIN = 70
 
     def __init__(self, *args):
         self.font = pygame.font.Font(data.get_font_path('font.ttf'), 12)
@@ -52,94 +54,81 @@ class DetailsWidget(BaseWidget):
     def _display_cell(self, x, y, cell):
         # clean
         self.surface.fill(utils.BLACK)
+
+        # "Drawing cursor" position. Remove the need to use magic numbers for
+        # positions in the code below.
+        y = 0
+
+        rcolumn_x = self.ICON_MARGIN + self.PADDING
+
         # Left side:
-        # Display an icon for the kind of cell, and its name on top of it.
-        tile_y = 0 * (self.LINE_HEIGHT * 2 - data.TILE_HEIGHT) / 2
-        # recuperate right image and 'blit' it
+        # Display an icon for the kind of cell, and its name as a legend on the
+        # bottom side.
+        tile_type_name = game.CELL_TYPES[cell.type]
         self.surface.blit(
-            data.tiles[
-                {
-                    case_info.CASE_SIMPLE:        'simple',
-                    case_info.CASE_TOURELLE:      'tower',
-                    case_info.CASE_BASE:          'base',
-                    case_info.CASE_FONTAINE:      'fontain',
-                    case_info.CASE_ARTEFACT:      'artefact',
-                }[cell.type]
-            ], (0, tile_y)
-        )
-
-        text = utils.make_bordered_text(
-                game.CELL_TYPES[cell.type].capitalize(),
-                self.font
-        )
-
-        text_w, text_h = text.get_size()
-
-        # Blit text coresponding to the cell type
-        self.surface.blit(
-            text,
+            data.tiles[tile_type_name],
             (
-                (data.TILE_WIDTH - text_w) / 2 + 20,
-                tile_y + 2 * data.TILE_HEIGHT - text_h + 10
+                (self.ICON_MARGIN - data.TILE_WIDTH) // 2,
+                (self.LINE_HEIGHT * 3 - data.TILE_HEIGHT) // 2
             )
         )
 
-        # First line:
-        # Display position
-        text = self.font.render(
-                u'Position : (%d, %d)' % (x, y),
-                True, utils.WHITE
-        )
-        self.surface.blit(
-            text,
-            (data.TILE_WIDTH + 2 + self.PADDING * 6,
-                0)
-        )
+        # Right side:
+        # Display the cell position on the first line, then its owner (if any)
+        # on a second line.
+        text = self.font.render(game.CELL_NAMES[cell.type], True, utils.WHITE)
+        text_w, text_h = text.get_size()
+        self.surface.blit(text, (rcolumn_x, y))
+        y += text_h
 
-        # Second line:
-        # Owner of the cell
-        second_line_y = text.get_size()[1] + self.PADDING
+        text = self.font.render(
+            u'Position : (%d, %d)' % (x, y),
+            True, utils.WHITE
+        )
+        self.surface.blit(text, (rcolumn_x, y))
+        y += self.LINE_HEIGHT
 
         if cell.player != game.NO_PLAYER:
             owner = self.game_state.players[cell.player].name
             color = data.get_player_color(self.game_state, cell.player)
         else:
-            owner = 'Personne'
+            owner = u'Personne'
             color = utils.DARK_GREY
-
         text = self.font.render(owner, True, color)
-        self.surface.blit(
-            text, (data.TILE_WIDTH + self.PADDING * 6, second_line_y)
-        )
+        self.surface.blit(text, (rcolumn_x, y))
+        y += self.LINE_HEIGHT + self.PADDING
 
-        # third line
-        third_line_y = second_line_y + text.get_size()[1] + self.PADDING
+        # List of statistics to display.
+        Row = namedtuple('Row', 'label icon number')
+        rows = []
 
-        # towers
-        if (cell.type == 1):
-            text = self.font.render(
-                    u'Scope: %d, Life: %d, Attack: %d' %
-                    (cell.towers[0].scope,
-                    cell.towers[0].life,
-                    cell.towers[0].attack),
-                    False,
-                    utils.WHITE)
-            text_w, text_h = text.get_size()
+        if cell.type == case_info.CASE_TOURELLE:
+            tower = cell.towers[0]
+            rows.extend([
+                Row(u'Vie',     'life',     tower.life),
+                Row(u'Portée',  'range',    tower.scope),
+                Row(u'Attaque', 'attack',   tower.attack),
+            ])
 
-            self.surface.blit(
-                text,
-                (
-                    data.TILE_WIDTH + self.PADDING * 6,
-                    third_line_y
-                )
+        for row in rows:
+            # Display:
+            #   [padding] [Name] [column separation] [icon] [number]
+            label = self.font.render(row.label, False, utils.GREY)
+            number = self.font.render(str(row.number), False, utils.WHITE)
 
-            )
+            label_w, _  = label.get_size()
+            label_x     = rcolumn_x - 2 * self.PADDING - label_w
+            icon_x      = rcolumn_x
+            number_x    = icon_x + data.GUI_ICON_WIDTH + self.PADDING
 
+            self.surface.blit(label, (label_x, y))
+            if row.icon:
+                icon = data.gui_icons[row.icon]
+                icon_y = y + (self.LINE_HEIGHT - data.GUI_ICON_HEIGHT) // 2
+                self.surface.blit(icon, (icon_x, icon_y))
+            self.surface.blit(number, (number_x, y))
 
-
-#    def _display_tower(self, tower, i):
-#        top_shift = i * self.LINE_HEIGHT
-
+            y += self.LINE_HEIGHT
 
     def handle_click(self, x, y, but1, but2, but3):
         result = super(DetailsWidget, self).handle_click(

@@ -40,7 +40,9 @@ def load_images():
         ' phase-shoot'
         ' phase-siege'
         ' wizard'
+        ' life range'
         ''.split())
+    gui_icons['attack'] = gui_icons['phase-shoot']
     tiles = get_images('simple tower fontain artefact base wizard'.split())
     wizards = get_colored_images(tiles['wizard'])
     icon_shadow = utils.make_shadow(ICON_WIDTH, ICON_HEIGHT, alpha=128)
