@@ -115,8 +115,8 @@ class DetailsWidget(BaseWidget):
         for row in rows:
             # Display:
             #   [padding] [Name] [column separation] [icon] [number]
-            label = self.font.render(row.label, False, utils.GREY)
-            number = self.font.render(str(row.number), False, utils.WHITE)
+            label = self.font.render(row.label, True, utils.GREY)
+            number = self.font.render(str(row.number), True, utils.WHITE)
 
             label_w, _  = label.get_size()
             label_x     = rcolumn_x - 2 * self.PADDING - label_w
