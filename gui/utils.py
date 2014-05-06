@@ -85,8 +85,8 @@ def set_color(surface, color):
             if r == b and g < r:
                 light = r
                 saturation = 255 # TODO
-                r = color[0] * light / 255
-                g = color[1] * light / 255
-                b = color[2] * light / 255
+                r = color[0] * light // 255
+                g = color[1] * light // 255
+                b = color[2] * light // 255
                 result.set_at((x, y), (r, g, b, a))
     return result
