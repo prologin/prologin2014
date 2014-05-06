@@ -82,7 +82,7 @@ def set_color(surface, color):
     for y in range(height):
         for x in range(width):
             (r, g, b, a) = result.get_at((x, y))
-            if r == b and g < r:
+            if abs(r - b) < 5 and g < r:
                 light = r
                 saturation = 255 # TODO
                 r = color[0] * light // 255
