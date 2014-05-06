@@ -16,7 +16,6 @@ from widgets import (
 )
 
 WIDGETS_PADDING = 5
-RIGHT_COLUMN_WIDTH = 300
 
 def get_below(rect):
     return rect[1] + rect[3] + WIDGETS_PADDING
@@ -30,33 +29,38 @@ class Window(object):
     def __init__(self, state_reader):
         self.state = State()
         self.state_reader = state_reader
-        width = 1120 #settings.options.width
-        height = 800 #settings.options.height
-        lcol_w = width - RIGHT_COLUMN_WIDTH - 3 * WIDGETS_PADDING
-        rcol_x = lcol_w + 2 * WIDGETS_PADDING
 
-        # map
+        width = 1120
+        height = 800
+
+        # The window is split into two columns: the left one contains the map
+        # and the actions list while the right one contains the state and the
+        # object details. We want two paddings between the two columns by the
+        # way: much clearer. :-)
+        lcol_w = MapWidget.WIDTH
+        rcol_x = lcol_w + 3 * WIDGETS_PADDING
+        rcol_w = width - (rcol_x + WIDGETS_PADDING)
+
+        # Compute the accurate coordinates for all widgets.
         map_rect = (
             WIDGETS_PADDING,
             WIDGETS_PADDING,
-            lcol_w,
-            height - 2 * WIDGETS_PADDING
+            MapWidget.WIDTH,
+            MapWidget.HEIGHT,
         )
 
-        # state
         state_rect = (
             rcol_x,
-            5,
-            RIGHT_COLUMN_WIDTH,
+            WIDGETS_PADDING,
+            rcol_w,
             StateWidget.HEIGHT
         )
 
-        # details
         details_rect = (
             rcol_x,
             get_below(state_rect),
-            RIGHT_COLUMN_WIDTH,
-            height - state_rect[1] - StateWidget.HEIGHT - 2 * WIDGETS_PADDING
+            rcol_w,
+            height - state_rect[1] - state_rect[3] - 2 * WIDGETS_PADDING
         )
 
         screen_dim = (width, height)

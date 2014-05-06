@@ -8,11 +8,19 @@ Tower = namedtuple('Tower', 'player scope life attack')
 Player = namedtuple('Player', 'name score magic towers')
 
 CELL_TYPES = {
-        case_info.CASE_SIMPLE:    u'simple',
-        case_info.CASE_TOURELLE:  u'tower',
-        case_info.CASE_BASE:      u'base',
-        case_info.CASE_FONTAINE:  u'fontain',
-        case_info.CASE_ARTEFACT:   u'artefact'
+    case_info.CASE_SIMPLE:    'simple',
+    case_info.CASE_TOURELLE:  'tower',
+    case_info.CASE_BASE:      'base',
+    case_info.CASE_FONTAINE:  'fontain',
+    case_info.CASE_ARTEFACT:  'artefact',
+}
+
+CELL_NAMES = {
+    case_info.CASE_SIMPLE:    u'Case simple',
+    case_info.CASE_TOURELLE:  u'Tourelle',
+    case_info.CASE_BASE:      u'Base',
+    case_info.CASE_FONTAINE:  u'Fontaine',
+    case_info.CASE_ARTEFACT:  u'Artefact',
 }
 
 # TODO: action ?

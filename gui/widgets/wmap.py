@@ -10,6 +10,9 @@ from widgets.base import BaseWidget
 
 class MapWidget(BaseWidget):
 
+    WIDTH  = TAILLE_TERRAIN * data.TILE_WIDTH
+    HEIGHT = TAILLE_TERRAIN * data.TILE_HEIGHT
+
     DYNAMIC_TILES = {
         case_info.CASE_TOURELLE: 'tower',
         case_info.CASE_BASE:     'base',
