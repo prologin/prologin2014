@@ -39,9 +39,6 @@ class HelpWidget(BaseWidget):
             None,
             ((u'Space', ), u'Activer/désactiver la pause'),
             ((u'N', ), u'Passer au tour suivant (en pause)'),
-            None,
-            ((u'Ctrl', u'↑', ), u'Monter dans la liste des unités'),
-            ((u'Ctrl', u'↓', ), u'Descendre dans la liste des unités'),
         )
 
         # final pos of the first key
