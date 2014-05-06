@@ -39,7 +39,7 @@ def load_images():
         ' phase-move'
         ' phase-shoot'
         ' phase-siege'
-        ' wizard'
+        ' wizard wizard_gui'
         ' life range'
         ''.split())
     gui_icons['attack'] = gui_icons['phase-shoot']

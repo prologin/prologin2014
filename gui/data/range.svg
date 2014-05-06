@@ -34,8 +34,8 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="958"
-     inkscape:window-height="1059"
-     inkscape:window-x="0"
+     inkscape:window-height="528"
+     inkscape:window-x="960"
      inkscape:window-y="19"
      inkscape:window-maximized="0" />
   <metadata
@@ -57,17 +57,17 @@
      transform="translate(0,-1040.3622)">
     <path
        sodipodi:type="arc"
-       style="color:#000000;fill:none;stroke:#bfbfbf;stroke-width:0.53582591;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:none;stroke:#bfbfbf;stroke-width:0.61237246;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path3796"
        sodipodi:cx="5.8029723"
        sodipodi:cy="6.0509095"
        sodipodi:rx="2.0456522"
        sodipodi:ry="0.96020406"
-       d="m 7.8486245,6.0509095 a 2.0456522,0.96020406 0 1 1 -4.0913043,0 2.0456522,0.96020406 0 1 1 4.0913043,0 z"
-       transform="matrix(1.4081633,0,0,1.3913043,-2.1715329,1037.9436)" />
+       d="m 7.8486245,6.0509095 c 0,0.5303061 -0.9158697,0.9602041 -2.0456522,0.9602041 -1.1297825,0 -2.0456521,-0.429898 -2.0456521,-0.9602041 0,-0.530306 0.9158696,-0.960204 2.0456521,-0.960204 1.1297825,0 2.0456522,0.429898 2.0456522,0.960204 z"
+       transform="matrix(1.4081633,0,0,1.0652174,-2.1715329,1039.9167)" />
     <path
        transform="matrix(2.7244898,0,0,2.9999999,-9.8101391,1028.2095)"
-       d="m 7.8486245,6.0509095 a 2.0456522,0.96020406 0 1 1 -4.0913043,0 2.0456522,0.96020406 0 1 1 4.0913043,0 z"
+       d="m 7.8486245,6.0509095 c 0,0.5303061 -0.9158697,0.9602041 -2.0456522,0.9602041 -1.1297825,0 -2.0456521,-0.429898 -2.0456521,-0.9602041 0,-0.530306 0.9158696,-0.960204 2.0456521,-0.960204 1.1297825,0 2.0456522,0.429898 2.0456522,0.960204 z"
        sodipodi:ry="0.96020406"
        sodipodi:rx="2.0456522"
        sodipodi:cy="6.0509095"

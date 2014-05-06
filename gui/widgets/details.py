@@ -109,6 +109,8 @@ class DetailsWidget(BaseWidget):
                 Row(u'Portée',  'range',    tower.scope),
                 Row(u'Attaque', 'attack',   tower.attack),
             ])
+        if cell.wizards > 0:
+            rows.append(Row(u'Sorciers', 'wizard_gui', cell.wizards))
 
         for row in rows:
             # Display:
