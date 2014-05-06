@@ -66,7 +66,7 @@ class DetailsWidget(BaseWidget):
         # bottom side.
         tile_type_name = game.CELL_TYPES[cell.type]
         self.surface.blit(
-            data.tiles[tile_type_name],
+            data.get_player_tile(cell.type, self.game_state, cell.player),
             (
                 (self.ICON_MARGIN - data.TILE_WIDTH) // 2,
                 (self.LINE_HEIGHT * 3 - data.TILE_HEIGHT) // 2

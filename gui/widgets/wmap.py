@@ -117,13 +117,11 @@ class MapWidget(BaseWidget):
 
                 # Add a tile on top of the static one for "dynamic" cells (such
                 # as towers).
-                try:
-                    self.map_surface.blit(
-                        data.tiles[self.DYNAMIC_TILES[cell.type]],
-                        coords
+                if cell.type != case_info.CASE_SIMPLE:
+                    tile = data.get_player_tile(
+                        cell.type, game_state, cell.player
                     )
-                except KeyError:
-                    pass
+                    self.map_surface.blit(tile, coords)
 
                 # Likewise for wizards
                 if cell.wizards > 0:
