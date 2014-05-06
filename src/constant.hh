@@ -78,7 +78,7 @@
 # define COUT_SORCIER              2
 
 ///
-// Nombre de points de magie par sorcier
+// Nombre de points de magie par tourelle
 //
 # define COUT_TOURELLE             6
 

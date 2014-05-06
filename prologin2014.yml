@@ -45,7 +45,7 @@ constant:
     -
         cst_name: COUT_TOURELLE
         cst_val: 6
-        cst_comment: Nombre de points de magie par sorcier
+        cst_comment: Nombre de points de magie par tourelle
     -
         cst_name: COUT_PORTEE
         cst_val: 2

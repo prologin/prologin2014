@@ -25,7 +25,6 @@ GameState::GameState(Map* map, rules::Players_sptr players)
       players_(players),
       current_turn_(0)
 {
-    // TODO
     game_phase_ = PHASE_CONSTRUCTION;
 
     // list of the positions of bases
@@ -62,6 +61,7 @@ GameState::GameState(const GameState& st)
     , bases_players_(st.bases_players_)
     , game_phase_(st.game_phase_)
 {
+    game_phase_ = PHASE_CONSTRUCTION;
      players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
      magic_.insert(st.magic_.begin(), st.magic_.end());
 }

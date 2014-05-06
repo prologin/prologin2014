@@ -40,9 +40,16 @@ int ActionMove::check(const GameState* st) const
     if (st->getPhase() != PHASE_MOVE)
         return PHASE_INCORRECTE;
 
+    if (start_.x < 0 || start_.x >= TAILLE_TERRAIN
+        || start_.y < 0 || start_.y >= TAILLE_TERRAIN)
+        return CASE_IMPOSSIBLE;
+
+    if (dest_.x < 0 || dest_.x >= TAILLE_TERRAIN
+        || dest_.y < 0 || dest_.y >= TAILLE_TERRAIN)
+        return CASE_IMPOSSIBLE;
+
     const Cell* cell_start = st->get_map()->get_cell(start_);
     const Cell* cell_dest = st->get_map()->get_cell(dest_);
-
     int nb_movable = cell_start->get_nb_wizards_movable(player_id_);
 
     if (nb_wizards_ < 0)
@@ -56,14 +63,6 @@ int ActionMove::check(const GameState* st) const
 
     if (nb_movable < nb_wizards_)
         return SORCIERS_INSUFFISANTS;
-
-    if (start_.x < 0 || start_.x >= TAILLE_TERRAIN
-        || start_.y < 0 || start_.y >= TAILLE_TERRAIN)
-        return CASE_IMPOSSIBLE;
-
-    if (dest_.x < 0 || dest_.x >= TAILLE_TERRAIN
-        || dest_.y < 0 || dest_.y >= TAILLE_TERRAIN)
-        return CASE_IMPOSSIBLE;
 
     if (start_ == dest_)
         return OK;
