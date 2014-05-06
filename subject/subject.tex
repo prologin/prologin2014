@@ -1,0 +1,135 @@
+%LaTeX Document
+\documentclass[a4paper,twoside,12pt]{article}
+\usepackage{xltxtra}
+\setromanfont[Mapping=tex-text]{Palatino}
+\newfontfamily{\A}[Scale=0.85]{Arial Unicode MS}
+\newfontfamily{\J}[Scale=0.85]{Hiragino Kaku Gothic Pro}
+\newfontfamily{\P}[Scale=0.85]{Palatino}
+%\usepackage{soul} % Pour barrer
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%         BEGIN FIXME         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\plongday{Jeudi}
+\def\pday{8}
+\def\pmonth{mai}
+\def\pyear{2014}
+
+\def\ptitle{Tours de magie} %% Subject's main title
+\def\psubtitle{\og Windowsium Levista ! \fg} %% Subject's sub title
+
+\def\plogo{prologin2014.pdf} %% Logo
+\def\psubjectpicture{image.pdf} %% Picture to be displayed
+%% on its own page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%         END FIXME           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%              DO NOT EDIT PAST THIS LINE            %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+%\documentclass[a4paper,twoside,12pt]{book}
+
+%\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{a4}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+%\usepackage{palatino}
+\usepackage{subfigure}
+\usepackage{verbatim,fancyvrb}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{color}
+
+\def\pdate{\plongday{} \pday{} \pmonth{} \pyear{}}
+
+\definecolor{colIdentifier}{gray}{0}
+\definecolor{colKeys}{rgb}{0,0,0.6}
+\lstnewenvironment{lst-c++}{%
+\lstset{%
+language=C++,
+identifierstyle=\color{colIdentifier},
+keywordstyle=\color{colKeys},
+basicstyle=\ttfamily\small
+}}{}
+\renewcommand\ttdefault{cmtt}
+
+\newcommand{\functitle}[1]{%
+\vspace{0.5cm}
+$\bullet$ \underline{\textbf{#1}}
+}
+
+%\NoAutoSpaceBeforeFDP
+\geometry{bindingoffset=5mm,hmarginratio=1:1,heightrounded,headheight=15pt}
+
+\makeindex
+
+\begin{document}
+\pagestyle{empty}
+\sloppy
+
+%\lhead[\textsl{Prologin 2009}]{\nouppercase \leftmark}
+%\rhead[Sujet de la finale]{}
+\lhead[\thepage]{\nouppercase \leftmark}
+\rhead[\textsl{Prologin \pyear{}} --- Sujet de la finale]{\thepage}
+\cfoot{}
+
+% Couverture =========================================================
+\begin{titlepage}
+\begin{center}
+\includegraphics[width=\linewidth]{\plogo}\\
+\vspace{4cm}
+\Huge
+\textbf{\ptitle{}}\\
+\Large
+\textbf{\psubtitle{}}\\
+\vspace{2cm}
+\normalsize
+\textnormal Sujet de la finale du Concours National d'Informatique\\
+\pdate\\
+\end{center}
+\end{titlepage}
+
+% Sommaire ===========================================================
+\cleardoublepage
+\tableofcontents
+
+% Corps ==============================================================
+%\cleardoublepage
+\setcounter{page}{1}
+\pagestyle{fancy}
+\parskip=6pt plus 3pt
+
+\newpage
+\begin{center}\includegraphics[width=\linewidth]{\psubjectpicture}\end{center}
+\newpage
+
+\input{subject_content.tex}
+
+%\input{../doc/finale.tex}
+
+\newpage
+\section{API}
+%\input{api.tex}
+
+\newpage
+\section{Notes sur l'utilisation de l'API}
+\input{useapi.tex}
+
+\end{document}
