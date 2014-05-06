@@ -37,6 +37,9 @@ ActionMove::ActionMove()
 
 int ActionMove::check(const GameState* st) const
 {
+    if (st->has_lost(player_id_))
+         return PERDANT;
+
     if (st->getPhase() != PHASE_MOVE)
         return PHASE_INCORRECTE;
 
@@ -68,7 +71,7 @@ int ActionMove::check(const GameState* st) const
         return OK;
 
     if (distance(start_, dest_) > PORTEE_SORCIER)
-        return CASE_IMPOSSIBLE;
+        return PORTEE_INSUFFISANTE;
 
     std::vector<position> path = st->get_map()->path(start_, dest_);
 

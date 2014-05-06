@@ -124,6 +124,9 @@ enum:
                                       d'attaque"]
             - [phase_incorrecte, "Cette action ne peut pas être utilisée lors
                                   de cette phase du jeu."]
+            - [portee_insuffisante, "Vous n'avez pas assez de portée pour
+                                    effectuer cette action" ]
+            - [perdant, "Vous avez perdu et ne pouvez pas effectuer d'actions"]
 
 struct:
     -

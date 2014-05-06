@@ -33,6 +33,9 @@ ActionCreate::ActionCreate()
 
 int ActionCreate::check(const GameState* st) const
 {
+    if (st->has_lost(player_id_))
+        return PERDANT;
+
     if (st->getPhase() != PHASE_CONSTRUCTION)
         return PHASE_INCORRECTE;
 

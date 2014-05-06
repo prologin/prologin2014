@@ -178,3 +178,7 @@ void GameState::check_losers()
     }
 }
 
+bool GameState::has_lost(int player) const
+{
+    return (losers_.find(player) != losers_.end());
+}

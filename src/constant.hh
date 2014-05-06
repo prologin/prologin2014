@@ -160,6 +160,8 @@ typedef enum erreur {
   SORCIERS_INSUFFISANTS, /* <- Vous n'avez pas assez de sorciers */
   ATTAQUE_INSUFFISANTE, /* <- Vous n'avez pas assez de points d'attaque */
   PHASE_INCORRECTE, /* <- Cette action ne peut pas être utilisée lors de cette phase du jeu. */
+  PORTEE_INSUFFISANTE, /* <- Vous n'avez pas assez de portée pour effectuer cette action */
+  PERDANT, /* <- Vous avez perdu et ne pouvez pas effectuer d'actions */
 } erreur;
 
 

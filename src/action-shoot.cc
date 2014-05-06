@@ -40,6 +40,9 @@ ActionShoot::ActionShoot()
 
 int ActionShoot::check(const GameState* st) const
 {
+    if (st->has_lost(player_id_))
+        return PERDANT;
+
     if (st->getPhase() != PHASE_SHOOT)
         return PHASE_INCORRECTE;
 

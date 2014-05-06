@@ -96,6 +96,7 @@ class GameState : public rules::GameState
         void resolve_tower_magic();
 
         void check_losers();
+        bool has_lost(int player) const;
 
     private:
         Map* map_;

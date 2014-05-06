@@ -38,6 +38,9 @@ int ActionAttack::check(const GameState* st) const
     const Cell* cell_tower;
     const Cell* cell_init;
 
+    if (st->has_lost(player_id_))
+        return PERDANT;
+
     if (st->getPhase() != PHASE_SIEGE)
         return PHASE_INCORRECTE;
 
