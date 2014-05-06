@@ -160,19 +160,18 @@ game_phase GameState::getPhase() const
 void GameState::check_losers()
 {
     int owner_base = -1;
-    for (std::map<int, rules::Player_sptr>::iterator it = players_ids_.begin();
-         it != players_ids_.end(); it++)
+    for (auto& p : players_ids_)
     {
-        owner_base = map_->get_cell(bases_players_[it->first])->get_player();
-        if (owner_base != it->first)
+        owner_base = map_->get_cell(bases_players_[p.first])->get_player();
+        if (owner_base != p.first)
         {
             // update score of the winner
-            if (losers_.find(it->first) == losers_.end())
+            if (losers_.find(p.first) == losers_.end())
             {
-                players_->players[owner_base]->score += POINTS_VAINQUEUR;
-                losers_.insert(it->first);
+                players_ids_[owner_base]->score += POINTS_VAINQUEUR;
+                losers_.emplace(p.first);
                 // delete all his wizards and all his towers
-                map_->delete_all(it->first);
+                map_->delete_all(p.first);
             }
         }
     }
