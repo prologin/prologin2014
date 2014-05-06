@@ -57,13 +57,11 @@ GameState::GameState(const GameState& st)
     , players_(st.players_)
     , losers_(st.losers_)
     , current_turn_(st.current_turn_)
-    , magic_(st.magic_)
-    , bases_players_(st.bases_players_)
     , game_phase_(st.game_phase_)
 {
-    game_phase_ = PHASE_CONSTRUCTION;
      players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
      magic_.insert(st.magic_.begin(), st.magic_.end());
+     bases_players_.insert(st.bases_players_.begin(), st.bases_players_.end());
 }
 
 rules::GameState* GameState::copy() const
@@ -107,7 +105,7 @@ int GameState::get_magic(int player) const
 
 void GameState::set_magic(int player, int magic)
 {
-    magic_[player] = magic;
+    magic_.find(player)->second = magic;
 }
 
 const Map* GameState::get_map() const

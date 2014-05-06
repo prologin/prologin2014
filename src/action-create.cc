@@ -58,6 +58,6 @@ void ActionCreate::apply_on(GameState* gameState) const
                       base->get_nb_wizards(player_id_) + nb_wizards_);
     base->set_wizards_movable(player_id_,
                               base->get_nb_wizards_movable(player_id_) + nb_wizards_);
-    gameState->set_magic(gameState->get_magic(player_id_)
-                         - COUT_SORCIER * nb_wizards_, player_id_);
+    gameState->set_magic(player_id_, gameState->get_magic(player_id_)
+                         - COUT_SORCIER * nb_wizards_);
 }
