@@ -121,7 +121,8 @@ Déplacement
 ===========
 
 Lors de la phase de déplacement, on peut choisir de bouger un certain nombre
-de sorciers d'une case à une autre, dans une certaine limite.
+de sorciers d'une case à une autre, dans une certaine limite. Cependant, un sorcier
+ne peut pas se rendre sur une case où il y a une tourelle.
 Vous avez juste à renseigner le départ et l'arrivée. Si aucun chemin n'existe
 entre ces deux points, la fonction de déplacement renverra une erreur.
 
