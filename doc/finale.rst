@@ -19,6 +19,8 @@ Chaque joueur possède une base placée dans un coin d'une carte carrée de
 dimensions 31 x 31.
 Au centre de la carte se trouve l'artefact magique (A) et des fontaines
 magiques (F) sont disposées au nord, sud, est et ouest de la salle.
+Les cases sur lesquelles sont les bases, les fontaines et l'artefact sont des
+cases spéciales.
 
 
 Carte
@@ -97,7 +99,7 @@ Construction
 ============
 
 Lors de la phase de construction, il est possible de construire des tourelles
-et des sorciers.
+et des sorciers pour un coût COUT_TOURELLE.
 
 Les sorciers sont toujours construits dans la base du joueur.
 
@@ -111,7 +113,9 @@ une tour au même endroit).
 
 
 Les tours ont une portée d'attaque minimale de base, mais cette portée peut
-être augmentée lors de la construction, avec un coût quadratique en fonction de la portée.
+être augmentée lors de la construction : pour augmenter la portée de base de X
+cases, on paie un surcoût de COUT_PORTEE + X*X. On paie donc au total
+COUT_TOURELLE + COUT_PORTEE + X*X.
 
 Il est également possible de détruire vos propres tourelles pendant cette
 phase, si elles vous bloquent le passage. Vous récupérez de la magie à chaque
