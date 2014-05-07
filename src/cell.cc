@@ -25,10 +25,11 @@
 #include "cell.hh"
 
 Cell::Cell(int y, int x)
-    : x_(x),
-      y_(y),
-      player_(-1),
-      tower_({ { -1, -1 }, -1, -1, -1, -1 })
+    : x_(x)
+    , y_(y)
+    , player_(-1)
+    , tower_({ { -1, -1 }, -1, -1, -1, -1 })
+    , nb_tower_fighters_(0)
 {
 }
 Cell::Cell(const Cell &c)

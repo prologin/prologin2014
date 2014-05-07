@@ -248,9 +248,11 @@ erreur Api::deplacer(position depart, position arrivee, int nb)
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-erreur Api::assieger(position pos, position cible)
+erreur Api::assieger(position pos, position cible, int nb_sorciers)
 {
-    rules::IAction_sptr action(new ActionAttack(pos, cible, player_->id));
+    rules::IAction_sptr action(new ActionAttack(pos, cible,
+                                                nb_sorciers,
+                                                player_->id));
 
     erreur err;
 

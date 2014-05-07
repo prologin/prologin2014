@@ -61,6 +61,7 @@ class Rules : public rules::SynchronousRules
         void resolve_magic();
         void resolve_wizard_movable();
         void resolve_tower_magic();
+        void resolve_tower_fighters();
 
         void at_client_start();
         void at_spectator_start();

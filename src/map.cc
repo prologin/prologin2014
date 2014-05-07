@@ -282,3 +282,14 @@ void Map::delete_all(int player)
                 map_[x][y]->set_player(-1);
         }
 }
+
+void Map::resolve_tower_fighters()
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+        {
+            if (map_[x][y]->get_type() != CASE_TOURELLE)
+                map_[x][y]->set_tower_fighters(0);
+        }
+}
+

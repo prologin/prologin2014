@@ -287,9 +287,9 @@ extern "C" erreur api_deplacer(position depart, position arrivee, int nb)
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-extern "C" erreur api_assieger(position pos, position cible)
+extern "C" erreur api_assieger(position pos, position cible, int nb_sorciers)
 {
-  return api->assieger(pos, cible);
+  return api->assieger(pos, cible, nb_sorciers);
 }
 
 ///

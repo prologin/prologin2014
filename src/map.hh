@@ -64,6 +64,7 @@ class Map
         void resolve_wizard_movable();
         void resolve_tower_magic();
         void resolve_constructing();
+        void resolve_tower_fighters();
 
         // delete every element of the player
         void delete_all(int player);

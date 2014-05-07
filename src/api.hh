@@ -139,7 +139,7 @@ class Api
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-   erreur assieger(position pos, position cible);
+   erreur assieger(position pos, position cible, int nb_sorciers);
 ///
 // Retourne le numéro de votre joueur
 //

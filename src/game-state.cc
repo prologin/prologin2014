@@ -143,6 +143,11 @@ void GameState::resolve_tower_magic()
     return map_->resolve_tower_magic();
 }
 
+void GameState::resolve_tower_fighters()
+{
+    return map_->resolve_tower_fighters();
+}
+
 GameState::~GameState()
 {
 }
@@ -182,3 +187,4 @@ bool GameState::has_lost(int player) const
 {
     return (losers_.find(player) != losers_.end());
 }
+
