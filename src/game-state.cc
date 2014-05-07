@@ -172,6 +172,7 @@ void GameState::check_losers()
                 losers_.emplace(p.first);
                 // delete all his wizards and all his towers
                 map_->delete_all(p.first);
+                magic_[p.first] = 0;
             }
         }
     }

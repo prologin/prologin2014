@@ -147,12 +147,13 @@ void Rules::resolve_magic()
     for (std::map<int, rules::Player_sptr>::iterator it = map_players.begin();
          it != map_players.end(); it++)
     {
-        api_->game_state()->set_magic(it->first,
-                                      api_->game_state()->get_magic(it->first)
-                                      + MAGIE_TOUR +
-                                      (MAGIE_FONTAINES
-                                       * api_->game_state()->
-                                       get_nb_fontains(it->first)));
+        if (!api_->game_state()->has_lost(it->first))
+            api_->game_state()->set_magic(it->first,
+                                          api_->game_state()->get_magic(it->first)
+                                          + MAGIE_TOUR +
+                                          (MAGIE_FONTAINES
+                                           * api_->game_state()->
+                                           get_nb_fontains(it->first)));
     }
 }
 

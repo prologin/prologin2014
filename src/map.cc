@@ -222,13 +222,13 @@ int Map::get_nb_fontains(int player_id)
 {
     int nb = 0;
 
-    if (map_[(TAILLE_TERRAIN / 2) - 1][0]->get_player() == player_id)
+    if (map_[(TAILLE_TERRAIN / 2)][0]->get_player() == player_id)
         nb++;
-    if (map_[0][(TAILLE_TERRAIN / 2) - 1]->get_player() == player_id)
+    if (map_[0][(TAILLE_TERRAIN / 2)]->get_player() == player_id)
         nb++;
-    if (map_[(TAILLE_TERRAIN - 1) - 1][(TAILLE_TERRAIN / 2) - 1]->get_player() == player_id)
+    if (map_[(TAILLE_TERRAIN - 1)][(TAILLE_TERRAIN / 2)]->get_player() == player_id)
         nb++;
-    if (map_[(TAILLE_TERRAIN / 2) - 1][(TAILLE_TERRAIN - 1) - 1]->get_player() == player_id)
+    if (map_[(TAILLE_TERRAIN / 2)][(TAILLE_TERRAIN - 1)]->get_player() == player_id)
         nb++;
 
     return nb;

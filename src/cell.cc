@@ -213,4 +213,6 @@ void Cell::resolve_fight()
 void Cell::resolve_wizard_movable()
 {
     nb_wizards_movable_.clear();
+    if (player_ != -1)
+        nb_wizards_movable_[player_] = nb_wizards_[player_];
 }
