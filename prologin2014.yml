@@ -284,6 +284,7 @@ function:
         fct_arg:
             - [pos, position, "Position des sorciers"]
             - [cible, position, "Position de la tourelle à attaquer"]
+            - [ nb_sorciers, int, "Nombre de sorciers attaquant la tourelle."]
 
 # État du jeu
     -
