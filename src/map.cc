@@ -215,7 +215,7 @@ std::vector<position> Map::path(position start, position end) const
 
 int Map::get_player_artefact()
 {
-    return map_[TAILLE_TERRAIN / 2 - 1][TAILLE_TERRAIN / 2 - 1]->get_player();
+    return map_[TAILLE_TERRAIN / 2][TAILLE_TERRAIN / 2]->get_player();
 }
 
 int Map::get_nb_fontains(int player_id)
