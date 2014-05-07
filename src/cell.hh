@@ -55,8 +55,12 @@ class Cell
 
         position get_position() { return { x_, y_ }; }
 
+        int get_tower_fighters() const;
+        void set_tower_fighters(int nb);
+
         void resolve_fight();
         void resolve_wizard_movable();
+        void resolve_towers_attacked();
     private:
         int x_;
         int y_;
@@ -65,6 +69,7 @@ class Cell
         std::map<int, int> nb_wizards_;
         std::map<int, int> nb_wizards_movable_;
         tourelle tower_;
+        int nb_tower_fighters_;
 };
 
 #endif // !CELL_H_

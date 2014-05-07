@@ -94,6 +94,7 @@ class GameState : public rules::GameState
         void resolve_fights();
         void resolve_wizard_movable();
         void resolve_tower_magic();
+        void resolve_tower_fighters();
 
         void check_losers();
         bool has_lost(int player) const;

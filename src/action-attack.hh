@@ -28,7 +28,7 @@
 class ActionAttack : public rules::Action<GameState>
 {
     public:
-        ActionAttack(position pos, position target, int player);
+        ActionAttack(position pos, position target, int nb_wizards, int player);
         ActionAttack();
 
         virtual int check(const GameState* st) const;
@@ -41,6 +41,7 @@ class ActionAttack : public rules::Action<GameState>
     private:
         position pos_;
         position target_;
+        int nb_wizards_;
         int player_id_;
 };
 

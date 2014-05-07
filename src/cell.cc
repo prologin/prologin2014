@@ -25,10 +25,11 @@
 #include "cell.hh"
 
 Cell::Cell(int y, int x)
-    : x_(x),
-      y_(y),
-      player_(-1),
-      tower_({ { -1, -1 }, -1, -1, -1, -1 })
+    : x_(x)
+    , y_(y)
+    , player_(-1)
+    , tower_({ { -1, -1 }, -1, -1, -1, -1 })
+    , nb_tower_fighters_(0)
 {
 }
 Cell::Cell(const Cell &c)
@@ -38,6 +39,7 @@ Cell::Cell(const Cell &c)
     , nb_wizards_(c.nb_wizards_)
     , nb_wizards_movable_(c.nb_wizards_)
     , tower_(c.tower_)
+    , nb_tower_fighters_(c.nb_tower_fighters_)
 {
 }
 
@@ -215,4 +217,18 @@ void Cell::resolve_wizard_movable()
     nb_wizards_movable_.clear();
     if (player_ != -1)
         nb_wizards_movable_[player_] = nb_wizards_[player_];
+}
+
+void Cell::resolve_towers_attacked()
+{
+    nb_tower_fighters_ = nb_wizards_.size();
+}
+
+int Cell::get_tower_fighters() const
+{
+    return nb_tower_fighters_;
+}
+void Cell::set_tower_fighters(int nb)
+{
+    nb_tower_fighters_ = nb;
 }
