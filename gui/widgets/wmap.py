@@ -38,7 +38,10 @@ class MapWidget(BaseWidget):
         )
 
         self.cells_width = self.width / data.TILE_WIDTH
-        self.cells_height = (self.height - data.TILE_OVERLAY) / (data.TILE_HEIGHT - data.TILE_OVERLAY)
+        self.cells_height = (
+            (self.height - data.TILE_OVERLAY)
+            // (data.TILE_HEIGHT - data.TILE_OVERLAY)
+        )
         self.center = (self.cells_width / 2, self.cells_height / 2)
 
 
