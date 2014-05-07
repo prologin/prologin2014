@@ -45,7 +45,7 @@
 ///
 // Nombre maximum de tours à jouer avant la fin de la partie
 //
-# define MAX_TOUR                  150
+# define MAX_TOUR                  100
 
 ///
 // Magie gagnée à chaque tour
@@ -80,7 +80,7 @@
 ///
 // Nombre de points de magie par tourelle
 //
-# define COUT_TOURELLE             6
+# define COUT_TOURELLE             20
 
 ///
 // Coût exponentiel pour chaque case de portée supplémentaire
@@ -95,12 +95,12 @@
 ///
 // Portée de base d'une tourelle
 //
-# define PORTEE_TOURELLE           4
+# define PORTEE_TOURELLE           3
 
 ///
 // Portée de construction des tourelles
 //
-# define CONSTRUCTION_TOURELLE     5
+# define CONSTRUCTION_TOURELLE     3
 
 ///
 // Points de vie d'une tourelle à sa création

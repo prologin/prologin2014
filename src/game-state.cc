@@ -43,7 +43,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
         if (p->type == rules::PLAYER)
         {
             players_ids_[p->id] = p;
-            magic_[p->id] = 0;
+            magic_[p->id] = MAGIE_TOUR; // Initial amount for the first turn
             bases_players_[p->id] = list_base[i];
             map_->get_cell(list_base[i])->set_player(p->id);
             i++;
@@ -73,7 +73,7 @@ std::vector<int> GameState::get_opponents(int player_id) const
 {
     std::vector<int> opponents;
     for (auto i : players_->players)
-        if ((int) i->id != player_id)
+        if ((int) i->id != player_id && !has_lost(i->id))
             opponents.push_back(i->id);
     return opponents;
 }

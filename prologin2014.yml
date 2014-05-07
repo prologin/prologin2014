@@ -12,7 +12,7 @@ constant:
         cst_comment: Nombre de joueurs dans la partie
     -
         cst_name: MAX_TOUR
-        cst_val: 150
+        cst_val: 100
         cst_comment: Nombre maximum de tours à jouer avant la fin de la partie
 
 # Revenus en magie
@@ -44,7 +44,7 @@ constant:
         cst_comment: Nombre de points de magie par sorcier
     -
         cst_name: COUT_TOURELLE
-        cst_val: 6
+        cst_val: 20
         cst_comment: Nombre de points de magie par tourelle
     -
         cst_name: COUT_PORTEE
@@ -61,11 +61,11 @@ constant:
 # Attributs des tourelles
     -
         cst_name: PORTEE_TOURELLE
-        cst_val: 4
+        cst_val: 3
         cst_comment: Portée de base d'une tourelle
     -
         cst_name: CONSTRUCTION_TOURELLE
-        cst_val: 5
+        cst_val: 3
         cst_comment: Portée de construction des tourelles
     -
         cst_name: VIE_TOURELLE
