@@ -40,7 +40,7 @@ int ActionConstruct::cost() const
 {
     int c = COUT_TOURELLE;
     if (range_ > PORTEE_TOURELLE)
-        c += std::pow(COUT_PORTEE, range_ - PORTEE_TOURELLE);
+        c += COUT_PORTEE + (range_ - PORTEE_TOURELLE) * (range_ - PORTEE_TOURELLE);
     return c;
 }
 

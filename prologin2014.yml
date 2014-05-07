@@ -22,7 +22,7 @@ constant:
         cst_comment: Magie gagnée à chaque tour
     -
         cst_name: MAGIE_FONTAINES
-        cst_val: 10
+        cst_val: 15
         cst_comment: Magie gagnée à chaque tour pour chaque fontaine possédée
     -
         cst_name: MAGIE_COMBAT
@@ -30,11 +30,11 @@ constant:
         cst_comment: Magie gagnée à chaque sorcier tué
     -
         cst_name: MAGIE_TOURELLE
-        cst_val: 3
+        cst_val: 10
         cst_comment: Magie gagnée à chaque tourelle détruite
     -
         cst_name: MAGIE_SUPPRESSION
-        cst_val: 3
+        cst_val: 10
         cst_comment: Magie récupérée à chaque tourelle supprimée
 
 # Coûts en magie
@@ -48,7 +48,7 @@ constant:
         cst_comment: Nombre de points de magie par tourelle
     -
         cst_name: COUT_PORTEE
-        cst_val: 2
+        cst_val: 4
         cst_comment: Coût exponentiel pour chaque case de portée supplémentaire
 
 # "Portée" des sorciers
