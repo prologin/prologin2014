@@ -85,3 +85,6 @@ class GameState:
 
         for i, player_id in enumerate(sorted(self.players.keys())):
             self.player_id_to_rank[player_id] = i
+
+    def cell(self, x, y):
+        return self.cells[y][x]

@@ -28,9 +28,16 @@ class MapWidget(BaseWidget):
 
         # initializations
         self.game_state = None
+
+        # Position of the "subjective view". This is the coordinate of the
+        # tower currently inspected.  Shadow is then displayed on top of out of
+        # range cells.
         self.position = None
+
         self.static_map_surface = None
+        self.subjective_surface = None
         self.map_surface = None
+
         self.display_grid = False
         self.font = pygame.font.Font(
             data.get_font_path('font.ttf'),
@@ -51,15 +58,12 @@ class MapWidget(BaseWidget):
     def handle_view_click(self, x, y, but1, but2, but3, absolute=False):
         x = x // data.TILE_WIDTH
         y = (y - data.TILE_OVERLAY) // (data.TILE_HEIGHT - data.TILE_OVERLAY)
-        if not absolute:
-            x += self.position[0]
-            y += self.position[1]
 
         if but1:
             self.details_widget.update_position(x, y)
-            #self.update_subjective()
+            self.update_subjective((x, y))
         elif but3:
-            self.update_display((x - self.center[0], y - self.center[1]))
+            self.update_subjective(None)
 
     def handle_click(self, x, y, but1, but2, but3):
         coords = self.is_click_inside(x, y)
@@ -75,10 +79,39 @@ class MapWidget(BaseWidget):
         self.update_static_map()
         self.update_game()
 
-    def update_subjective(self):
-        # TODO: determine if there is a subjective view in the first place. If
-        # there is, implement it there!
-        pass
+    def update_subjective(self, position):
+        # The subjective view is meaningful only for towers. Cancel the
+        # subjective view for all other cells.
+        cell = (
+            self.game_state.cell(*position)
+            if position else
+            None
+        )
+        if not cell or cell.type != case_info.CASE_TOURELLE:
+            position = None
+        else:
+            tower = cell.towers[0]
+
+        self.position = position
+        self.subjective_surface = self.make_map_surface(self.game_state)
+        if self.position:
+            shadow_color = utils.BLACK + (data.TILE_SHADOW_ALPHA, )
+            for y in range(TAILLE_TERRAIN):
+                for x in range(TAILLE_TERRAIN):
+                    dx = abs(position[0] - x)
+                    dy = abs(position[1] - y)
+                    if dx + dy > tower.scope:
+                        self.subjective_surface.fill(
+                            shadow_color,
+                            (
+                                x * data.TILE_WIDTH,
+                                y * data.TILE_HEIGHT,
+                                data.TILE_WIDTH,
+                                data.TILE_HEIGHT
+                            )
+                        )
+
+        self.redraw_all()
 
     def make_map_surface(self, game_state):
         surf_size = (
@@ -119,25 +152,28 @@ class MapWidget(BaseWidget):
     def update_game(self, game_state=None):
         game_state = self.set_or_get_game_state(game_state)
         self.game_state = game_state
+        self.update_subjective(self.position)
 
         self.surface.fill(utils.BLACK)
 
         if self.game_state is None:
             return
 
-        if not self.position:
-            self.map_surface = self.make_map_surface(game_state)
-            self.position = (0, 0)
+        self.redraw_all()
+
+    def redraw_all(self):
+        if self.map_surface is None:
+            self.map_surface = self.make_map_surface(self.game_state)
         else:
             self.map_surface.fill((0, 0, 0, 0))
-            pass
+
         if self.static_map_surface is None:
-            self.update_static_map(game_state)
+            self.update_static_map(self.game_state)
 
         players = self.game_state.players
 
         coord_y = 0
-        for y, row in enumerate(game_state.cells):
+        for y, row in enumerate(self.game_state.cells):
             coord_x = 0
             for x, cell in enumerate(row):
                 coords = (coord_x, coord_y)
@@ -146,19 +182,21 @@ class MapWidget(BaseWidget):
                 # as towers).
                 if cell.type != case_info.CASE_SIMPLE:
                     tile = data.get_player_tile(
-                        cell.type, game_state, cell.player
+                        cell.type, self.game_state, cell.player
                     )
                     self.map_surface.blit(tile, coords)
 
                 # Likewise for wizards
                 if cell.wizards > 0:
                     wizard_tile = data.get_player_image(
-                        data.wizards, game_state, cell.player
+                        data.wizards, self.game_state, cell.player
                     )
                     self.map_surface.blit(wizard_tile, coords)
                     count_text = utils.make_bordered_text(
                         str(cell.wizards), self.font,
-                        fgcolor=data.get_player_color(game_state, cell.player)
+                        fgcolor=data.get_player_color(
+                            self.game_state, cell.player
+                        )
                     )
                     count_width, count_height = count_text.get_size()
                     self.map_surface.blit(count_text, (
@@ -169,16 +207,12 @@ class MapWidget(BaseWidget):
                 coord_x += data.TILE_WIDTH
             coord_y += data.TILE_HEIGHT - data.TILE_OVERLAY
 
-        view_shift = (
-                self.position[0] * data.TILE_WIDTH,
-                self.position[1] * (data.TILE_HEIGHT - data.TILE_OVERLAY),
-                self.width, self.height
-                )
-
         # update display
         self.surface.fill(utils.BLACK)
-        self.surface.blit(self.static_map_surface, (0, 0), view_shift)
-        self.surface.blit(self.map_surface, (0, 0), view_shift)
+        self.surface.blit(self.static_map_surface, (0, 0))
+        if self.position:
+            self.surface.blit(self.subjective_surface, (0, 0))
+        self.surface.blit(self.map_surface, (0, 0))
 
     def set_or_get_game_state(self, game_state=None):
         if game_state:

@@ -25,9 +25,6 @@ class DetailsWidget(BaseWidget):
         self.game_state = None
         self.position = None
 
-    def plug(self, widgets):
-        self.map_widget = widgets['map']
-
     def update_game(self, game):
         self.game_state = game
         if self.position:
@@ -109,6 +106,7 @@ class DetailsWidget(BaseWidget):
                 Row(u'Portée',  'range',    tower.scope),
                 Row(u'Attaque', 'attack',   tower.attack),
             ])
+
         if cell.wizards > 0:
             rows.append(Row(u'Sorciers', 'wizard_gui', cell.wizards))
 
