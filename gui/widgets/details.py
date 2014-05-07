@@ -57,7 +57,7 @@ class DetailsWidget(BaseWidget):
 
         # "Drawing cursor" position. Remove the need to use magic numbers for
         # positions in the code below.
-        y = 0
+        cur_y = 0
 
         rcolumn_x = self.ICON_MARGIN + self.PADDING
 
@@ -78,15 +78,15 @@ class DetailsWidget(BaseWidget):
         # on a second line.
         text = self.font.render(game.CELL_NAMES[cell.type], True, utils.WHITE)
         text_w, text_h = text.get_size()
-        self.surface.blit(text, (rcolumn_x, y))
-        y += text_h
+        self.surface.blit(text, (rcolumn_x, cur_y))
+        cur_y += text_h
 
         text = self.font.render(
             u'Position : (%d, %d)' % (x, y),
             True, utils.WHITE
         )
-        self.surface.blit(text, (rcolumn_x, y))
-        y += self.LINE_HEIGHT
+        self.surface.blit(text, (rcolumn_x, cur_y))
+        cur_y += self.LINE_HEIGHT
 
         if cell.player != game.NO_PLAYER:
             owner = self.game_state.players[cell.player].name
@@ -95,8 +95,8 @@ class DetailsWidget(BaseWidget):
             owner = u'Personne'
             color = utils.DARK_GREY
         text = self.font.render(owner, True, color)
-        self.surface.blit(text, (rcolumn_x, y))
-        y += self.LINE_HEIGHT + self.PADDING
+        self.surface.blit(text, (rcolumn_x, cur_y))
+        cur_y += self.LINE_HEIGHT + self.PADDING
 
         # List of statistics to display.
         Row = namedtuple('Row', 'label icon number')
@@ -123,14 +123,14 @@ class DetailsWidget(BaseWidget):
             icon_x      = rcolumn_x
             number_x    = icon_x + data.GUI_ICON_WIDTH + self.PADDING
 
-            self.surface.blit(label, (label_x, y))
+            self.surface.blit(label, (label_x, cur_y))
             if row.icon:
                 icon = data.gui_icons[row.icon]
-                icon_y = y + (self.LINE_HEIGHT - data.GUI_ICON_HEIGHT) // 2
+                icon_y = cur_y + (self.LINE_HEIGHT - data.GUI_ICON_HEIGHT) // 2
                 self.surface.blit(icon, (icon_x, icon_y))
-            self.surface.blit(number, (number_x, y))
+            self.surface.blit(number, (number_x, cur_y))
 
-            y += self.LINE_HEIGHT
+            cur_y += self.LINE_HEIGHT
 
     def handle_click(self, x, y, but1, but2, but3):
         result = super(DetailsWidget, self).handle_click(
