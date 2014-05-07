@@ -102,17 +102,16 @@ et des sorciers.
 Les sorciers sont toujours construits dans la base du joueur.
 
 
-Les tourelles peuvent être construites sur toutes les cases (non spéciales) de
-la carte, aux conditions suivantes :
+Une tourelle peut être construite sur une case vérifiant les conditions suivantes :
+* ce n'est pas une case spéciale
+* cette case doit être proche d'une autre tour du même joueur (être dans la « portée de construction » d'une tour) ;
+* le joueur doit avoir une tour qui est strictement plus proche de cette case que n'importe
+quelle tour d'un joueur ennemi (c'est pourquoi deux joueurs ne risquent pas de construire
+une tour au même endroit).
 
-* elles doivent être proches d'une autre tour du même joueur (être dans la
-  « portée de construction » d'une tour) ;
-* elles doivent être strictement plus proches d'une tour du même joueur que
-  de n'importe quelle tour d'un joueur ennemi (c'est pourquoi deux joueurs ne
-  risquent pas de construire une tour au même endroit).
 
 Les tours ont une portée d'attaque minimale de base, mais cette portée peut
-être augmentée lors de la construction, selon une formule quadratique.
+être augmentée lors de la construction, avec un coût quadratique en fonction de la portée.
 
 Il est également possible de détruire vos propres tourelles pendant cette
 phase, si elles vous bloquent le passage. Vous récupérez de la magie à chaque
