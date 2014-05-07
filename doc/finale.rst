@@ -42,7 +42,7 @@ Schéma::
 
 *(Le schéma n'est pas à l'échelle.)*
 
-La carte a une taille constante (longueur et largeur).
+La carte a une taille constante (longueur et largeur) : TAILLE_TERRAIN par TAILLE_TERRAIN.
 
 Légende :
 
@@ -68,10 +68,11 @@ Magie
 =====
 
 La magie est l'unité de base du jeu.
-Vous gagnez de la magie chaque tour, en tuant les unités adverses et en
-contrôlant les fontaines et des artefacts. Vous pouvez aussi récupérer de la
-magie en supprimant vos propres tourelles, et en dépenser en construisant
-des tourelles et en produisant des soldats.
+À chaque tour, vous gagnez MAGIE_TOUR points de magie de base,
+et MAGIE_FONTAINES par fontaine contrôlée. On gagne aussi MAGIE_COMBAT point de magie
+par adversaire tué.
+Vous pouvez aussi récupérer MAGIE_SUPPRESSION par tourelle en votre possession que vous supprimez, et en dépenser en construisant
+des tourelles (COUT_TOURELLE par tourelle) et en produisant des sorciers (COUT_SORCIER par sorcier).
 
 
 Déroulement du jeu
@@ -99,7 +100,7 @@ Construction
 ============
 
 Lors de la phase de construction, il est possible de construire des tourelles
-et des sorciers pour un coût COUT_TOURELLE.
+et des sorciers pour un coût COUT_TOURELLE et COUT_SORCIER.
 
 Les sorciers sont toujours construits dans la base du joueur.
 
@@ -112,23 +113,21 @@ quelle tour d'un joueur ennemi (c'est pourquoi deux joueurs ne risquent pas de c
 une tour au même endroit).
 
 
-Les tours ont une portée d'attaque minimale de base, mais cette portée peut
+Les tours ont une portée d'attaque minimale de base PORTEE_TOURELLE, mais cette portée peut
 être augmentée lors de la construction : pour augmenter la portée de base de X
 cases, on paie un surcoût de COUT_PORTEE + X*X. On paie donc au total
 COUT_TOURELLE + COUT_PORTEE + X*X.
 
 Il est également possible de détruire vos propres tourelles pendant cette
-phase, si elles vous bloquent le passage. Vous récupérez de la magie à chaque
-tourelle détruite.
+phase, si elles vous bloquent le passage. Vous récupérez MAGIE_SUPPRESSION points de magie pour chaque tourelle
+vous appartenant que vous détruisez.
 
 Déplacement
 ===========
 
 Lors de la phase de déplacement, on peut choisir de bouger un certain nombre
-de sorciers d'une case à une autre, dans une certaine limite. Cependant, un sorcier
+de sorciers d'une distance PORTEE_SORCIER. Cependant, un sorcier
 ne peut pas se rendre sur une case où il y a une tourelle.
-Vous avez juste à renseigner le départ et l'arrivée. Si aucun chemin n'existe
-entre ces deux points, la fonction de déplacement renverra une erreur.
 
 
 Attaque des sorciers
@@ -147,7 +146,7 @@ combat :
 * A n'a plus que 7 - 3 = 4 unités ;
 * B, C et D : 0 unité.
 
-Le joueur restant, s'il existe, gagne un certain nombre de points de magie
+Le joueur restant, s'il existe, gagne REVENU_SORCIER points de magie
 pour chaque sorcier retiré aux autres joueurs (ici, (1 + 3 + 3) *
 REVENU_SORCIER)
 
@@ -155,9 +154,8 @@ REVENU_SORCIER)
 Tir des tourelles
 =================
 
-Lors de la phase de tir, les tourelles peuvent répartir leurs points d'attaque
-sur un ensemble de cases, jusqu'à ce qu'elles soient à court de points
-d'attaque. Chaque point d'attaque utilisé correspond à un sorcier en moins sur
+Lors de la phase de tir, les tourelles peuvent répartir leurs ATTAQUE_TOURELLE points d'attaque
+sur un ensemble de cases. Chaque point d'attaque utilisé correspond à un sorcier en moins sur
 la case choisie. Il n'est pas possible d'attaquer des tourelles avec cette
 technique.
 
@@ -169,8 +167,8 @@ Siège
 
 Lors de la phase de siège, les sorciers peuvent attaquer les tourelles qui se
 trouvent sur une case adjacente (haut, bas, gauche, droite). Chaque tourelle a
-un nombre de points de vie à sa création, et en perd 1 par nombre de sorciers
-qui l'attaquent à chaque tour. Elle ne peut en regagner.
+VIE_TOURELLE de points de vie à sa création, et en perd 1 par nombre de sorciers
+qui l'attaquent à chaque tour. Elle ne peut pas en regagner.
 
 Lorsqu'elle n'a plus aucun point de vie, la tourelle est détruite et laisse
 la voie libre aux sorciers.
@@ -183,22 +181,16 @@ Capture
 
 * Si un sorcier est sur la base d'un ennemi, ce dernier est vaincu, et toutes
   ses unités (tourelles et sorciers) sont supprimées de la carte.
-* Si un sorcier est sur une fontaine ou un artefact, il fait gagner un certain
-  nombre de points de magie au joueur qui le contrôle.
+* Si un sorcier est sur une fontaine, il fait gagner MAGIE_FONTAINES points de magie au joueur qui le contrôle.
 
 
 ----------------
 Fin de la partie
 ----------------
 
-La partie s'arrête au bout d'un certain nombre de tours fixé.
+La partie s'arrête au bout de MAX_TOUR tours.
 
 Score
 =====
 
-Le score de chaque joueur est déterminé à la fin de la partie :
-
-- 1 point gagné pour avoir survécu à la fin de la partie ;
-- 1 point gagné pour avoir vaincu un adversaire ;
-- 1 point gagné pour contrôler une fontaine à la fin de la partie ;
-- 4 points gagnés pour contrôler un artefact à la fin de la partie.
+Le score de chaque joueur est déterminé à la fin de la partie comme expliqué dans la partie « But du jeu » ci-dessus.
