@@ -5,6 +5,7 @@ finale.tex: ../doc/finale.rst
 
 api.tex: ../prologin2014.yml
 	generator apidoc ../prologin2014.yml .
+	mv file.tex api.tex
 
 subject.pdf: subject.tex subject_content.tex useapi.tex finale.tex api.tex prologin2014.pdf image.pdf
 	xelatex subject.tex
