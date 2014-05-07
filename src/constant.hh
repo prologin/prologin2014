@@ -63,11 +63,6 @@
 # define MAGIE_COMBAT              1
 
 ///
-// Magie gagnée à chaque tourelle détruite
-//
-# define MAGIE_TOURELLE            3
-
-///
 // Magie récupérée à chaque tourelle supprimée
 //
 # define MAGIE_SUPPRESSION         3

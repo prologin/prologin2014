@@ -29,10 +29,6 @@ constant:
         cst_val: 1
         cst_comment: Magie gagnée à chaque sorcier tué
     -
-        cst_name: MAGIE_TOURELLE
-        cst_val: 10
-        cst_comment: Magie gagnée à chaque tourelle détruite
-    -
         cst_name: MAGIE_SUPPRESSION
         cst_val: 10
         cst_comment: Magie récupérée à chaque tourelle supprimée
