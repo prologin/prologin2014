@@ -39,6 +39,8 @@ class HelpWidget(BaseWidget):
             None,
             ((u'Space', ), u'Activer/désactiver la pause'),
             ((u'N', ), u'Passer au tour suivant (en pause)'),
+            None,
+            ((u'G', ), u'Afficher/cacher une grille des cases sur la carte'),
         )
 
         # final pos of the first key

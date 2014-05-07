@@ -31,6 +31,7 @@ class MapWidget(BaseWidget):
         self.position = None
         self.static_map_surface = None
         self.map_surface = None
+        self.display_grid = False
         self.font = pygame.font.Font(
             data.get_font_path('font.ttf'),
             self.FONT_SIZE
@@ -66,6 +67,11 @@ class MapWidget(BaseWidget):
         self.handle_view_click(coords[0], coords[1], but1, but2, but3)
         return True
 
+    def switch_grid(self):
+        self.display_grid = not self.display_grid
+        self.update_static_map()
+        self.update_game()
+
     def update_subjective(self):
         # TODO: determine if there is a subjective view in the first place. If
         # there is, implement it there!
@@ -78,7 +84,22 @@ class MapWidget(BaseWidget):
         )
         return utils.make_surface(*surf_size)
 
-    def update_static_map(self, game_state):
+    def update_static_map(self, game_state=None):
+        game_state = self.set_or_get_game_state(game_state)
+
+        # If we have to display a cell grid, prepare a "grid tile", that will
+        # be pasted on top of the ground tiles.
+        if self.display_grid:
+            grid_tile = utils.make_surface(data.TILE_WIDTH, data.TILE_HEIGHT)
+            last_x = data.TILE_WIDTH - 1
+            last_y = data.TILE_HEIGHT - 1
+            # Draw a line at the bottom of the tile
+            for x in range(0, data.TILE_WIDTH, 3):
+                grid_tile.set_at((x + 0, last_y), utils.BLACK)
+            for y in range(0, data.TILE_HEIGHT, 3):
+                grid_tile.set_at((last_x, y + 0), utils.BLACK)
+
+        # Create the surface and paste "ground" tiles on it.
         self.static_map_surface = self.make_map_surface(game_state)
         simple_pix = data.tiles['simple']
         coord_y = 0
@@ -87,10 +108,13 @@ class MapWidget(BaseWidget):
             for x, cell in enumerate(row):
                 coords = (coord_x, coord_y)
                 self.static_map_surface.blit(simple_pix, coords)
+                if self.display_grid:
+                    self.static_map_surface.blit(grid_tile, coords)
                 coord_x += data.TILE_WIDTH
             coord_y += data.TILE_HEIGHT - data.TILE_OVERLAY
 
-    def update_game(self, game_state):
+    def update_game(self, game_state=None):
+        game_state = self.set_or_get_game_state(game_state)
         self.game_state = game_state
 
         self.surface.fill(utils.BLACK)
@@ -153,3 +177,7 @@ class MapWidget(BaseWidget):
         self.surface.blit(self.static_map_surface, (0, 0), view_shift)
         self.surface.blit(self.map_surface, (0, 0), view_shift)
 
+    def set_or_get_game_state(self, game_state=None):
+        if game_state:
+            self.game_state = game_state
+        return self.game_state

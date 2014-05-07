@@ -159,7 +159,8 @@ class Window(object):
                 elif not self.state.looping and event.key == pygame.K_n:
                     self.go_next_turn()
 
-                # TODO: scroll ?
+                elif event.key == pygame.K_g:
+                    self.map_widget.switch_grid()
 
                 # display help
                 elif event.key == pygame.K_h:
