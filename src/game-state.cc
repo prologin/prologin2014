@@ -176,7 +176,7 @@ void GameState::check_losers()
             if (losers_.find(p.first) == losers_.end())
             {
                 players_ids_[owner_base]->score += POINTS_VAINQUEUR;
-                losers_.emplace(p.first);
+                losers_.insert(p.first);
                 // delete all his wizards and all his towers
                 map_->delete_all(p.first);
                 magic_[p.first] = 0;

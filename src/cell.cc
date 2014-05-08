@@ -128,7 +128,6 @@ int Cell::get_nb_wizards_total() const
 {
     int total = 0;
 
-
     for (const auto& it : nb_wizards_)
         total += it.second;
 
@@ -206,42 +205,34 @@ void Cell::resolve_fight()
     int currentMax = 0;
     int currentSecondMax = 0;
     int idcurrentMax = -1;
-    int temp = 0;
 
     // find second
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
-        if (it->second > currentMax)
+        if (it->second >= currentMax)
         {
+            currentSecondMax = currentMax;
             currentMax = it->second;
             idcurrentMax = it->first;
         }
     }
 
-    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
-    {
-        if (it->first != idcurrentMax
-            && it->second > currentSecondMax
-            && it->second <= currentMax)
-            currentSecondMax = it->second;
-    }
+    nb_wizards_.clear();
 
-    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    if (currentMax - currentSecondMax > 0)
+        nb_wizards_[idcurrentMax] = currentMax - currentSecondMax;
+
+    if (get_type() != CASE_BASE)
     {
-        temp = it->second - currentSecondMax;
-        if (temp <= 0)
-        {
-            it->second = 0;
+        if (nb_wizards_.empty())
             player_ = -1;
-        }
         else
-        {
-            it->second = temp;
-            if (get_type() != CASE_BASE)
-                player_ = it->first;
-            else if (it->first != player_)
-                taken_ = it->first;
-        }
+            player_ = idcurrentMax;
+    }
+    else if (!nb_wizards_.empty() && idcurrentMax != player_)
+    {
+        player_ = -1;
+        taken_ = idcurrentMax;
     }
 }
 

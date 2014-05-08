@@ -273,14 +273,14 @@ void Map::delete_all(int player)
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
-            if (map_[x][y]->get_type() == CASE_TOURELLE
-                && map_[x][y]->get_player() == player)
-                map_[x][y]->delete_tower();
+            Cell& c = *map_[x][y];
+            if (c.get_player() != player)
+                continue;
+
+            if (c.get_type() == CASE_TOURELLE)
+                c.delete_tower();
             else
-                map_[x][y]->set_wizards(player, 0);
-            if (map_[x][y]->get_player() == player
-                && map_[x][y]->get_type() != CASE_BASE)
-                map_[x][y]->set_player(-1);
+                c.set_wizards(player, 0);
         }
 }
 
