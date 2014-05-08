@@ -42,7 +42,6 @@ pour l'utiliser.
 Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins) ::
 
   rules: libprologin2014.so
-  map: ./simple.map
   verbose: 3
   clients:
     - ./champion.so
@@ -57,7 +56,7 @@ Prenons un exemple (qui devrait par ailleurs satisfaire vos besoins) ::
 
 Vous devez lancer depuis votre ligne de commande stechec2 : ::
 
-    prompt$ stechec2-run.py config.yml
+    prompt$ stechec2-run config.yml
 
 N'hésitez pas à rapporter aux organisateurs tous les problèmes ou bugs que vous
 pourriez rencontrer lors de l'exécution de stechec2.
@@ -69,20 +68,20 @@ Pour utiliser la GUI pendant que vous lancez votre match, rajoutez à la fin de
 votre config.yml::
 
   spectators:
-   - /usr/local/gui/gui.so
+   - /usr/share/stechec2/prologin2014/gui/gui.so
 
 Si vous préférez regarder le replay à la fin::
 
   spectators:
-   - /usr/local/gui/dumper.so
+   - /usr/share/stechec2/prologin2014/dumper/dumper.so
 
 Ceci crée un fichier dump.json dans le répertoire courant, que vous pouvez
 visualiser avec::
 
-  /usr/local/gui/replay.py dump.json
+  /usr/share/stechec2/prologin2014/gui/replay.py dump.json
 
 Vous pouvez évidemment utiliser les deux en même temps::
 
   spectators:
-   - /usr/local/gui/gui.so
-   - /usr/local/gui/dumper.so
+   - /usr/share/stechec2/prologin2014/gui/gui.so
+   - /usr/share/stechec2/prologin2014/dumper/dumper.so
