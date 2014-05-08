@@ -17,6 +17,8 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <map>
+
 #include <gtest/gtest.h>
 
 #include <utils/log.hh>
@@ -345,5 +347,33 @@ TEST_F(ActionsTest, ShootTest)
 
     EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
         << "The cell attacked is too far away.";
+
+}
+
+TEST_F(ActionsTest, FightTest)
+{
+    const int player = 1;
+    const int other  = 2;
+
+    const position pos = {1, 1};
+    Cell &c = *gamestate_->get_map()->get_cell(pos);
+
+    std::map<int, int> scores;
+    scores[player] = 0;
+    scores[other]  = 0;
+
+    c.set_wizards(player, 10);
+    c.set_wizards(other, 5);
+    c.resolve_fight(scores);
+
+    EXPECT_EQ(5, c.get_nb_wizards(player))
+        << "After the fight, the winner should have 5 wizards left";
+    EXPECT_EQ(0, c.get_nb_wizards(other))
+        << "After the fight, the loser should have no wizard left";
+
+    EXPECT_EQ(5 * MAGIE_COMBAT, scores[player])
+        << "After the fight, the loser shouldn't have earned magic points";
+    EXPECT_EQ(0, scores[other])
+        << "After the fight, the loser shouldn't have earned magic points";
 
 }
