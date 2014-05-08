@@ -184,13 +184,12 @@ int Cell::get_wizards_player() const
             assert (player == -1 || player == it.first);
             player = it.first;
         }
-	if(player==-1)
-		for (const auto& it : nb_wizards_movable_)
-			if (it.second > 0)
-			{
-				assert (player == -1 || player == it.first);
-				player = it.first;
-			}
+    for (const auto& it : nb_wizards_movable_)
+        if (it.second > 0)
+        {
+            assert (player == -1 || player == it.first);
+            player = it.first;
+        }
     return player;
 }
 
