@@ -63,7 +63,7 @@ Cell* Map::get_cell(position p)
     return map_[p.y][p.x];
 }
 
-std::vector<tourelle> Map::get_towers(int player)
+std::vector<tourelle> Map::get_towers(int player) const
 {
     std::vector<tourelle> towers;
     for (int y = 0; y < TAILLE_TERRAIN; ++y)

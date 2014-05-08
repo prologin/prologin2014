@@ -22,6 +22,9 @@
 
 #include "action-construct.hh"
 
+static const int PORTEE_TOURELLE_MAX = 7;
+static const int MAX_NUMBER_TOURELLE = 9;
+
 ActionConstruct::ActionConstruct(position pos, int range, int player)
     : pos_(pos)
     , range_(range)
@@ -64,6 +67,12 @@ int ActionConstruct::check(const GameState* st) const
         return CASE_ADVERSE;
 
     if (range_ < PORTEE_TOURELLE)
+        return VALEUR_INVALIDE;
+
+    if (range_ > PORTEE_TOURELLE_MAX)
+        return VALEUR_INVALIDE;
+
+    if (st->get_towers(player_id_).size() + 1 > MAX_NUMBER_TOURELLE)
         return VALEUR_INVALIDE;
 
     if (st->get_magic(player_id_) < cost())

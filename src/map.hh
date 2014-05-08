@@ -49,7 +49,7 @@ class Map
         const Cell* get_cell(position p) const;
         Cell* get_cell(position p);
 
-        std::vector<tourelle> get_towers(int player);
+        std::vector<tourelle> get_towers(int player) const;
 
         bool buildable(position pos, int player) const;
         std::vector<position> path(position depart, position) const;

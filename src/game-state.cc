@@ -93,7 +93,7 @@ int GameState::get_current_turn() const
     return current_turn_;
 }
 
-std::vector<tourelle> GameState::get_towers(int player)
+std::vector<tourelle> GameState::get_towers(int player) const
 {
     return map_->get_towers(player);
 }
