@@ -253,6 +253,8 @@ void Rules::end_of_turn()
             api_->game_state()->setPhase(PHASE_CONSTRUCTION);
             break;
     }
+
+    api_->game_state()->clear_old_version();
 }
 
 void Rules::at_end()
