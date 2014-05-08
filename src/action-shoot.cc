@@ -47,6 +47,7 @@ int ActionShoot::check(const GameState* st) const
         return PHASE_INCORRECTE;
 
     const Cell* cell_tower = st->get_map()->get_cell(tower_);
+    const Cell* cell_target = st->get_map()->get_cell(target_);
 
     if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN
         || tower_.y < 0 || tower_.y >= TAILLE_TERRAIN)
@@ -58,7 +59,8 @@ int ActionShoot::check(const GameState* st) const
 
     if (points_ < 0)
         return VALEUR_INVALIDE;
-
+    if (cell_target->get_type() == CASE_TOURELLE)
+        return CASE_UTILISEE;
     if (cell_tower->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
 
