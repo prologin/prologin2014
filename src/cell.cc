@@ -31,6 +31,7 @@ Cell::Cell(int y, int x)
     , player_(-1)
     , tower_({ { -1, -1 }, -1, -1, -1, -1 })
     , nb_tower_fighters_(0)
+    , taken_(-1)
 {
     nb_wizards_ = std::map<int, int>();
     nb_wizards_movable_ = std::map<int, int>();
@@ -41,6 +42,7 @@ Cell::Cell(const Cell &c)
     , player_(c.player_)
     , tower_(c.tower_)
     , nb_tower_fighters_(c.nb_tower_fighters_)
+    , taken_(c.taken_)
 {
     nb_wizards_.insert(c.nb_wizards_.begin(), c.nb_wizards_.end());
     nb_wizards_movable_.insert(c.nb_wizards_movable_.begin(), c.nb_wizards_movable_.end());
@@ -205,8 +207,6 @@ void Cell::resolve_fight()
     int currentSecondMax = 0;
     int idcurrentMax = -1;
     int temp = 0;
-    // reser owner of the cell
-    player_ = -1;
 
     // find second
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
@@ -230,12 +230,17 @@ void Cell::resolve_fight()
     {
         temp = it->second - currentSecondMax;
         if (temp <= 0)
+        {
             it->second = 0;
+            player_ = -1;
+        }
         else
         {
             it->second = temp;
-            //if (get_type() != CASE_BASE)
-            player_ = it->first;
+            if (get_type() != CASE_BASE)
+                player_ = it->first;
+            else if (it->first != player_)
+                taken_ = it->first;
         }
     }
 }
@@ -259,4 +264,8 @@ int Cell::get_tower_fighters() const
 void Cell::set_tower_fighters(int nb)
 {
     nb_tower_fighters_ = nb;
+}
+int Cell::get_taken() const
+{
+    return taken_;
 }

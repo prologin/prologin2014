@@ -66,6 +66,10 @@ class Cell
         void resolve_fight();
         void resolve_wizard_movable();
         void resolve_towers_attacked();
+
+        // Function to check that a base has been taken (and more importantly,
+        // by WHO !
+        int get_taken() const;
     private:
         int x_;
         int y_;
@@ -75,6 +79,7 @@ class Cell
         std::map<int, int> nb_wizards_movable_;
         tourelle tower_;
         int nb_tower_fighters_;
+        int taken_;
 };
 
 #endif // !CELL_H_
