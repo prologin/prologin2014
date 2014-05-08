@@ -139,15 +139,16 @@ TEST_F(ActionsTest, AttackTest)
 
 TEST_F(ActionsTest, ConstructTest)
 {
+    const position pos = {30, 1};
+
     gamestate_->set_magic(1, 1000);
 
-    ActionConstruct a1({ 79,
-                         1 }, 4, 1);
+    ActionConstruct a1(pos, 4, 1);
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to put a tower here";
     a1.apply_on(gamestate_);
 
-    Cell* cbase = gamestate_->get_map()->get_cell({ 79, 1 });
+    Cell* cbase = gamestate_->get_map()->get_cell(pos);
 
     EXPECT_EQ(CASE_TOURELLE, cbase->get_type())
         << "There should be a tower here.";
