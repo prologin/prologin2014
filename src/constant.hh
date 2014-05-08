@@ -55,7 +55,7 @@
 ///
 // Magie gagnée à chaque tour pour chaque fontaine possédée
 //
-# define MAGIE_FONTAINES           10
+# define MAGIE_FONTAINES           15
 
 ///
 // Magie gagnée à chaque sorcier tué
@@ -65,7 +65,7 @@
 ///
 // Magie récupérée à chaque tourelle supprimée
 //
-# define MAGIE_SUPPRESSION         3
+# define MAGIE_SUPPRESSION         10
 
 ///
 // Nombre de points de magie par sorcier
@@ -80,7 +80,7 @@
 ///
 // Coût exponentiel pour chaque case de portée supplémentaire
 //
-# define COUT_PORTEE               2
+# define COUT_PORTEE               4
 
 ///
 // Nombre maximum de cases qu'un sorcier peut franchir à chaque tour.
