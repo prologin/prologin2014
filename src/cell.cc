@@ -136,12 +136,18 @@ int Cell::get_nb_wizards_total() const
 
 void Cell::set_wizards(int player, int nb_wizards)
 {
-    nb_wizards_[player] = nb_wizards;
+    if (nb_wizards > 0)
+        nb_wizards_[player] = nb_wizards;
+    else
+        nb_wizards_.erase(player);
 }
 
 void Cell::set_wizards_movable(int player, int nb_wizards)
 {
-    nb_wizards_movable_[player] = nb_wizards;
+    if (nb_wizards > 0)
+        nb_wizards_movable_[player] = nb_wizards;
+    else
+        nb_wizards_movable_.erase(player);
 }
 
 int Cell::wizards_attacked(int points, int player)

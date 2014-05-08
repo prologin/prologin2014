@@ -274,13 +274,22 @@ void Map::delete_all(int player)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
         {
             Cell& c = *map_[x][y];
-            if (c.get_player() != player)
-                continue;
 
-            if (c.get_type() == CASE_TOURELLE)
-                c.delete_tower();
-            else
-                c.set_wizards(player, 0);
+            /* Remove all wizards for player on this cell.  */
+            c.set_wizards(player, 0);
+
+            /* Set "free" all objects that used to belong to this player, even
+             * destroy its towers.  */
+            if (c.get_player() == player)
+                switch (c.get_type())
+                {
+                    case CASE_TOURELLE:
+                        c.delete_tower();
+                        /* Fall through.  */
+                    default:
+                        c.set_player (-1);
+                        break;
+                }
         }
 }
 
