@@ -186,12 +186,18 @@ class MapWidget(BaseWidget):
                     )
                     self.map_surface.blit(tile, coords)
 
-                # Likewise for wizards
+                # Likewise for wizards.
                 if cell.wizards > 0:
-                    wizard_tile = data.get_player_image(
-                        data.wizards, self.game_state, cell.player
-                    )
-                    self.map_surface.blit(wizard_tile, coords)
+                    # The wizard tiles should be drawed only on simple cells.
+                    # Other tiles (base, fountains, towers, artefacts) already
+                    # contain the player color, so don't put too many tiles on
+                    # the same cell: only put the wizard count in such cases.
+                    if cell.type == case_info.CASE_SIMPLE:
+                        wizard_tile = data.get_player_image(
+                            data.wizards, self.game_state, cell.player
+                        )
+                        self.map_surface.blit(wizard_tile, coords)
+
                     count_text = utils.make_bordered_text(
                         str(cell.wizards), self.font,
                         fgcolor=data.get_player_color(
