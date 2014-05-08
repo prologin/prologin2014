@@ -123,7 +123,7 @@ void Rules::resolve_score()
     {
         if (p->type == rules::PLAYER)
         {
-            if (api_->game_state()->get_player_artefact() == (int)p->id)
+            if (api_->game_state()->get_player_artefact() == static_cast<int>(p->id))
                 p->score += POINTS_CONTROLE_ARTEFACT;
 
 
