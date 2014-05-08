@@ -213,7 +213,6 @@ void Cell::resolve_fight(std::map<int, int> &magic)
     int currentMax = 0;
     int currentSecondMax = 0;
     int idcurrentMax = -1;
-    int loosers_wizards_killed = 0;
 
     // find second
     for (const auto &it : nb_wizards_)
@@ -228,11 +227,6 @@ void Cell::resolve_fight(std::map<int, int> &magic)
             currentSecondMax = it.second;
     }
 
-    /* Count how many wizards the loosers lost during the fight.  */
-    for (const auto& it : nb_wizards_)
-        if (it.first != idcurrentMax)
-            loosers_wizards_killed += it.second;
-
     nb_wizards_.clear();
 
     if (currentMax - currentSecondMax > 0)
@@ -240,7 +234,7 @@ void Cell::resolve_fight(std::map<int, int> &magic)
         /* Here, at least one wizard survived from the fight: set the wizards
          * count to the proper value and give magic points to the winner.  */
         nb_wizards_[idcurrentMax] = currentMax - currentSecondMax;
-        magic[idcurrentMax] += loosers_wizards_killed * MAGIE_COMBAT;
+        magic[idcurrentMax] += currentSecondMax * MAGIE_COMBAT;
     }
 
     if (get_type() != CASE_BASE)
