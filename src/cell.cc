@@ -175,6 +175,9 @@ int Cell::wizards_attacked(int points, int player)
         }
     }
 
+    if (get_nb_wizards_total() == 0 && get_type() != CASE_BASE)
+        player_ = -1;
+
     return wizards_dead;
 }
 
