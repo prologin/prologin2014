@@ -216,9 +216,9 @@ class MapWidget(BaseWidget):
         # update display
         self.surface.fill(utils.BLACK)
         self.surface.blit(self.static_map_surface, (0, 0))
+        self.surface.blit(self.map_surface, (0, 0))
         if self.position:
             self.surface.blit(self.subjective_surface, (0, 0))
-        self.surface.blit(self.map_surface, (0, 0))
 
     def set_or_get_game_state(self, game_state=None):
         if game_state:
