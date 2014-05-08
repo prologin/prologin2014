@@ -140,6 +140,9 @@ void Cell::set_wizards(int player, int nb_wizards)
         nb_wizards_[player] = nb_wizards;
     else
         nb_wizards_.erase(player);
+    // Nobody own the cell
+    if (get_nb_wizards_total() == 0 && get_type() != CASE_BASE)
+        player_ = -1;
 }
 
 void Cell::set_wizards_movable(int player, int nb_wizards)
