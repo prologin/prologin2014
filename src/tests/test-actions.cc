@@ -65,59 +65,74 @@ class ActionsTest : public ::testing::Test
 
 TEST_F(ActionsTest, AttackTest)
 {
-    ActionAttack a2({ 2, 2 }, { 2, 3 }, 3, 1);
+    /* The distance between (2, 2) and (3, 3) is 2, so it's too far away to
+     * attack.  */
+    const position from_ok       = {2, 2};
+    const position from_few      = {1, 3};
+    const position from_tower    = {2, 4};
+    const position to_far        = {3, 3};
+    const position to_no_tower   = {2, 1};
+    const position to_ok         = {2, 3};
 
-    Cell* c1 = gamestate_->get_map()->get_cell({ 2, 2 });
-    Cell* c2 = gamestate_->get_map()->get_cell({ 2, 3 });
+    Cell &c_from       = *gamestate_->get_map()->get_cell(from_ok);
+    Cell &c_from_few   = *gamestate_->get_map()->get_cell(from_few);
+    Cell &c_from_tower = *gamestate_->get_map()->get_cell(from_tower);
+    Cell &c_far        = *gamestate_->get_map()->get_cell(to_far);
+    Cell &c_ok         = *gamestate_->get_map()->get_cell(to_ok);
 
-    EXPECT_EQ(PHASE_INCORRECTE, a2.check(gamestate_))
+    const int attack_player = 1;
+    const int defense_player = 2;
+    /* If two wizards attack the tower, it takes them two rounds to destroy the
+     * tower.  */
+    const int tower_life = 3;
+
+    c_from.set_wizards(attack_player, 2);
+    c_from_tower.set_wizards(attack_player, 3);
+    c_from_tower.put_tower(
+        {from_tower, 3, defense_player, tower_life, 2});
+    c_far.put_tower(
+        {to_far,     3, defense_player, tower_life, 2});
+    c_ok.put_tower(
+        {to_ok,      3, defense_player, tower_life, 2});
+
+    ActionAttack attack_ok(from_ok,            to_ok,       2, attack_player);
+    ActionAttack attack_few(from_few,          to_ok,       2, attack_player);
+    ActionAttack attack_from_tower(from_tower, to_ok,       2, attack_player);
+    ActionAttack attack_no_tower(from_ok,      to_no_tower, 2, attack_player);
+    ActionAttack attack_far(from_ok,           to_far,      2, attack_player);
+
+    EXPECT_EQ(PHASE_INCORRECTE, attack_ok.check(gamestate_))
         << "Wrong phase of the game.";
-
     gamestate_->setPhase(PHASE_SIEGE);
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, a2.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(gamestate_))
         << "There is no wizards on the cell attacking.";
+    c_from_few.set_wizards(attack_player, 1);
 
-    c1->set_wizards(2, 1);
-
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, a2.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(gamestate_))
         << "Still no wizards on the cell attacking.";
+    c_from.set_wizards(attack_player, 3);
 
-    c1->set_wizards(3, 1);
-
-    EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
+    EXPECT_EQ(VALEUR_INVALIDE, attack_far.check(gamestate_))
         << "The distance between the two cells is too far away.";
 
-    EXPECT_EQ(OK, a2.check(gamestate_))
+    EXPECT_EQ(OK, attack_ok.check(gamestate_))
         << "It should be possible to attack a tower.";
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, a2.check(gamestate_))
-        << "Not enought wizards to attack";
-
-    ActionAttack a3({ 2, 2 }, { 2, 3 }, 2, 1);
-
-    c1->put_tower({ { 2, 2 }, 3, 1, 2, 2 });
-
-    EXPECT_EQ(CASE_UTILISEE, a2.check(gamestate_))
+    /* TODO: is it really a problem?  */
+    EXPECT_EQ(CASE_UTILISEE, attack_from_tower.check(gamestate_))
         << "There is a tower on the cell supposed to attack.";
 
-    c1->delete_tower();
+    EXPECT_EQ(CASE_VIDE, attack_no_tower.check(gamestate_))
+        << "There is no tower on the cell attacked.";
+    attack_ok.apply_on(gamestate_);
 
-    EXPECT_EQ(CASE_VIDE, a2.check(gamestate_))
-        << "There is no towers on the cell attacked.";
-
-    c2->put_tower({ { 2, 3 }, 3, 1, 2, 2 });
-
-    a2.apply_on(gamestate_);
-
-    EXPECT_EQ(CASE_TOURELLE, c2->get_type())
+    EXPECT_EQ(CASE_TOURELLE, c_ok.get_type())
         << "The tower should not be down yet.";
+    attack_ok.apply_on(gamestate_);
 
-    a2.apply_on(gamestate_);
-
-    EXPECT_EQ(CASE_SIMPLE, gamestate_->get_map()->get_cell({2, 3})->get_type())
+    EXPECT_EQ(CASE_SIMPLE, c_ok.get_type())
         << "The tower should be down now.";
-
 }
 
 TEST_F(ActionsTest, ConstructTest)
