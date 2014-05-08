@@ -213,6 +213,13 @@ TEST_F(ActionsTest, CreateTest)
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
         << "There shoudn't be enough magic";
     a1.apply_on(gamestate_);
+
+    //Check overflow with number of wizards to create
+    ActionCreate a2(1500000000, 1);
+    EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
+        << "There shoudn't be enough magic";
+
+
     Cell* base_p0 = gamestate_->get_map()->get_cell(gamestate_->get_base(1));
     EXPECT_EQ(10, base_p0->get_nb_wizards(1))
               << "There should be 10 wizards";
