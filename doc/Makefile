@@ -157,6 +157,6 @@ doctest:
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
 deploy: html
-	cp -r build/html/* $(DEPLOYDIR)
+	scp -r build/html/* root@web:/var/prologin/docs
 
 # EOF
