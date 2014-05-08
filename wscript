@@ -6,11 +6,7 @@ def options(opt):
     pass
 
 def configure(conf):
-    if conf.options.debug:
-        conf.check_cxx(cxxflags = '-g')
-        conf.check_cxx(cxxflags = '-ggdb3')
-        conf.env.append_value('DEFINES', '__DEBUG__')
-        conf.env.append_value('CXXFLAGS', ['-g', '-ggdb3'])
+    pass
 
 def build(bld):
     bld.shlib(
