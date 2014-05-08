@@ -73,7 +73,7 @@ int ActionShoot::check(const GameState* st) const
         return CASE_ADVERSE;
 
     if (tower.attaque < points_)
-        return MAGIE_INSUFFISANTE;
+        return ATTAQUE_INSUFFISANTE;
 
     return OK;
 }
