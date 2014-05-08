@@ -130,7 +130,7 @@ int GameState::get_nb_fontains(int player_id)
 
 void GameState::resolve_fights()
 {
-    return map_->resolve_fights();
+    return map_->resolve_fights(magic_);
 }
 
 void GameState::resolve_wizard_movable()

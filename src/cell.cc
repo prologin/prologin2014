@@ -202,29 +202,40 @@ int Cell::tower_attacked(int points)
     return 0;
 }
 
-void Cell::resolve_fight()
+void Cell::resolve_fight(std::map<int, int> &magic)
 {
     int currentMax = 0;
     int currentSecondMax = 0;
     int idcurrentMax = -1;
+    int loosers_wizards_killed = 0;
 
     // find second
-    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    for (const auto &it : nb_wizards_)
     {
-        if (it->second >= currentMax)
+        if (it.second >= currentMax)
         {
             currentSecondMax = currentMax;
-            currentMax = it->second;
-            idcurrentMax = it->first;
+            currentMax = it.second;
+            idcurrentMax = it.first;
         }
-        else if (it->second > currentSecondMax)
-            currentSecondMax = it->second;
+        else if (it.second > currentSecondMax)
+            currentSecondMax = it.second;
     }
+
+    /* Count how many wizards the loosers lost during the fight.  */
+    for (const auto& it : nb_wizards_)
+        if (it.first == idcurrentMax)
+            loosers_wizards_killed += it.second;
 
     nb_wizards_.clear();
 
     if (currentMax - currentSecondMax > 0)
+    {
+        /* Here, at least one wizard survived from the fight: set the wizards
+         * count to the proper value and give magic points to the winner.  */
         nb_wizards_[idcurrentMax] = currentMax - currentSecondMax;
+        magic[idcurrentMax] += loosers_wizards_killed * MAGIE_COMBAT;
+    }
 
     if (get_type() != CASE_BASE)
     {

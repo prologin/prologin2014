@@ -63,7 +63,7 @@ class Cell
         int get_tower_fighters() const;
         void set_tower_fighters(int nb);
 
-        void resolve_fight();
+        void resolve_fight(std::map<int, int> &magic);
         void resolve_wizard_movable();
         void resolve_towers_attacked();
 

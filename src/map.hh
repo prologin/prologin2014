@@ -60,7 +60,7 @@ class Map
 
         void add_constructing(position pos);
 
-        void resolve_fights();
+        void resolve_fights(std::map<int, int> &magic);
         void resolve_wizard_movable();
         void resolve_tower_magic();
         void resolve_constructing();
