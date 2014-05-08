@@ -227,7 +227,7 @@ void Cell::resolve_fight(std::map<int, int> &magic)
 
     /* Count how many wizards the loosers lost during the fight.  */
     for (const auto& it : nb_wizards_)
-        if (it.first == idcurrentMax)
+        if (it.first != idcurrentMax)
             loosers_wizards_killed += it.second;
 
     nb_wizards_.clear();

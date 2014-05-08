@@ -383,5 +383,4 @@ TEST_F(ActionsTest, FightTest)
         << "After the fight, the loser shouldn't have earned magic points";
     EXPECT_EQ(0, scores[other])
         << "After the fight, the loser shouldn't have earned magic points";
-
 }
