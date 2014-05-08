@@ -42,7 +42,7 @@ int ActionCreate::check(const GameState* st) const
     if (nb_wizards_ <= 0)
         return VALEUR_INVALIDE;
 
-    if (nbWizards >= 500000000 || st->get_magic(player_id_) < COUT_SORCIER * nb_wizards_)
+    if (nb_wizards_ >= 500000000 || st->get_magic(player_id_) < COUT_SORCIER * nb_wizards_)
         return MAGIE_INSUFFISANTE;
 
     return OK;
