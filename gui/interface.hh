@@ -39,6 +39,8 @@ typedef enum erreur {
   SORCIERS_INSUFFISANTS, /* <- Vous n'avez pas assez de sorciers */
   ATTAQUE_INSUFFISANTE, /* <- Vous n'avez pas assez de points d'attaque */
   PHASE_INCORRECTE, /* <- Cette action ne peut pas être utilisée lors de cette phase du jeu. */
+  PORTEE_INSUFFISANTE, /* <- Vous n'avez pas assez de portée pour effectuer cette action */
+  PERDANT, /* <- Vous avez perdu et ne pouvez pas effectuer d'actions */
 } erreur;
 
 
@@ -144,7 +146,7 @@ erreur api_deplacer(position depart, position arrivee, int nb);
 ///
 // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
 //
-erreur api_assieger(position pos, position cible);
+erreur api_assieger(position pos, position cible, int nb_sorciers);
 
 ///
 // Retourne le numéro de votre joueur

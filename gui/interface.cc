@@ -473,11 +473,12 @@ static PyObject* p_assieger(PyObject* self, PyObject* args)
   (void)self;
 PyObject* a0;
 PyObject* a1;
-  if (!PyArg_ParseTuple(args, "OO", &a0, &a1)) {
+PyObject* a2;
+  if (!PyArg_ParseTuple(args, "OOO", &a0, &a1, &a2)) {
     return NULL;
   }
     try {
-return cxx2lang<PyObject*, erreur>(api_assieger(lang2cxx<PyObject*, position>(a0), lang2cxx<PyObject*, position>(a1)));
+return cxx2lang<PyObject*, erreur>(api_assieger(lang2cxx<PyObject*, position>(a0), lang2cxx<PyObject*, position>(a1), lang2cxx<PyObject*, int>(a2)));
   } catch (...) { return NULL; }
 }
 
@@ -677,6 +678,9 @@ static PyObject* _import_module(const char* m)
 */
 static void _init_python()
 {
+  static wchar_t empty_string[] = L"";
+  static wchar_t *argv[] = { (wchar_t *) &empty_string, NULL };
+
   const char* champion_path;
 
   champion_path = getenv("CHAMPION_PATH");
@@ -690,6 +694,7 @@ static void _init_python()
 
   PyImport_AppendInittab("_api", PyInit__api);
   Py_Initialize();
+  PySys_SetArgvEx(1, argv, 0);
 
   champ_module = _import_module("prologin");
   py_module = _import_module("api");

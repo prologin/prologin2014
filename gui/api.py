@@ -12,40 +12,37 @@ TAILLE_TERRAIN = 31
 NB_JOUEURS = 4
 
 # Nombre maximum de tours à jouer avant la fin de la partie
-MAX_TOUR = 150
+MAX_TOUR = 100
 
 # Magie gagnée à chaque tour
 MAGIE_TOUR = 20
 
 # Magie gagnée à chaque tour pour chaque fontaine possédée
-MAGIE_FONTAINES = 10
+MAGIE_FONTAINES = 15
 
 # Magie gagnée à chaque sorcier tué
 MAGIE_COMBAT = 1
 
-# Magie gagnée à chaque tourelle détruite
-MAGIE_TOURELLE = 3
-
 # Magie récupérée à chaque tourelle supprimée
-MAGIE_SUPPRESSION = 3
+MAGIE_SUPPRESSION = 10
 
 # Nombre de points de magie par sorcier
 COUT_SORCIER = 2
 
-# Nombre de points de magie par sorcier
-COUT_TOURELLE = 6
+# Nombre de points de magie par tourelle
+COUT_TOURELLE = 20
 
 # Coût exponentiel pour chaque case de portée supplémentaire
-COUT_PORTEE = 2
+COUT_PORTEE = 4
 
 # Nombre maximum de cases qu'un sorcier peut franchir à chaque tour.
 PORTEE_SORCIER = 4
 
 # Portée de base d'une tourelle
-PORTEE_TOURELLE = 4
+PORTEE_TOURELLE = 3
 
 # Portée de construction des tourelles
-CONSTRUCTION_TOURELLE = 5
+CONSTRUCTION_TOURELLE = 3
 
 # Points de vie d'une tourelle à sa création
 VIE_TOURELLE = 10
@@ -91,6 +88,8 @@ class erreur(IntEnum):
     SORCIERS_INSUFFISANTS = 8  # <- Vous n'avez pas assez de sorciers
     ATTAQUE_INSUFFISANTE = 9  # <- Vous n'avez pas assez de points d'attaque
     PHASE_INCORRECTE = 10  # <- Cette action ne peut pas être utilisée lors de cette phase du jeu.
+    PORTEE_INSUFFISANTE = 11  # <- Vous n'avez pas assez de portée pour effectuer cette action
+    PERDANT = 12  # <- Vous avez perdu et ne pouvez pas effectuer d'actions
 
 
 from collections import namedtuple
