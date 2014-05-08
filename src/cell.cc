@@ -237,6 +237,8 @@ void Cell::resolve_fight()
             currentMax = it->second;
             idcurrentMax = it->first;
         }
+        else if (it->second > currentSecondMax)
+            currentSecondMax = it->second;
     }
 
     nb_wizards_.clear();
