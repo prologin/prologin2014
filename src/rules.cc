@@ -127,7 +127,7 @@ void Rules::resolve_score()
         {
             if (losers.find(p->id) == losers.end())
                 p->score += POINTS_SURVIVRE;
-            p->score += api_->game_state()->get_nb_fontains(p) * POINTS_CONTROLE_FONTAINE;
+            p->score += api_->game_state()->get_nb_fontains(p->id) * POINTS_CONTROLE_FONTAINE;
         }
 }
 
