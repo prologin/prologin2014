@@ -286,6 +286,7 @@ void Map::delete_all(int player)
                         c.delete_tower();
                         /* Fall through.  */
                     default:
+                        c.set_wizards(player, 0);
                         c.set_player (-1);
                         break;
                 }

@@ -64,6 +64,9 @@ int ActionShoot::check(const GameState* st) const
     if (cell_tower->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
 
+    if (cell_tower->get_type() == CASE_TOURELLE)
+        return CASE_UTILISEE;
+
     // Check of the tower
     tourelle tower = cell_tower->get_tower();
     int dist = distance(tower_, target_);
@@ -94,6 +97,8 @@ void ActionShoot::apply_on(GameState* gameState) const
     Cell* cell_tower = gameState->get_map()->get_cell(tower_);
 
     cell_target->wizards_attacked(points_, player_id_);
+    std::cout << "Cell attacked " << cell_target->get_position().x << " "
+        << cell_target->get_position().y << std::endl;
 
     tourelle t = cell_tower->get_tower();
     cell_tower->set_magic_tower(t.attaque - points_);
