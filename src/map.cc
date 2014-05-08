@@ -277,9 +277,6 @@ void Map::delete_all(int player)
         {
             Cell& c = *map_[x][y];
 
-            /* Remove all wizards for player on this cell.  */
-            c.set_wizards(player, 0);
-
             /* Set "free" all objects that used to belong to this player, even
              * destroy its towers.  */
             if (c.get_player() == player)
