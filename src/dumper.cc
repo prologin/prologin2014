@@ -61,6 +61,8 @@ static void dump_players(std::ostream& ss, const GameState& st)
     ss << "{";
     for (unsigned i = 0; i < players.size(); ++i)
     {
+        const int id = players[i]->id;
+
         if (players[i]->type != rules::PLAYER)
             continue;
 
@@ -68,7 +70,7 @@ static void dump_players(std::ostream& ss, const GameState& st)
             first_player = false;
         else
             ss << ", ";
-        ss << "\"" << players[i]->id << "\": {"
+        ss << "\"" << id << "\": {"
            << "\"name\": ";
         dump_binary(
             ss,
@@ -76,7 +78,13 @@ static void dump_players(std::ostream& ss, const GameState& st)
             players[i]->name.size()
         );
         ss << ", "
-           << "\"magic\": " << st.get_magic(players[i]->id);
+           << "\"alive\": ";
+        if (!st.has_lost (id))
+            ss << "true";
+        else
+            ss << "false";
+        ss << ", "
+           << "\"magic\": " << st.get_magic(id);
         ss << ", "
            << "\"score\": " << players[i]->score
            << "}";

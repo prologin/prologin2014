@@ -56,6 +56,7 @@ class StateWidget(BaseWidget):
         cols = len(players)
         ids = sorted(players)
         for i, (id, player) in enumerate(utils.iter_dict(players, ids)):
+            get_color = lambda c: c if player.alive else utils.GREY
             self._display_text(
                 player.name,
                 0 * self.TEXT_HEIGHT,
@@ -65,19 +66,19 @@ class StateWidget(BaseWidget):
             self._display_text(
                 str(player.score),
                 1 * self.TEXT_HEIGHT,
-                utils.WHITE,
+                get_color(utils.WHITE),
                 (i, cols)
             )
             self._display_text(
                 str(player.magic),
                 2 * self.TEXT_HEIGHT,
-                utils.YELLOW,
+                get_color(utils.YELLOW),
                 (i, cols)
             )
             self._display_text(
                 str(len(player.towers)),
                 3 * self.TEXT_HEIGHT,
-                utils.BLUE,
+                get_color(utils.BLUE),
                 (i, cols)
             )
 

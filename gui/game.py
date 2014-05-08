@@ -5,7 +5,7 @@ from api import *
 
 Cell = namedtuple('Cell', 'type object_player wizards_player wizards towers')
 Tower = namedtuple('Tower', 'player scope life attack')
-Player = namedtuple('Player', 'name score magic towers')
+Player = namedtuple('Player', 'name score alive magic towers')
 
 CELL_TYPES = {
     case_info.CASE_SIMPLE:    'simple',
@@ -77,10 +77,11 @@ class GameState:
             i = int(i)
 
             self.players[i] = Player(
-                    player['name'] or (u'Équipe %d' % i),
-                    player['score'],
-                    player['magic'],
-                    []
+                player['name'] or (u'Équipe %d' % i),
+                player['score'],
+                player['alive'],
+                player['magic'],
+                []
             )
 
         for tower in game_map['towers']:
