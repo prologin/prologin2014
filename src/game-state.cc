@@ -150,6 +150,7 @@ void GameState::resolve_tower_fighters()
 
 GameState::~GameState()
 {
+    delete map_;
 }
 
 void GameState::setPhase(game_phase phase)

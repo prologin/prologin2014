@@ -34,9 +34,6 @@ Rules::Rules(const rules::Options opt)
         champion_phase_tirs = champion_dll_->get<f_champion_phase_tirs>("phase_tirs");
         champion_phase_siege = champion_dll_->get<f_champion_phase_siege>("phase_siege");
         champion_partie_fin = champion_dll_->get<f_champion_partie_fin>("partie_fin");
-
-        //if (opt.player->type == rules::PLAYER)
-        //    sandbox_.execute(champion_partie_debut);
     }
     else
         champion_dll_ = nullptr;
