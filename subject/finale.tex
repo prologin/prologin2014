@@ -1,0 +1,190 @@
+\section{Sujet}\label{finale-prologin-2014-sujet}
+
+\subsection{Généralités}\label{introduction}
+
+Le sujet de la finale de Prologin 2014 est un jeu de stratégie divisé en
+plusieurs phases. Le but du jeu est de vaincre les joueurs ennemis et de
+prendre possession de l'artefact central et des fontaines magiques.
+
+\subsubsection{Nombre de joueurs}\label{nombre-de-joueurs}
+
+Une partie voit s'affronter 4 joueurs à la fois (1-4). Chaque joueur
+possède une base placée dans un coin d'une carte carrée.
+Au centre de la carte se trouve l'artefact magique (A) et des
+fontaines magiques (F) sont disposées aux points cardinaux (nord, sud, est et ouest) de la
+salle.
+
+\subsubsection{Carte}\label{carte}
+
+La carte a une taille constante (longueur et largeur) : TAILLE\_TERRAIN
+par TAILLE\_TERRAIN.
+
+\begin{multicols}{2}
+\begin{verbatim}
+1 . . . . F . . . . 2
+. . . . . . . . . . .
+. . . . . . . . . . .
+. . . . . . . . . . .
+. . . . . . . . . . .
+F . . . . A . . . . F
+. . . . . . . . . . .
+. . . . . . . . . . .
+. . . . . . . . . . .
+. . . . . . . . . . .
+3 . . . . F . . . . 4
+\end{verbatim}
+\columnbreak
+Légende :
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{1..4} : Joueurs 1 à 4
+\item
+  \texttt{.} : Case vide
+\item
+  \texttt{A} : Artefact
+\item
+  \texttt{F} : Fontaine
+\end{itemize}
+
+\noindent
+(Le schéma n'est pas à l'échelle.)
+
+\end{multicols}
+
+\subsubsection{But du jeu}\label{but-du-jeu}
+
+Le but du jeu est de totaliser un maximum de points à la fin d'une
+partie. Les différents moyens de gagner des points sont :
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  survivre à la fin de la partie (1 point) ;
+\item
+  conquérir le camp d'un joueur ennemi (1 point) ;
+\item
+  contrôler une fontaine de magie à la fin de la partie (1 point), c'est-à-dire avoir un de ses soldats sur la case ;
+\item
+  contrôler l'artefact à la fin de la partie (4 points).
+\end{itemize}
+
+\subsubsection{Magie}\label{magie}
+
+La magie est l'unité de base du jeu. À chaque tour, vous gagnez
+MAGIE\_TOUR points de magie de base, et MAGIE\_FONTAINES par fontaine
+contrôlée. Vous pouvez gagner des points de magie en détruisant des soldats adverses ou en supprimant une de vos tourelles. Les points de magie permettent de construire des tourelles et de produire des sorciers.
+
+\subsubsection{Déroulement du jeu}\label{duxe9roulement-du-jeu}
+
+Chaque phase se déroule de manière simultanée pour tous les joueurs :
+tout le monde exécute ses actions en même temps. À la phase suivante,
+vous observez le résultat des actions des autres joueurs. Il n'existe aucun
+conflit d'action possible.
+
+\subsection{Phases}\label{phases}
+
+Chaque tour se déroule en 4 phases :
+
+\begin{enumerate}
+\item construction ;
+\item déplacement ;
+\item tir des tourelles ;
+\item siège.
+\end{enumerate}
+
+\subsubsection{Construction}\label{construction}
+
+Lors de la phase de construction, il est possible de construire des
+tourelles et des sorciers pour des coûts COUT\_TOURELLE et COUT\_SORCIER. Les sorciers sont toujours construits dans la base du joueur.
+
+Une tourelle peut être construite sur une case sous certaines conditions :
+\begin{itemize}
+\item ce ne doit être ni une base, ni une fontaine, ni un artefact ;
+\item cette case doit être proche d'une autre tour du même joueur (être dans la « portée de
+construction » d'une tour) ;
+\item le joueur doit avoir une tour qui est
+strictement plus proche de cette case que n'importe quelle tour d'un
+joueur ennemi (c'est pourquoi deux joueurs ne risquent pas de construire
+une tour au même endroit).
+\end{itemize}
+
+Les tours ont une portée d'attaque minimale PORTEE\_TOURELLE,
+qui peut être augmentée lors de la construction : pour
+l'augmenter de N cases, on paie un surcoût de
+COUT\_PORTEE + N*N. On paie donc au total COUT\_TOURELLE + COUT\_PORTEE
++ N*N.
+
+Il est également possible de détruire vos propres tourelles pendant
+cette phase, si elles vous bloquent le passage. Vous récupérez
+MAGIE\_SUPPRESSION points de magie pour chaque tourelle vous appartenant
+que vous détruisez.
+
+\subsubsection{Déplacement}\label{duxe9placement}
+
+Lors de la phase de déplacement, on peut choisir de bouger un certain
+nombre de sorciers d'une distance PORTEE\_SORCIER. Cependant, un sorcier
+ne peut pas se rendre sur une case où il y a une tourelle.
+
+\paragraph{Attaque des sorciers}\label{attaque-des-sorciers}
+
+À la fin de chaque phase de déplacement, lorsque plusieurs sorciers
+ennemis se retrouvent sur la même case, ils s'attaquent automatiquement.
+Le nombre de sorciers du deuxième groupe en plus grand nombre est retiré
+à l'ensemble des groupes, ce qui fait qu'il ne reste plus que les
+soldats d'un unique joueur sur la case, ou bien aucun soldat (en cas
+d'égalité des deux groupes les plus nombreux).
+
+Exemple : si A, B, C, D ont respectivement 1, 3, 3 et 7 soldats, à
+l'issue du combat :
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  A n'a plus que 7 - 3 = 4 unités ;
+\item
+  B, C et D : 0 unité.
+\end{itemize}
+
+Le joueur restant, s'il existe, gagne MAGIE\_COMBAT points de magie
+pour chaque sorcier retiré aux autres joueurs (ici, (1 + 3 + 3) *
+MAGIE\_COMBAT).
+
+\subsubsection{Tir des tourelles}\label{tir-des-tourelles}
+
+Lors de la phase de tir, les tourelles peuvent répartir leurs points d'attaque (ATTAQUE\_TOURELLE) sur un ensemble de cases. Chaque
+point d'attaque utilisé correspond à un sorcier en moins sur la case
+choisie. Il n'est pas possible d'attaquer des tourelles avec cette
+technique.
+
+Tuer des sorciers à distance ne rapporte aucun point de magie.
+
+\subsubsection{Siège}\label{siuxe8ge}
+
+Lors de la phase de siège, les sorciers peuvent attaquer les tourelles
+qui se trouvent sur une case adjacente (haut, bas, gauche, droite).
+Chaque tourelle a VIE\_TOURELLE points de vie à sa création, et en
+perd un par nombre de sorciers qui l'attaquent à chaque tour. Elle ne
+peut pas en regagner.
+
+Lorsqu'elle n'a plus aucun point de vie, la tourelle est détruite et
+laisse la voie libre aux sorciers.
+
+\paragraph{Capture}\label{capture}
+
+À la fin de chaque tour\footnote{Et non tourelle, vous suivez ?} :
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  si un sorcier se trouve sur la base d'un ennemi, ce dernier est vaincu, et
+  toutes ses unités (tourelles et sorciers) sont supprimées de la carte ;
+\item
+  si un sorcier se trouve sur une fontaine, il fait gagner MAGIE\_FONTAINES
+  points de magie au joueur qui le contrôle.
+\end{itemize}
+
+\subsection{Fin de la partie}\label{fin-de-la-partie}
+
+La partie s'arrête au bout de MAX\_TOUR tours.

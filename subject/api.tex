@@ -1,0 +1,967 @@
+
+
+%
+% This file was generated using gen/make_tex.rtex
+% Do not modify unless you are absolutely sure of what you are doing
+%
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & TAILLE\_TERRAIN \\
+\textbf{Valeur:} & 31 \\
+\textbf{Description:} & Taille du terrain (longueur et largeur) \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & NB\_JOUEURS \\
+\textbf{Valeur:} & 4 \\
+\textbf{Description:} & Nombre de joueurs dans la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAX\_TOUR \\
+\textbf{Valeur:} & 100 \\
+\textbf{Description:} & Nombre maximum de tours à jouer avant la fin de la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAGIE\_TOUR \\
+\textbf{Valeur:} & 20 \\
+\textbf{Description:} & Magie gagnée à chaque tour \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAGIE\_FONTAINES \\
+\textbf{Valeur:} & 15 \\
+\textbf{Description:} & Magie gagnée à chaque tour pour chaque fontaine possédée \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAGIE\_COMBAT \\
+\textbf{Valeur:} & 1 \\
+\textbf{Description:} & Magie gagnée à chaque sorcier tué \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & MAGIE\_SUPPRESSION \\
+\textbf{Valeur:} & 10 \\
+\textbf{Description:} & Magie récupérée à chaque tourelle supprimée \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & COUT\_SORCIER \\
+\textbf{Valeur:} & 2 \\
+\textbf{Description:} & Nombre de points de magie par sorcier \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & COUT\_TOURELLE \\
+\textbf{Valeur:} & 20 \\
+\textbf{Description:} & Nombre de points de magie par tourelle \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & COUT\_PORTEE \\
+\textbf{Valeur:} & 4 \\
+\textbf{Description:} & Coût de base pour chaque case de portée supplémentaire \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & PORTEE\_SORCIER \\
+\textbf{Valeur:} & 4 \\
+\textbf{Description:} & Nombre maximum de cases qu'un sorcier peut franchir à chaque tour \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & PORTEE\_TOURELLE \\
+\textbf{Valeur:} & 3 \\
+\textbf{Description:} & Portée de base d'une tourelle \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & CONSTRUCTION\_TOURELLE \\
+\textbf{Valeur:} & 3 \\
+\textbf{Description:} & Portée de construction des tourelles \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & VIE\_TOURELLE \\
+\textbf{Valeur:} & 10 \\
+\textbf{Description:} & Points de vie d'une tourelle à sa création \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & ATTAQUE\_TOURELLE \\
+\textbf{Valeur:} & 10 \\
+\textbf{Description:} & Points d'attaque d'une tourelle au début d'un tour \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & POINTS\_SURVIVRE \\
+\textbf{Valeur:} & 1 \\
+\textbf{Description:} & Points gagnés pour avoir survécu à la fin de la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & POINTS\_VAINQUEUR \\
+\textbf{Valeur:} & 1 \\
+\textbf{Description:} & Points gagnés pour avoir vaincu un adversaire \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & POINTS\_CONTROLE\_FONTAINE \\
+\textbf{Valeur:} & 1 \\
+\textbf{Description:} & Points gagnés pour contrôler une fontaine à la fin de la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+\noindent \begin{tabular}{lp{15cm}}
+\textbf{Constante:} & POINTS\_CONTROLE\_ARTEFACT \\
+\textbf{Valeur:} & 4 \\
+\textbf{Description:} & Points gagnés pour contrôler un artefact à la fin de la partie \\
+\end{tabular} 
+\vspace{0.2cm} \\
+
+
+
+
+
+\functitle{case\_info} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Information sur les cases \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{CASE\_SIMPLE}~: & Case simple \\
+    
+        \textsl{CASE\_TOURELLE}~: & Tourelle \\
+    
+        \textsl{CASE\_BASE}~: & Base du joueur \\
+    
+        \textsl{CASE\_FONTAINE}~: & Fontaine magique \\
+    
+        \textsl{CASE\_ARTEFACT}~: & Artefact magique \\
+    
+        \textsl{CASE\_ERREUR}~: & Erreur \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{erreur} \\
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Erreurs possibles \\
+Valeurs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{OK}~: & L'action s'est effectuée avec succès \\
+    
+        \textsl{ANNULER\_IMPOSSIBLE}~: & Aucune action à annuler \\
+    
+        \textsl{CASE\_IMPOSSIBLE}~: & Cette case n'existe pas \\
+    
+        \textsl{CASE\_ADVERSE}~: & Vous ne contrôlez pas cette case \\
+    
+        \textsl{CASE\_UTILISEE}~: & Cette case n'est pas libre \\
+    
+        \textsl{CASE\_VIDE}~: & Cette case est vide \\
+    
+        \textsl{VALEUR\_INVALIDE}~: & Cette valeur est invalide \\
+    
+        \textsl{MAGIE\_INSUFFISANTE}~: & Vous n'avez pas assez de magie \\
+    
+        \textsl{SORCIERS\_INSUFFISANTS}~: & Vous n'avez pas assez de sorciers \\
+    
+        \textsl{ATTAQUE\_INSUFFISANTE}~: & Vous n'avez pas assez de points d'attaque \\
+    
+        \textsl{PHASE\_INCORRECTE}~: & Cette action ne peut pas être utilisée lors de cette phase du jeu. \\
+    
+        \textsl{PORTEE\_INSUFFISANTE}~: & Vous n'avez pas assez de portée pour effectuer cette action \\
+    
+        \textsl{PERDANT}~: & Vous avez perdu et ne pouvez pas effectuer d'actions \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+
+
+\functitle{position}
+
+\begin{lst-c++}
+struct position {
+    int x;
+    int y;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente la position sur la carte \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{x}~: & Coordonnée en X \\
+    
+        \textsl{y}~: & Coordonnée en Y \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+\functitle{tourelle}
+
+\begin{lst-c++}
+struct tourelle {
+    position pos;
+    int portee;
+    int joueur;
+    int vie;
+    int attaque;
+};
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Représente une tourelle \\
+Champs~: &
+\small
+\begin{tabular}[t]{@{\extracolsep{0pt}}lp{7cm}}
+    
+        \textsl{pos}~: & Position de la tourelle \\
+    
+        \textsl{portee}~: & Portée de la tourelle \\
+    
+        \textsl{joueur}~: & Joueur qui possède la tourelle \\
+    
+        \textsl{vie}~: & Nombre de points de vie de la tourelle \\
+    
+        \textsl{attaque}~: & Nombre de points d'attaque de la tourelle \\
+    
+\end{tabular} \\
+\end{tabular}
+
+
+
+
+\begin{minipage}{\linewidth}
+\functitle{info\_case}
+
+\begin{lst-c++}
+case_info info_case(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le type de la case à l'emplacement `pos` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position de la case \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tourelles\_joueur}
+
+\begin{lst-c++}
+tourelle array tourelles_joueur(int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des tourelles qui appartiennent au joueur ``joueur`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{magie}
+
+\begin{lst-c++}
+int magie(int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la magie que possède le joueur ``joueur`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{joueur}~: & Numéro du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{nb\_sorciers}
+
+\begin{lst-c++}
+int nb_sorciers(position pos, int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Case \\
+      
+    
+      
+        \textsl{joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{nb\_sorciers\_deplacables}
+
+\begin{lst-c++}
+int nb_sorciers_deplacables(position pos, int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le nombre de sorciers du joueur ``joueur`` déplaçables sur la case ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Case \\
+      
+    
+      
+        \textsl{joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{joueur\_case}
+
+\begin{lst-c++}
+int joueur_case(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro du joueur qui contrôle la case ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Case \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tourelle\_case}
+
+\begin{lst-c++}
+tourelle tourelle_case(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la tourelle située sur la case ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Case de la tourelle \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{base\_joueur}
+
+\begin{lst-c++}
+position base_joueur(int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la position de la base du joueur ``joueur`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{constructible}
+
+\begin{lst-c++}
+bool constructible(position pos, int joueur)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne vrai si l'on peut construire sur la case ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Case \\
+      
+    
+      
+        \textsl{joueur}~: & Identifiant du joueur \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{chemin}
+
+\begin{lst-c++}
+position array chemin(position pos1, position pos2)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos1}~: & Case de départ \\
+      
+    
+      
+        \textsl{pos2}~: & Case d'arrivée \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{construire}
+
+\begin{lst-c++}
+erreur construire(position pos, int portee)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Construire une tourelle à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+      
+        \textsl{portee}~: & Portée \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{supprimer}
+
+\begin{lst-c++}
+erreur supprimer(position pos)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Supprimer une tourelle à la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tirer}
+
+\begin{lst-c++}
+erreur tirer(int pts, position tourelle, position cible)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Tirer avec ``pts`` points de dégât depuis la tourelle ``tourelle`` sur la position ``cible`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pts}~: & Nombre de points de dégât \\
+      
+    
+      
+        \textsl{tourelle}~: & Position de la tourelle \\
+      
+    
+      
+        \textsl{cible}~: & Position de la cible \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{creer}
+
+\begin{lst-c++}
+erreur creer(int nb)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Créer ``nb`` sorciers dans la base \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{nb}~: & Position d'arrivée \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{deplacer}
+
+\begin{lst-c++}
+erreur deplacer(position depart, position arrivee, int nb)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position ``arrivee``. \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{depart}~: & Position de départ \\
+      
+    
+      
+        \textsl{arrivee}~: & Position d'arrivée \\
+      
+    
+      
+        \textsl{nb}~: & Nombre de sorciers à déplacer \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{assieger}
+
+\begin{lst-c++}
+erreur assieger(position pos, position cible, int nb_sorciers)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Attaquer la tourelle à la position ``cible`` depuis la position ``pos`` \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{pos}~: & Position des sorciers \\
+      
+    
+      
+        \textsl{cible}~: & Position de la tourelle à attaquer \\
+      
+    
+      
+        \textsl{nb\_sorciers}~: & Nombre de sorciers attaquant la tourelle \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{moi}
+
+\begin{lst-c++}
+int moi()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro de votre joueur \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{adversaires}
+
+\begin{lst-c++}
+int array adversaires()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la liste des numéros de vos adversaires \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{tour\_actuel}
+
+\begin{lst-c++}
+int tour_actuel()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne le numéro du tour actuel \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{distance}
+
+\begin{lst-c++}
+int distance(position depart, position arrivee)
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Retourne la distance entre deux positions \\
+
+
+Parametres~: &
+\begin{tabular}[t]{@{\extracolsep{0pt}}ll}
+    
+    
+      
+        \textsl{depart}~: & Départ \\
+      
+    
+      
+        \textsl{arrivee}~: & Arrivée \\
+      
+    
+  \end{tabular} \\
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+
+\begin{minipage}{\linewidth}
+\functitle{annuler}
+
+\begin{lst-c++}
+erreur annuler()
+\end{lst-c++}
+
+\noindent
+\begin{tabular}[t]{@{\extracolsep{0pt}}>{\bfseries}lp{10cm}}
+Description~: & Annule la dernière action \\
+
+
+
+
+
+
+
+\end{tabular} \\[0.3cm]
+\end{minipage}
+
+

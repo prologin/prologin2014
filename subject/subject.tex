@@ -50,13 +50,13 @@
 %\usepackage{a4}
 \usepackage{geometry}
 %\usepackage{graphicx}
-%\usepackage{multicol}
+\usepackage{multicol}
 \usepackage{fancyhdr}
 %%\usepackage{palatino}
 %\usepackage{subfigure}
 %\usepackage{verbatim,fancyvrb}
 \usepackage{listings}
-%\usepackage{array}
+\usepackage{array}
 \usepackage{color}
 
 \def\pdate{\plongday{} \pday{} \pmonth{} \pyear{}}
@@ -67,7 +67,7 @@
 \lstset{%
 language=C++,
 identifierstyle=\color{colIdentifier},
-keywordstyle=\color{colKeys},
+%keywordstyle=\color{colKeys},
 basicstyle=\ttfamily\small
 }}{}
 %\renewcommand\ttdefault{cmtt}
@@ -95,8 +95,8 @@ $\bullet$ \underline{\textbf{#1}}
 % Couverture =========================================================
 \begin{titlepage}
 \begin{center}
-\includegraphics[width=\linewidth]{\plogo}\\
-\vspace{4cm}
+~\includegraphics[width=\linewidth]{\plogo}\\
+\vspace{5cm}
 \Huge
 \textbf{\ptitle{}}\\
 \Large
@@ -124,11 +124,11 @@ $\bullet$ \underline{\textbf{#1}}
 
 \input{subject_content.tex}
 
-%\input{../doc/finale.tex}
+\input{finale.tex}
 
 \newpage
 \section{API}
-%\input{api.tex}
+\input{api.tex}
 
 \newpage
 \section{Notes sur l'utilisation de l'API}
