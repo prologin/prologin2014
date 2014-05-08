@@ -120,7 +120,7 @@ void Rules::resolve_score()
     std::map<int, rules::Player_sptr> map_players =
         api_->game_state()->get_players_ids();
     if (api_->game_state()->get_player_artefact() != -1)
-        players_->players[api_->game_state()->get_player_artefact()]->score +=
+        players_->players[api_->game_state()->get_player_artefact()-1]->score +=
             POINTS_CONTROLE_ARTEFACT;
     for (auto& p : players_->players)
         if (p->type == rules::PLAYER)
