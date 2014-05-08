@@ -212,22 +212,6 @@ void Cell::resolve_fight()
     int currentSecondMax = 0;
     int idcurrentMax = -1;
 
-    /* There may be wizards that were left in place: these are still in
-     * nb_wizards_movable_, but we want to process them all in nb_wizards_:
-     * move them.  */
-    for (const auto& it : nb_wizards_movable_)
-        if (it.second > 0)
-        {
-            const auto already_moved_wizards = nb_wizards_.find(it.first);
-            nb_wizards_[it.first] = (
-                it.second +
-                ((already_moved_wizards != nb_wizards_.end())
-                 ? already_moved_wizards->second
-                 : 0)
-            );
-        }
-    nb_wizards_movable_.clear();
-
     // find second
     for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
     {
