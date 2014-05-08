@@ -2,7 +2,7 @@
 # Contributor: Prologin <serveur@prologin.org>
 
 pkgname=stechec2-prologin2014
-pkgver=2014_0.1
+pkgver=2014_0.4
 pkgrel=1
 pkgdesc="Stechec2 with Prologin 2014 rules"
 arch=('i686' 'x86_64')

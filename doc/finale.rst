@@ -147,8 +147,7 @@ combat :
 * B, C et D : 0 unité.
 
 Le joueur restant, s'il existe, gagne REVENU_SORCIER points de magie
-pour chaque sorcier retiré aux autres joueurs (ici, (1 + 3 + 3) *
-REVENU_SORCIER)
+pour le nombre de sorciers retiré aux autres joueurs (ici, 3 * REVENU_SORCIER)
 
 
 Tir des tourelles
