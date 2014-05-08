@@ -97,6 +97,7 @@ class GameState : public rules::GameState
         void resolve_tower_fighters();
 
         void check_losers();
+        void resolve_base_released();
         bool has_lost(int player) const;
 
     private:

@@ -68,6 +68,7 @@ class Map
 
         // delete every element of the player
         void delete_all(int player);
+        // Check if a base has been released
     private:
         std::array<std::array<Cell*, TAILLE_TERRAIN>, TAILLE_TERRAIN> map_;
 

@@ -180,6 +180,11 @@ void Rules::resolve_tower_fighters()
     api_->game_state()->resolve_tower_fighters();
 }
 
+void Rules::resolve_base_released()
+{
+    api_->game_state()->resolve_base_released();
+}
+
 void Rules::player_turn()
 {
     game_phase phase = api_->game_state()->getPhase();
@@ -247,6 +252,7 @@ void Rules::end_of_turn()
             resolve_wizard_movable();
             resolve_tower_magic();
             resolve_tower_fighters();
+            resolve_base_released();
             api_->game_state()->increment_turn();
             api_->game_state()->setPhase(PHASE_CONSTRUCTION);
             resolve_losers();

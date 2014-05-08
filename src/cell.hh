@@ -70,6 +70,7 @@ class Cell
         // Function to check that a base has been taken (and more importantly,
         // by WHO !
         int get_taken() const;
+        void set_taken(int t);
     private:
         int x_;
         int y_;

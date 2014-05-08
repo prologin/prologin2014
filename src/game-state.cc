@@ -163,6 +163,22 @@ game_phase GameState::getPhase() const
     return game_phase_;
 }
 
+void GameState::resolve_base_released()
+{
+    int taken;
+
+    for (auto& p : players_ids_)
+    {
+        if (!has_lost(p.first))
+        {
+            taken = map_->get_cell(get_base(p.first))->get_taken();
+            if (taken != -1
+                && !map_->get_cell(get_base(p.first))->get_nb_wizards_total())
+                map_->get_cell(get_base(p.first))->set_taken(-1);
+        }
+    }
+}
+
 void GameState::check_losers()
 {
     int owner_base = -1;
@@ -181,6 +197,7 @@ void GameState::check_losers()
                 // We cannot declare this user as loser before the end of the function,
                 // in case  players kill each other at the same time.
                 losers_this_turn.push_back(p.first);
+                //map_->get_cell(bases_players_[p.first])->set_taken(-1);
             }
         }
     }
@@ -192,6 +209,7 @@ void GameState::check_losers()
         map_->delete_all(x);
         magic_[x] = 0;
         losers_.insert(x);
+        //map_->get_cell(bases_players_[x])->set_player(-1);
     }
 }
 

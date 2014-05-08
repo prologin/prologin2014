@@ -176,7 +176,9 @@ int Cell::wizards_attacked(int points, int player)
     }
 
     if (get_nb_wizards_total() == 0 && get_type() != CASE_BASE)
+    {
         player_ = -1;
+    }
 
     return wizards_dead;
 }
@@ -246,8 +248,8 @@ void Cell::resolve_fight(std::map<int, int> &magic)
     }
     else if (!nb_wizards_.empty() && idcurrentMax != player_)
     {
-        player_ = -1;
         taken_ = idcurrentMax;
+        //player_ = -1;
     }
 }
 
@@ -274,4 +276,9 @@ void Cell::set_tower_fighters(int nb)
 int Cell::get_taken() const
 {
     return taken_;
+}
+
+void Cell::set_taken(int t)
+{
+    taken_ = t;
 }
