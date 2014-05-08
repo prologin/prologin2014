@@ -86,7 +86,9 @@ static const std::array<position, 4> adjacents{{
 // range is owned by player.
 bool Map::buildable(position pos, int player) const
 {
-    if (!valid_position(pos))
+    const Cell* cell_to_valid = get_cell(pos);
+
+    if (cell_to_valid == NULL || cell_to_valid->get_type() != CASE_SIMPLE)
         return false;
 
     std::queue<position> todo;
