@@ -119,16 +119,19 @@ void Rules::resolve_score()
 
     std::map<int, rules::Player_sptr> map_players =
         api_->game_state()->get_players_ids();
-    if (api_->game_state()->get_player_artefact() != -1)
-        players_->players[api_->game_state()->get_player_artefact()-1]->score +=
-            POINTS_CONTROLE_ARTEFACT;
     for (auto& p : players_->players)
+    {
         if (p->type == rules::PLAYER)
         {
+            if (api_->game_state()->get_player_artefact() == p->id)
+                p->score += POINTS_CONTROLE_ARTEFACT;
+
+
             if (losers.find(p->id) == losers.end())
                 p->score += POINTS_SURVIVRE;
             p->score += api_->game_state()->get_nb_fontains(p->id) * POINTS_CONTROLE_FONTAINE;
         }
+    }
 }
 
 void Rules::resolve_fights()
