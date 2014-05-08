@@ -107,8 +107,7 @@ bool Rules::is_finished()
 {
     int nb_turn = api_->game_state()->get_current_turn();
 
-    return (nb_turn > MAX_TOUR ||
-            api_->game_state()->get_losers_ids().size() == 3);
+    return (nb_turn > MAX_TOUR);
 }
 
 void Rules::resolve_score()
