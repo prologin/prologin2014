@@ -18,7 +18,7 @@
 */
 
 #include <map>
-
+#include <limits.h>
 #include <gtest/gtest.h>
 
 #include <utils/log.hh>
@@ -215,7 +215,7 @@ TEST_F(ActionsTest, CreateTest)
     a1.apply_on(gamestate_);
 
     //Check overflow with number of wizards to create
-    ActionCreate a2(1500000000, 1);
+    ActionCreate a2(INT_MAX/2, 1);
     EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
         << "There shoudn't be enough magic";
 
