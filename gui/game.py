@@ -3,7 +3,7 @@ import struct
 
 from api import *
 
-Cell = namedtuple('Cell', 'type player wizards towers')
+Cell = namedtuple('Cell', 'type object_player wizards_player wizards towers')
 Tower = namedtuple('Tower', 'player scope life attack')
 Player = namedtuple('Player', 'name score magic towers')
 
@@ -26,10 +26,16 @@ CELL_NAMES = {
 # TODO: action ?
 
 NO_PLAYER = -1
-DEFAULT_CELL = Cell(case_info.CASE_SIMPLE, -1, 0, [])
+DEFAULT_CELL = Cell(case_info.CASE_SIMPLE, NO_PLAYER, NO_PLAYER, 0, [])
 
 def cell_from_json(cell):
-    return Cell(cell['type'], cell['player'], cell['wizards'], [])
+    return Cell(
+        cell['type'],
+        cell['object-player'],
+        cell['wizards-player'],
+        cell['wizards'],
+        []
+    )
 
 def tower_from_json(tower):
     return Tower(tower['player'], tower['scope'], tower['life'],

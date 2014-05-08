@@ -17,6 +17,7 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cassert>
 #include <map>
 #include <iostream>
 
@@ -165,6 +166,24 @@ int Cell::wizards_attacked(int points, int player)
     }
 
     return wizards_dead;
+}
+
+int Cell::get_wizards_player() const
+{
+    int player = -1;
+    for (const auto& it : nb_wizards_)
+        if (it.second > 0)
+        {
+            assert (player == -1 || player == it.first);
+            player = it.first;
+        }
+    for (const auto& it : nb_wizards_movable_)
+        if (it.second > 0)
+        {
+            assert (player == -1 || player == it.first);
+            player = it.first;
+        }
+    return player;
 }
 
 int Cell::tower_attacked(int points)

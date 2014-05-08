@@ -63,7 +63,9 @@ class DetailsWidget(BaseWidget):
         # bottom side.
         tile_type_name = game.CELL_TYPES[cell.type]
         self.surface.blit(
-            data.get_player_tile(cell.type, self.game_state, cell.player),
+            data.get_player_tile(
+                cell.type, self.game_state, cell.object_player
+            ),
             (
                 (self.ICON_MARGIN - data.TILE_WIDTH) // 2,
                 (self.LINE_HEIGHT * 3 - data.TILE_HEIGHT) // 2
@@ -85,15 +87,31 @@ class DetailsWidget(BaseWidget):
         self.surface.blit(text, (rcolumn_x, cur_y))
         cur_y += self.LINE_HEIGHT
 
-        if cell.player != game.NO_PLAYER:
-            owner = self.game_state.players[cell.player].name
-            color = data.get_player_color(self.game_state, cell.player)
+        # Display the owner of the cell.
+        if cell.object_player != game.NO_PLAYER:
+            owner = self.game_state.players[cell.object_player].name
+            color = data.get_player_color(self.game_state, cell.object_player)
         else:
             owner = u'Personne'
             color = utils.DARK_GREY
         text = self.font.render(owner, True, color)
         self.surface.blit(text, (rcolumn_x, cur_y))
-        cur_y += self.LINE_HEIGHT + self.PADDING
+        cur_y += self.LINE_HEIGHT
+
+        # Then display, if different, the owner of the wizards on the cell.
+        if (
+            cell.object_player == game.NO_PLAYER
+            and cell.wizards > 0
+        ):
+            owner = self.game_state.players[cell.wizards_player].name
+            color = data.get_player_color(self.game_state, cell.wizards_player)
+            text = self.font.render(
+                u'(sorciers à {})'.format(owner), True, color
+            )
+            self.surface.blit(text, (rcolumn_x, cur_y))
+            cur_y += self.LINE_HEIGHT
+
+        cur_y += self.PADDING
 
         # List of statistics to display.
         Row = namedtuple('Row', 'label icon number')

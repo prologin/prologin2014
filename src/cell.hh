@@ -43,6 +43,11 @@ class Cell
         // return nb_wizards dead
         int wizards_attacked(int points, int player);
 
+        /* Return the player the wizards on this cell belong to.  Must be
+         * called only after fights resolution: this way, all wizards are
+         * supposed to belong to the same player.  */
+        int get_wizards_player() const;
+
         void put_tower(tourelle tower);
         void delete_tower(void);
         tourelle get_tower() const;

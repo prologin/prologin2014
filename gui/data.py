@@ -97,12 +97,11 @@ def get_player_tile(cell_type, game_state, player_id):
         )
 
 def get_player_color(game_state, player_id):
+    if player_id == game.NO_PLAYER:
+        return NO_PLAYER_COLOR
+
     rank = game_state.player_id_to_rank[player_id]
-    return (
-        NO_PLAYER_COLOR
-        if player_id == game.NO_PLAYER else
-        PLAYER_COLORS[rank]
-    )
+    return PLAYER_COLORS[rank]
 
 def get_colored_images(pattern):
     return ColoredImages(
