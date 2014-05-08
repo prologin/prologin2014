@@ -84,7 +84,7 @@ void ActionAttack::apply_on(GameState* st) const
 {
     Cell* cell_init = st->get_map()->get_cell(pos_);
 
-    st->get_map()->get_cell(target_)->tower_attacked(nb_wizards_);
+    int t = st->get_map()->get_cell(target_)->tower_attacked(nb_wizards_);
 
     cell_init->set_tower_fighters(cell_init->get_tower_fighters() - nb_wizards_);
 }

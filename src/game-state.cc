@@ -169,7 +169,8 @@ void GameState::check_losers()
     for (auto& p : players_ids_)
     {
         owner_base = map_->get_cell(bases_players_[p.first])->get_player();
-        if (owner_base != p.first)
+        // If owner_base == -1, it means that the player already lost
+        if (owner_base != -1 && owner_base != p.first)
         {
             // update score of the winner
             if (losers_.find(p.first) == losers_.end())
@@ -179,6 +180,7 @@ void GameState::check_losers()
                 // delete all his wizards and all his towers
                 map_->delete_all(p.first);
                 magic_[p.first] = 0;
+
             }
         }
     }

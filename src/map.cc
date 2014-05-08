@@ -278,7 +278,8 @@ void Map::delete_all(int player)
                 map_[x][y]->delete_tower();
             else
                 map_[x][y]->set_wizards(player, 0);
-            if (map_[x][y]->get_player() == player)
+            if (map_[x][y]->get_player() == player
+                && map_[x][y]->get_type() != CASE_BASE)
                 map_[x][y]->set_player(-1);
         }
 }

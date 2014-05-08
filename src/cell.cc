@@ -215,6 +215,7 @@ void Cell::resolve_fight()
         else
         {
             it->second = temp;
+            //if (get_type() != CASE_BASE)
             player_ = it->first;
         }
     }
