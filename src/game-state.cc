@@ -166,6 +166,8 @@ game_phase GameState::getPhase() const
 void GameState::check_losers()
 {
     int owner_base = -1;
+    std::vector<int> losers_this_turn;
+
     for (auto& p : players_ids_)
     {
         owner_base = map_->get_cell(bases_players_[p.first])->get_taken();
@@ -176,13 +178,20 @@ void GameState::check_losers()
             if (losers_.find(p.first) == losers_.end())
             {
                 players_ids_[owner_base]->score += POINTS_VAINQUEUR;
-                losers_.insert(p.first);
-                // delete all his wizards and all his towers
-                map_->delete_all(p.first);
-                magic_[p.first] = 0;
-
+                // We cannot declare this user as loser before the end of the function,
+                // in case  players kill each other at the same time.
+                losers_this_turn.push_back(p.first);
             }
         }
+    }
+
+    // We declare the losers as losers
+    for (int x : losers_this_turn)
+    {
+        // delete all his wizards and all his towers
+        map_->delete_all(x);
+        magic_[x] = 0;
+        losers_.insert(x);
     }
 }
 

@@ -243,13 +243,13 @@ void Rules::end_of_turn()
             api_->game_state()->setPhase(PHASE_SIEGE);
             break;
         case PHASE_SIEGE:
-            resolve_losers();
             resolve_magic();
             resolve_wizard_movable();
             resolve_tower_magic();
             resolve_tower_fighters();
             api_->game_state()->increment_turn();
             api_->game_state()->setPhase(PHASE_CONSTRUCTION);
+            resolve_losers();
             break;
     }
 
