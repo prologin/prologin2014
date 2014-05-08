@@ -31,16 +31,18 @@ Cell::Cell(int y, int x)
     , tower_({ { -1, -1 }, -1, -1, -1, -1 })
     , nb_tower_fighters_(0)
 {
+    nb_wizards_ = std::map<int, int>();
+    nb_wizards_movable_ = std::map<int, int>();
 }
 Cell::Cell(const Cell &c)
     : x_(c.x_)
     , y_(c.y_)
     , player_(c.player_)
-    , nb_wizards_(c.nb_wizards_)
-    , nb_wizards_movable_(c.nb_wizards_)
     , tower_(c.tower_)
     , nb_tower_fighters_(c.nb_tower_fighters_)
 {
+    nb_wizards_.insert(c.nb_wizards_.begin(), c.nb_wizards_.end());
+    nb_wizards_movable_.insert(c.nb_wizards_movable_.begin(), c.nb_wizards_movable_.end());
 }
 
 Cell::~Cell()
@@ -105,12 +107,18 @@ void Cell::set_magic_tower(int attaque)
 
 int Cell::get_nb_wizards(int player) const
 {
-    return nb_wizards_.find(player)->second;
+    int nb = nb_wizards_.find(player)->second;
+    if (nb < 0)
+        return 0;
+    return nb;
 }
 
 int Cell::get_nb_wizards_movable(int player) const
 {
-    return nb_wizards_movable_.find(player)->second;
+    int nb = nb_wizards_movable_.find(player)->second;
+    if (nb < 0)
+        return 0;
+    return nb;
 }
 
 int Cell::get_nb_wizards_total() const

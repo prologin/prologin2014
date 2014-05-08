@@ -64,6 +64,7 @@ int ActionMove::check(const GameState* st) const
     if (cell_dest->get_type() == CASE_TOURELLE)
         return CASE_UTILISEE;
 
+
     if (nb_movable < nb_wizards_)
         return SORCIERS_INSUFFISANTS;
 
