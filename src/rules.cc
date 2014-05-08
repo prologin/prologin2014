@@ -124,8 +124,11 @@ void Rules::resolve_score()
             POINTS_CONTROLE_ARTEFACT;
     for (auto& p : players_->players)
         if (p->type == rules::PLAYER)
+        {
             if (losers.find(p->id) == losers.end())
-                    p->score += POINTS_SURVIVRE;
+                p->score += POINTS_SURVIVRE;
+            p->score += api_->game_state()->get_nb_fontains(p) * POINTS_CONTROLE_FONTAINE;
+        }
 }
 
 void Rules::resolve_fights()
