@@ -10,3 +10,4 @@ Pages:
    faq-candidat
    stechec2
    erratum
+   rendu
