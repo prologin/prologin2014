@@ -36,8 +36,6 @@ TEST_F(MapTest, MapCreated)
 {
     Map map;
 
-    INFO("get artefact");
-
     // Artefact
     EXPECT_EQ(CASE_ARTEFACT, map.get_cell(position { TAILLE_TERRAIN / 2,
                                           TAILLE_TERRAIN / 2 })->get_type())
@@ -76,4 +74,12 @@ TEST_F(MapTest, MapCreated)
     EXPECT_EQ(CASE_BASE, map.get_cell(position { 0, TAILLE_TERRAIN - 1  })->
               get_type())
         << "Cell(0, TAILLE_TERRAIN - 1) should be a base";
+}
+
+TEST_F(MapTest, CellStat)
+{
+    Map map;
+
+    EXPECT_EQ(0, map.get_cell(position { 2, 2})->get_nb_wizards(0))
+        << "The number of wizards on this cell shoulb be 0";
 }

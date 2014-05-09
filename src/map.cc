@@ -279,6 +279,11 @@ void Map::delete_all(int player)
 
             /* Set "free" all objects that used to belong to this player, even
              * destroy its towers.  */
+            if (c.get_type() == CASE_BASE && c.get_taken() == player)
+            {
+                c.set_wizards(player, 0);
+                c.set_wizards_movable(player, 0);
+            }
             if (c.get_player() == player)
                 switch (c.get_type())
                 {
@@ -302,7 +307,6 @@ void Map::resolve_tower_fighters()
                 map_[x][y]->set_tower_fighters(0);
         }
 }
-
 void Map::dump()
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)

@@ -149,7 +149,7 @@ void Cell::set_wizards_movable(int player, int nb_wizards)
 {
     if (nb_wizards > 0)
         nb_wizards_movable_[player] = nb_wizards;
-    else
+    else if (get_type() != CASE_BASE)
         nb_wizards_movable_.erase(player);
 }
 
