@@ -294,7 +294,7 @@ int Api::tour_actuel()
 int Api::distance(position depart, position arrivee)
 {
     // function of position.hh
-    return distance(depart, arrivee);
+    return ::distance(depart, arrivee);
 }
 ///
 ///
