@@ -144,37 +144,40 @@ TEST_F(ActionsTest, AttackTest)
 
 TEST_F(ActionsTest, ConstructTest)
 {
-    const position pos = {30, 1};
+    const int player = 0;
+    const int other  = 1;
+
+    const position pos = {1, 1};
+    const position pos_busy = {2, 4};
+    const position pos_other = {7, 7};
 
     Cell* cbase = gamestate_->get_map()->get_cell(pos);
-    Cell* c2 = gamestate_->get_map()->get_cell({ 2, 3 });
-    Cell* c = gamestate_->get_map()->get_cell({2, 2});
+    Cell* c2 = gamestate_->get_map()->get_cell(pos_busy);
+    Cell* c = gamestate_->get_map()->get_cell(pos_other);
 
-    ActionConstruct a1(pos, 4, 1);
-    ActionConstruct a2({ 2, 3 }, 3, 2);
-    ActionConstruct a4({ 2, 4 }, 4, 1);
-    ActionConstruct a5({ 4, 2 }, 4, 1);
-    ActionConstruct a6({ 4, 4 }, 4, 1);
-    ActionConstruct a7({ 5, 4 }, 4, 1);
-    ActionConstruct a8({ 4, 5 }, 4, 1);
-    ActionConstruct a9({ 5, 5 }, 4, 1);
-    ActionConstruct a10({ 2, 9 }, 4, 1);
+    ActionConstruct a1(pos, 4, player);
+    ActionConstruct a2(pos_busy, 3, player);
+    ActionConstruct a4({ 2, 1 }, 4, player);
+    ActionConstruct a5({ 4, 2 }, 4, player);
+    ActionConstruct a6({ 3, 2 }, 4, player);
+    ActionConstruct a7({ 5, 4 }, 4, player);
+    ActionConstruct a8({ 4, 5 }, 4, player);
+    ActionConstruct a9({ 5, 6 }, 4, player);
+    ActionConstruct a10({ 2, 9 }, 4, player);
 
-    gamestate_->set_magic(1, 1000);
-    c = gamestate_->get_map()->get_cell({7, 7});
-    c->put_tower({ { 7, 7 }, 2, 2, 2, 2 });
-    c2->set_wizards(1, 2);
+    gamestate_->set_magic(player, 1000);
+    c->put_tower({ pos_other, 2, other, 2, 2 });
+    c2->set_wizards(player, 2);
 
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to put a tower here";
     a1.apply_on(gamestate_);
 
-
     EXPECT_EQ(CASE_TOURELLE, cbase->get_type())
         << "There should be a tower here.";
 
-    //EXPECT_EQ(1, gamestate_->get_towers(1).size())
-    //    << "There should be one tower in the list of towers of the player";
+    EXPECT_EQ(1, static_cast<int>(gamestate_->get_towers(1).size()))
+        << "There should be one tower in the list of towers of the player";
 
     a1.apply_on(gamestate_);
 
@@ -185,22 +188,28 @@ TEST_F(ActionsTest, ConstructTest)
         << "There are wizards on the cell";
 
     EXPECT_EQ(OK, a4.check(gamestate_))
-        << "It should be possible to put a tower here, OK ??";
-
-    EXPECT_EQ(OK, a5.check(gamestate_))
         << "It should be possible to put a tower here";
+
+    EXPECT_EQ(CASE_ADVERSE, a5.check(gamestate_))
+        << "The tower is too far from the base: build should not be possible";
+
+    EXPECT_EQ(CASE_ADVERSE, a6.check(gamestate_))
+        << ("This tower is near a too recently built one,"
+            " so it's too far from base");
+    gamestate_->get_map()->resolve_constructing();
 
     EXPECT_EQ(OK, a6.check(gamestate_))
-        << "It should be possible to put a tower here";
+        << ("This time, thanks to the recently built tower,"
+            " this cell is buildable");
 
     EXPECT_EQ(CASE_ADVERSE, a7.check(gamestate_))
         << "It shouldn't be possible to put a tower here";
 
     EXPECT_EQ(CASE_ADVERSE, a8.check(gamestate_))
-        << "It shouldn't be possible to put a tower here";
+        << "It shouldn't be possible to put a tower here: too far";
 
     EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
-        << "It shouldn't be possible to put a tower here";
+        << "It shouldn't be possible to put a tower here: near an enemy's";
 
     a4.apply_on(gamestate_);
     EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
