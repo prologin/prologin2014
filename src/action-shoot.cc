@@ -61,11 +61,9 @@ int ActionShoot::check(const GameState* st) const
         return VALEUR_INVALIDE;
     if (cell_target->get_type() == CASE_TOURELLE)
         return CASE_UTILISEE;
+
     if (cell_tower->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
-
-    if (cell_tower->get_type() == CASE_TOURELLE)
-        return CASE_UTILISEE;
 
     // Check of the tower
     tourelle tower = cell_tower->get_tower();
