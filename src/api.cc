@@ -305,6 +305,7 @@ erreur Api::annuler()
     if (!game_state_->can_cancel())
         return ANNULER_IMPOSSIBLE;
 
+    actions_.cancel();
     game_state_ = rules::cancel(game_state_);
 
     return OK;
