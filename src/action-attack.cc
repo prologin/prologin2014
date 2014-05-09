@@ -52,8 +52,8 @@ int ActionAttack::check(const GameState* st) const
     if (!(cell_tower = st->get_map()->get_cell(target_)))
         return CASE_IMPOSSIBLE;
 
-    if (nb_wizards_ < 0 || nb_wizards_
-        > cell_init->get_nb_wizards(player_id_) - cell_init->get_tower_fighters())
+    if (nb_wizards_ < 0 || nb_wizards_ > cell_init->get_nb_wizards(player_id_)
+        - cell_init->get_tower_fighters())
         return SORCIERS_INSUFFISANTS;
 
     if (cell_init->get_nb_wizards(player_id_) <= 0)
@@ -86,5 +86,5 @@ void ActionAttack::apply_on(GameState* st) const
 
     st->get_map()->get_cell(target_)->tower_attacked(nb_wizards_);
 
-    cell_init->set_tower_fighters(cell_init->get_tower_fighters() - nb_wizards_);
+    cell_init->set_tower_fighters(cell_init->get_tower_fighters() + nb_wizards_);
 }

@@ -131,6 +131,12 @@ TEST_F(ActionsTest, AttackTest)
 
     EXPECT_EQ(CASE_TOURELLE, c_ok.get_type())
         << "The tower should not be down yet.";
+
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_ok.check(gamestate_))
+        << "Every wizards have already attacked the tower.";
+
+    c_from_tower.set_wizards(attack_player, 4);
+
     attack_ok.apply_on(gamestate_);
 
     EXPECT_EQ(CASE_SIMPLE, c_ok.get_type())
