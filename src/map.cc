@@ -303,3 +303,35 @@ void Map::resolve_tower_fighters()
         }
 }
 
+void Map::dump()
+{
+    for (int y = 0; y < TAILLE_TERRAIN; ++y)
+    {
+        for (int x = 0; x < TAILLE_TERRAIN; ++x)
+        {
+            char c = '?';
+            switch (map_[x][y]->get_type())
+            {
+                case CASE_SIMPLE:
+                    c = '.';
+                    break;
+                case CASE_TOURELLE:
+                    c = '#';
+                    break;
+                case CASE_BASE:
+                    c = '@';
+                    break;
+                case CASE_FONTAINE:
+                    c = 'V';
+                    break;
+                case CASE_ARTEFACT:
+                    c = '$';
+                    break;
+                default:
+                    break;
+            }
+            std::cerr << c;
+        }
+        std::cerr << std::endl;
+    }
+}
