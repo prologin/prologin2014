@@ -22,7 +22,7 @@ print(filename)
 
 
 if filename.endswith('.gz'):
-    dump_file = gzip.open(filename, 'r')
+    dump_file = gzip.open(filename, 'rt')
 else:
     dump_file = open(filename, 'r')
 state_reader = DumpReader(dump_file)
