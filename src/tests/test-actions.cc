@@ -209,17 +209,17 @@ TEST_F(ActionsTest, ConstructTest)
 // spawn wizards
 TEST_F(ActionsTest, CreateTest)
 {
-    ActionCreate a1(10, 1);
+    ActionCreate a1(11, 1);
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
         << "There shoudn't be enough magic";
-    a1.apply_on(gamestate_);
 
     //Check overflow with number of wizards to create
-    ActionCreate a2(INT_MAX/2, 1);
+    ActionCreate a2(INT_MAX/2+INT_MAX/4, 1); //So that *2 > INT)MAX
     EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
         << "There shoudn't be enough magic";
 
-
+    ActionCreate a3(10, 1);
+    a3.apply_on(gamestate_);
     Cell* base_p0 = gamestate_->get_map()->get_cell(gamestate_->get_base(1));
     EXPECT_EQ(10, base_p0->get_nb_wizards(1))
               << "There should be 10 wizards";
