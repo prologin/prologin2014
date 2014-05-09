@@ -12,11 +12,14 @@ import settings
 from state_reader import DumpReader
 from window import Window
 
+settings.parser.add_argument('file', help='The file to replay')
 settings.load(sys.argv[1:])
-try:
-    filename = settings.args[0]
-except IndexError:
-    logs.write('Error: a file is needed.')
+
+filename = settings.options.file
+
+
+print(filename)
+
 
 if filename.endswith('.gz'):
     dump_file = gzip.open(filename, 'r')
