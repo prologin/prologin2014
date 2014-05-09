@@ -214,7 +214,7 @@ TEST_F(ActionsTest, CreateTest)
         << "There shoudn't be enough magic";
 
     //Check overflow with number of wizards to create
-    ActionCreate a2(INT_MAX/2+INT_MAX/4, 1); //So that *2 > INT)MAX
+    ActionCreate a2(INT_MAX/2+INT_MAX/4, 1); //So that *2 > INT_MAX
     EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
         << "There shoudn't be enough magic";
 
@@ -321,12 +321,12 @@ TEST_F(ActionsTest, ShootTest)
 
     EXPECT_EQ(CASE_ADVERSE, a1.check(gamestate_))
         << "This is a tower of another team.";
-
+    c1->delete_tower();
     c1->put_tower({ { 2, 2 }, 3, 1, 2, 2 });
 
-    EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
-        << "This is a tower of another team.";
-
+    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
+        << "Not enough attack points.";
+    c1->delete_tower();
     c1->put_tower({ { 2, 2 }, 3, 1, 2, 5 });
 
     // Set wizards
@@ -348,8 +348,8 @@ TEST_F(ActionsTest, ShootTest)
     EXPECT_EQ(3, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(2))
         << "There should be 3 wizards left on this cell.";
 
-    EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
-        << "Not enougth magic for the action";
+    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
+        << "Not enough attack points for the action";
 
     ActionShoot a2(4, { 2, 2 }, { 2, 7 }, 1);
 
