@@ -95,8 +95,6 @@ void ActionShoot::apply_on(GameState* gameState) const
     Cell* cell_tower = gameState->get_map()->get_cell(tower_);
 
     cell_target->wizards_attacked(points_, player_id_);
-    std::cout << "Cell attacked " << cell_target->get_position().x << " "
-        << cell_target->get_position().y << std::endl;
 
     tourelle t = cell_tower->get_tower();
     cell_tower->set_magic_tower(t.attaque - points_);

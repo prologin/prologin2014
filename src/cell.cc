@@ -247,10 +247,7 @@ void Cell::resolve_fight(std::map<int, int> &magic)
             player_ = idcurrentMax;
     }
     else if (!nb_wizards_.empty() && idcurrentMax != player_)
-    {
         taken_ = idcurrentMax;
-        //player_ = -1;
-    }
 }
 
 void Cell::resolve_wizard_movable()
@@ -258,6 +255,13 @@ void Cell::resolve_wizard_movable()
     nb_wizards_movable_.clear();
     if (player_ != -1)
         nb_wizards_movable_[player_] = nb_wizards_[player_];
+    else if (get_type() == CASE_BASE)
+    {
+        // If a tower has been destroyed, the number of wizards on it still has
+        // to be able to move
+        if (nb_wizards_.size() > 0)
+            nb_wizards_movable_.insert(nb_wizards_.begin(), nb_wizards_.end());
+    }
 }
 
 void Cell::resolve_towers_attacked()
