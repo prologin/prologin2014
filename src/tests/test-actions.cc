@@ -121,7 +121,6 @@ TEST_F(ActionsTest, AttackTest)
     EXPECT_EQ(OK, attack_ok.check(gamestate_))
         << "It should be possible to attack a tower.";
 
-    /* TODO: is it really a problem?  */
     EXPECT_EQ(CASE_UTILISEE, attack_from_tower.check(gamestate_))
         << "There is a tower on the cell supposed to attack.";
 
@@ -147,14 +146,29 @@ TEST_F(ActionsTest, ConstructTest)
 {
     const position pos = {30, 1};
 
-    gamestate_->set_magic(1, 1000);
+    Cell* cbase = gamestate_->get_map()->get_cell(pos);
+    Cell* c2 = gamestate_->get_map()->get_cell({ 2, 3 });
+    Cell* c = gamestate_->get_map()->get_cell({2, 2});
 
     ActionConstruct a1(pos, 4, 1);
+    ActionConstruct a2({ 2, 3 }, 3, 2);
+    ActionConstruct a4({ 2, 4 }, 4, 1);
+    ActionConstruct a5({ 4, 2 }, 4, 1);
+    ActionConstruct a6({ 4, 4 }, 4, 1);
+    ActionConstruct a7({ 5, 4 }, 4, 1);
+    ActionConstruct a8({ 4, 5 }, 4, 1);
+    ActionConstruct a9({ 5, 5 }, 4, 1);
+    ActionConstruct a10({ 2, 9 }, 4, 1);
+
+    gamestate_->set_magic(1, 1000);
+    c = gamestate_->get_map()->get_cell({7, 7});
+    c->put_tower({ { 7, 7 }, 2, 2, 2, 2 });
+    c2->set_wizards(1, 2);
+
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to put a tower here";
     a1.apply_on(gamestate_);
 
-    Cell* cbase = gamestate_->get_map()->get_cell(pos);
 
     EXPECT_EQ(CASE_TOURELLE, cbase->get_type())
         << "There should be a tower here.";
@@ -167,46 +181,28 @@ TEST_F(ActionsTest, ConstructTest)
     EXPECT_EQ(CASE_UTILISEE, a1.check(gamestate_))
         << "The cell is already used.";
 
-    Cell* c2 = gamestate_->get_map()->get_cell({ 2, 3 });
-    c2->set_wizards(1, 2);
-
-    ActionConstruct a2({ 2, 3 }, 3, 2);
     EXPECT_EQ(CASE_UTILISEE, a2.check(gamestate_))
         << "There are wizards on the cell";
 
-
-    Cell* c = gamestate_->get_map()->get_cell({2, 2});
-    c->put_tower({ { 2, 2 }, 2, 1, 2, 2 });
-    c = gamestate_->get_map()->get_cell({7, 7});
-    c->put_tower({ { 7, 7 }, 2, 2, 2, 2 });
-
-    ActionConstruct a4({ 2, 4 }, 4, 1);
     EXPECT_EQ(OK, a4.check(gamestate_))
         << "It should be possible to put a tower here, OK ??";
 
-    ActionConstruct a5({ 4, 2 }, 4, 1);
     EXPECT_EQ(OK, a5.check(gamestate_))
         << "It should be possible to put a tower here";
 
-    ActionConstruct a6({ 4, 4 }, 4, 1);
     EXPECT_EQ(OK, a6.check(gamestate_))
         << "It should be possible to put a tower here";
 
-    ActionConstruct a7({ 5, 4 }, 4, 1);
     EXPECT_EQ(CASE_ADVERSE, a7.check(gamestate_))
         << "It shouldn't be possible to put a tower here";
 
-    ActionConstruct a8({ 4, 5 }, 4, 1);
     EXPECT_EQ(CASE_ADVERSE, a8.check(gamestate_))
         << "It shouldn't be possible to put a tower here";
 
-    ActionConstruct a9({ 5, 5 }, 4, 1);
     EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
         << "It shouldn't be possible to put a tower here";
 
-
     a4.apply_on(gamestate_);
-    ActionConstruct a10({ 2, 9 }, 4, 1);
     EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
         << "It shouldn't be possible to put a tower here (yet!)";
 
@@ -252,6 +248,14 @@ TEST_F(ActionsTest, DeleteTest)
 TEST_F(ActionsTest, MoveTest)
 {
     ActionMove a1({ 2, 2 }, { 2, 3 }, 3, 1);
+    ActionMove a2({ 2, 2 }, { 2, 3 }, -3, 1);
+    ActionMove a3({ 2, 5 }, { 2, 4 }, 2, 1);
+    ActionMove a4({ 2, 5 }, { 2, 10 }, 4, 1);
+
+    Cell *c1 = gamestate_->get_map()->get_cell({ 2, 2 });
+    Cell *c2 = gamestate_->get_map()->get_cell({ 2, 3 });
+    Cell *c3 = gamestate_->get_map()->get_cell({ 2, 5 });
+    Cell *c4 = gamestate_->get_map()->get_cell({ 2, 4 });
 
     EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
         << "Wrong phase of the game.";
@@ -261,12 +265,9 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_EQ(SORCIERS_INSUFFISANTS, a1.check(gamestate_))
         << "There are no wizards on the cell";
 
-    Cell *c1 = gamestate_->get_map()->get_cell({ 2, 2 });
-    Cell *c2 = gamestate_->get_map()->get_cell({ 2, 3 });
     c1->set_wizards(1, 10);
     c1->set_wizards_movable(1, 10);
 
-    ActionMove a2({ 2, 2 }, { 2, 3 }, -3, 1);
     EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
         << "Negative value";
 
@@ -284,10 +285,6 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_EQ(0, c2->get_nb_wizards_movable(1))
         << "There should be no movable on this cell.";
 
-    ActionMove a3({ 2, 5 }, { 2, 4 }, 2, 1);
-
-    Cell *c3 = gamestate_->get_map()->get_cell({ 2, 5 });
-    Cell *c4 = gamestate_->get_map()->get_cell({ 2, 4 });
 
     c3->put_tower({ { 2, 5 }, 3, 1, 2, 2 });
 
@@ -300,11 +297,10 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
         << "There is a tower in the destination cell.";
 
-    ActionMove a4({ 2, 5 }, { 2, 10 }, 4, 1);
-
     c3->set_wizards(1, 10);
     c3->set_wizards_movable(1, 10);
-    EXPECT_EQ(CASE_IMPOSSIBLE, a4.check(gamestate_))
+
+    EXPECT_EQ(PORTEE_INSUFFISANTE, a4.check(gamestate_))
         << "The cell is too far from the wizards";
 }
 
