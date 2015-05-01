@@ -64,9 +64,9 @@ class Rules : public rules::SynchronousRules
         void resolve_tower_fighters();
         void resolve_base_released();
 
-        void at_client_start();
+        void at_player_start();
         void at_spectator_start();
-        void at_client_end();
+        void at_player_end();
         void at_spectator_end();
         void player_turn();
         void spectator_turn();
