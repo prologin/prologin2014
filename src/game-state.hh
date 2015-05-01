@@ -56,9 +56,9 @@ class GameState : public rules::GameState
         virtual rules::GameState* copy() const;
         ~GameState();
 
-        /* turn handling */
-        void increment_turn();
-        int get_current_turn() const;
+        /* round handling */
+        void increment_round();
+        int get_current_round() const;
 
         /* Towers */
         bool add_tower(position pos, int player);
@@ -105,7 +105,7 @@ class GameState : public rules::GameState
         rules::Players_sptr players_;
         std::map<int, rules::Player_sptr> players_ids_;
         std::unordered_set<int> losers_;
-        int current_turn_;
+        int current_round_;
 
         std::map<int, int> magic_;
         std::map<int, position> bases_players_;

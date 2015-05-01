@@ -184,7 +184,7 @@ char* dump_game_state(const GameState& st, rules::Actions& acts)
 
     // - "turn": [current turn, number of turns]
     ss << "\"turn\": ["
-        << st.get_current_turn() << ", "
+        << st.get_current_round() << ", "
         << MAX_TOUR
         << "], ";
 

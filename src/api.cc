@@ -286,7 +286,7 @@ std::vector<int> Api::adversaires()
 //
 int Api::tour_actuel()
 {
-    return game_state_->get_current_turn();
+    return game_state_->get_current_round();
 }
 
 // Retourne la distance entre deux positions

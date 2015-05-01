@@ -105,9 +105,9 @@ void Rules::apply_action(const rules::IAction_sptr& action)
 
 bool Rules::is_finished()
 {
-    int nb_turn = api_->game_state()->get_current_turn();
+    int nb_round = api_->game_state()->get_current_round();
 
-    return (nb_turn > MAX_TOUR);
+    return (nb_round > MAX_TOUR);
 }
 
 void Rules::resolve_score()
@@ -233,7 +233,7 @@ void Rules::spectator_turn()
                     rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
-void Rules::end_of_turn()
+void Rules::end_of_round()
 {
     game_phase phase = api_->game_state()->getPhase();
 
@@ -256,7 +256,7 @@ void Rules::end_of_turn()
             resolve_tower_fighters();
             resolve_base_released();
             resolve_magic();
-            api_->game_state()->increment_turn();
+            api_->game_state()->increment_round();
             api_->game_state()->setPhase(PHASE_CONSTRUCTION);
             resolve_losers();
             break;
@@ -271,8 +271,8 @@ void Rules::at_end()
     resolve_score();
 }
 
-void Rules::start_of_turn()
+void Rules::start_of_round()
 {
     if (api_->game_state()->getPhase() == PHASE_CONSTRUCTION)
-        INFO("TURN %d", api_->game_state()->get_current_turn());
+        INFO("ROUND %d", api_->game_state()->get_current_round());
 }

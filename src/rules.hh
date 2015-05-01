@@ -71,8 +71,8 @@ class Rules : public rules::SynchronousRules
         void player_turn();
         void spectator_turn();
 
-        void end_of_turn();
-        void start_of_turn();
+        void end_of_round();
+        void start_of_round();
         void at_end();
 
     protected:
@@ -88,7 +88,6 @@ class Rules : public rules::SynchronousRules
         utils::Sandbox sandbox_;
         Api* api_;
         rules::Players_sptr players_;
-        // FIXME
 };
 
 #endif // !RULES_RULES_HH_

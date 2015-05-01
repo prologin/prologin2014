@@ -23,7 +23,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
     : rules::GameState(),
       map_(map),
       players_(players),
-      current_turn_(0)
+      current_round_(0)
 {
     game_phase_ = PHASE_CONSTRUCTION;
 
@@ -43,7 +43,7 @@ GameState::GameState(Map* map, rules::Players_sptr players)
         if (p->type == rules::PLAYER)
         {
             players_ids_[p->id] = p;
-            magic_[p->id] = MAGIE_TOUR; // Initial amount for the first turn
+            magic_[p->id] = MAGIE_TOUR; // Initial amount for the first round
             bases_players_[p->id] = list_base[i];
             map_->get_cell(list_base[i])->set_player(p->id);
             i++;
@@ -56,7 +56,7 @@ GameState::GameState(const GameState& st)
     , map_(new Map(*st.map_))
     , players_(st.players_)
     , losers_(st.losers_)
-    , current_turn_(st.current_turn_)
+    , current_round_(st.current_round_)
     , game_phase_(st.game_phase_)
 {
      players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
@@ -83,14 +83,14 @@ position GameState::get_base(int player) const
     return bases_players_.find(player)->second;
 }
 
-void GameState::increment_turn()
+void GameState::increment_round()
 {
-    current_turn_++;
+    current_round_++;
 }
 
-int GameState::get_current_turn() const
+int GameState::get_current_round() const
 {
-    return current_turn_;
+    return current_round_;
 }
 
 std::vector<tourelle> GameState::get_towers(int player) const
@@ -182,7 +182,7 @@ void GameState::resolve_base_released()
 void GameState::check_losers()
 {
     int owner_base = -1;
-    std::vector<int> losers_this_turn;
+    std::vector<int> losers_this_round;
 
     for (auto& p : players_ids_)
     {
@@ -196,14 +196,14 @@ void GameState::check_losers()
                 players_ids_[owner_base]->score += POINTS_VAINQUEUR;
                 // We cannot declare this user as loser before the end of the function,
                 // in case  players kill each other at the same time.
-                losers_this_turn.push_back(p.first);
+                losers_this_round.push_back(p.first);
                 //map_->get_cell(bases_players_[p.first])->set_taken(-1);
             }
         }
     }
 
     // We declare the losers as losers
-    for (int x : losers_this_turn)
+    for (int x : losers_this_round)
     {
         // delete all his wizards and all his towers
         map_->delete_all(x);
