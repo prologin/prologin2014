@@ -17,6 +17,8 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cstdlib>
+
 #include "rules.hh"
 
 Rules::Rules(const rules::Options opt)
@@ -275,4 +277,11 @@ void Rules::start_of_round()
 {
     if (api_->game_state()->getPhase() == PHASE_CONSTRUCTION)
         INFO("ROUND %d", api_->game_state()->get_current_round());
+}
+
+void Rules::dump_state(std::ostream& out)
+{
+    char *line = api_->get_dump();
+    out << line << std::endl;
+    free(line);
 }

@@ -317,7 +317,5 @@ erreur Api::annuler()
 //
 char* Api::get_dump()
 {
-    if (player_->type != rules::SPECTATOR)
-        return NULL;
     return dump_game_state(*game_state_, actions_);
 }

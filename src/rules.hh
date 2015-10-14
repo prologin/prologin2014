@@ -75,6 +75,8 @@ class Rules : public rules::SynchronousRules
         void start_of_round();
         void at_end();
 
+        void dump_state(std::ostream& out);
+
     protected:
         f_champion_partie_debut champion_partie_debut;
         f_champion_phase_construction champion_phase_construction;
