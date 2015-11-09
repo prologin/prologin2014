@@ -62,11 +62,14 @@ function replay_init() {
     document.getElementById('replay_canvas').width = 775;
     document.getElementById('replay_canvas').height = 775;
 
+    $.getScript("/static/replay/gunzip.min.js", function(){
     $.get("dump/", function(data)
           {
-              gameData = JSON.parse(lzw_decode(data));
+              gameData = JSON.parse(data);
               replay_update();
-          })
+          });
+    });
+
 
 }
 

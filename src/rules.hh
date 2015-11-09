@@ -64,10 +64,10 @@ class Rules : public rules::SynchronousRules
         void resolve_tower_fighters();
         void resolve_base_released();
 
-        void at_player_start();
-        void at_spectator_start();
-        void at_player_end();
-        void at_spectator_end();
+        void at_player_start(rules::ClientMessenger_sptr);
+        void at_spectator_start(rules::ClientMessenger_sptr);
+        void at_player_end(rules::ClientMessenger_sptr);
+        void at_spectator_end(rules::ClientMessenger_sptr);
         void player_turn();
         void spectator_turn();
 
