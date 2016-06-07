@@ -59,6 +59,10 @@ class ActionsTest : public ::testing::Test
 
             gamestate_ = new GameState(map_, players);
         }
+        virtual void TearDown()
+        {
+            delete gamestate_; // map_ is deleted by Gamestate destructor
+        }
         Map* map_;
         GameState* gamestate_;
 };
