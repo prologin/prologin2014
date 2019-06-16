@@ -25,18 +25,18 @@ ActionCreate::ActionCreate(int nb_wizards, int player)
 
 ActionCreate::ActionCreate() : nb_wizards_(-1), player_id_(-1) {}
 
-int ActionCreate::check(const GameState* st) const
+int ActionCreate::check(const GameState& st) const
 {
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_CONSTRUCTION)
+    if (st.getPhase() != PHASE_CONSTRUCTION)
         return PHASE_INCORRECTE;
 
     if (nb_wizards_ <= 0)
         return VALEUR_INVALIDE;
 
-    if (st->get_magic(player_id_) / COUT_SORCIER < nb_wizards_)
+    if (st.get_magic(player_id_) / COUT_SORCIER < nb_wizards_)
         return MAGIE_INSUFFISANTE;
 
     return OK;

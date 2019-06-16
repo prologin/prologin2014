@@ -53,14 +53,11 @@ protected:
         for (auto& p : players->players)
             p->type = rules::PLAYER;
 
-        gamestate_ = new GameState(map_, players);
+        st = std::make_unique<GameState>(map_, players);
     }
-    virtual void TearDown()
-    {
-        delete gamestate_; // map_ is deleted by Gamestate destructor
-    }
+
     Map* map_;
-    GameState* gamestate_;
+    std::unique_ptr<GameState> st;
 };
 
 // TODO: Check magic gained ?
@@ -76,11 +73,11 @@ TEST_F(ActionsTest, AttackTest)
     const position to_no_tower = {2, 1};
     const position to_ok = {2, 3};
 
-    Cell& c_from = *gamestate_->get_map()->get_cell(from_ok);
-    Cell& c_from_few = *gamestate_->get_map()->get_cell(from_few);
-    Cell& c_from_tower = *gamestate_->get_map()->get_cell(from_tower);
-    Cell& c_far = *gamestate_->get_map()->get_cell(to_far);
-    Cell& c_ok = *gamestate_->get_map()->get_cell(to_ok);
+    Cell& c_from = *st->get_map()->get_cell(from_ok);
+    Cell& c_from_few = *st->get_map()->get_cell(from_few);
+    Cell& c_from_tower = *st->get_map()->get_cell(from_tower);
+    Cell& c_far = *st->get_map()->get_cell(to_far);
+    Cell& c_ok = *st->get_map()->get_cell(to_ok);
 
     const int attack_player = 1;
     const int defense_player = 2;
@@ -100,40 +97,40 @@ TEST_F(ActionsTest, AttackTest)
     ActionAttack attack_no_tower(from_ok, to_no_tower, 2, attack_player);
     ActionAttack attack_far(from_ok, to_far, 2, attack_player);
 
-    EXPECT_EQ(PHASE_INCORRECTE, attack_ok.check(gamestate_))
+    EXPECT_EQ(PHASE_INCORRECTE, attack_ok.check(*st))
         << "Wrong phase of the game.";
-    gamestate_->setPhase(PHASE_SIEGE);
+    st->setPhase(PHASE_SIEGE);
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(*st))
         << "There is no wizards on the cell attacking.";
     c_from_few.set_wizards(attack_player, 1);
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_few.check(*st))
         << "Still no wizards on the cell attacking.";
     c_from.set_wizards(attack_player, 3);
 
-    EXPECT_EQ(VALEUR_INVALIDE, attack_far.check(gamestate_))
+    EXPECT_EQ(VALEUR_INVALIDE, attack_far.check(*st))
         << "The distance between the two cells is too far away.";
 
-    EXPECT_EQ(OK, attack_ok.check(gamestate_))
+    EXPECT_EQ(OK, attack_ok.check(*st))
         << "It should be possible to attack a tower.";
 
-    EXPECT_EQ(CASE_UTILISEE, attack_from_tower.check(gamestate_))
+    EXPECT_EQ(CASE_UTILISEE, attack_from_tower.check(*st))
         << "There is a tower on the cell supposed to attack.";
 
-    EXPECT_EQ(CASE_VIDE, attack_no_tower.check(gamestate_))
+    EXPECT_EQ(CASE_VIDE, attack_no_tower.check(*st))
         << "There is no tower on the cell attacked.";
-    attack_ok.apply_on(gamestate_);
+    attack_ok.apply(st);
 
     EXPECT_EQ(CASE_TOURELLE, c_ok.get_type())
         << "The tower should not be down yet.";
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_ok.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, attack_ok.check(*st))
         << "Every wizards have already attacked the tower.";
 
     c_from_tower.set_wizards(attack_player, 4);
 
-    attack_ok.apply_on(gamestate_);
+    attack_ok.apply(st);
 
     EXPECT_EQ(CASE_SIMPLE, c_ok.get_type()) << "The tower should be down now.";
 }
@@ -147,9 +144,9 @@ TEST_F(ActionsTest, ConstructTest)
     const position pos_busy = {2, 4};
     const position pos_other = {7, 7};
 
-    Cell* cbase = gamestate_->get_map()->get_cell(pos);
-    Cell* c2 = gamestate_->get_map()->get_cell(pos_busy);
-    Cell* c = gamestate_->get_map()->get_cell(pos_other);
+    Cell* cbase = st->get_map()->get_cell(pos);
+    Cell* c2 = st->get_map()->get_cell(pos_busy);
+    Cell* c = st->get_map()->get_cell(pos_other);
 
     ActionConstruct a1(pos, 4, player);
     ActionConstruct a2(pos_busy, 3, player);
@@ -161,54 +158,50 @@ TEST_F(ActionsTest, ConstructTest)
     ActionConstruct a9({5, 6}, 4, player);
     ActionConstruct a10({2, 9}, 4, player);
 
-    gamestate_->set_magic(player, 1000);
+    st->set_magic(player, 1000);
     c->put_tower({pos_other, 2, other, 2, 2});
     c2->set_wizards(player, 2);
 
-    EXPECT_EQ(OK, a1.check(gamestate_))
-        << "It should be possible to put a tower here";
-    a1.apply_on(gamestate_);
+    EXPECT_EQ(OK, a1.check(*st)) << "It should be possible to put a tower here";
+    a1.apply(st);
 
     EXPECT_EQ(CASE_TOURELLE, cbase->get_type())
         << "There should be a tower here.";
 
-    EXPECT_EQ(1, static_cast<int>(gamestate_->get_towers(1).size()))
+    EXPECT_EQ(1, static_cast<int>(st->get_towers(1).size()))
         << "There should be one tower in the list of towers of the player";
 
-    a1.apply_on(gamestate_);
+    a1.apply(st);
 
-    EXPECT_EQ(CASE_UTILISEE, a1.check(gamestate_))
-        << "The cell is already used.";
+    EXPECT_EQ(CASE_UTILISEE, a1.check(*st)) << "The cell is already used.";
 
-    EXPECT_EQ(CASE_UTILISEE, a2.check(gamestate_))
-        << "There are wizards on the cell";
+    EXPECT_EQ(CASE_UTILISEE, a2.check(*st)) << "There are wizards on the cell";
 
-    EXPECT_EQ(OK, a4.check(gamestate_))
-        << "It should be possible to put a tower here";
+    EXPECT_EQ(OK, a4.check(*st)) << "It should be possible to put a tower here";
 
-    EXPECT_EQ(CASE_ADVERSE, a5.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a5.check(*st))
         << "The tower is too far from the base: build should not be possible";
 
-    EXPECT_EQ(CASE_ADVERSE, a6.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a6.check(*st))
         << ("This tower is near a too recently built one,"
             " so it's too far from base");
-    gamestate_->get_map()->resolve_constructing();
+    st->get_map()->resolve_constructing();
 
-    EXPECT_EQ(OK, a6.check(gamestate_))
+    EXPECT_EQ(OK, a6.check(*st))
         << ("This time, thanks to the recently built tower,"
             " this cell is buildable");
 
-    EXPECT_EQ(CASE_ADVERSE, a7.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a7.check(*st))
         << "It shouldn't be possible to put a tower here";
 
-    EXPECT_EQ(CASE_ADVERSE, a8.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a8.check(*st))
         << "It shouldn't be possible to put a tower here: too far";
 
-    EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a9.check(*st))
         << "It shouldn't be possible to put a tower here: near an enemy's";
 
-    a4.apply_on(gamestate_);
-    EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
+    a4.apply(st);
+    EXPECT_EQ(CASE_ADVERSE, a9.check(*st))
         << "It shouldn't be possible to put a tower here (yet!)";
 }
 
@@ -216,17 +209,17 @@ TEST_F(ActionsTest, ConstructTest)
 TEST_F(ActionsTest, CreateTest)
 {
     ActionCreate a1(11, 1);
-    EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
+    EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(*st))
         << "There shoudn't be enough magic";
 
     // Check overflow with number of wizards to create
     ActionCreate a2(INT_MAX / 2 + INT_MAX / 4, 1); // So that *2 > INT_MAX
-    EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
+    EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(*st))
         << "There shoudn't be enough magic";
 
     ActionCreate a3(10, 1);
-    a3.apply_on(gamestate_);
-    Cell* base_p0 = gamestate_->get_map()->get_cell(gamestate_->get_base(1));
+    a3.apply(st);
+    Cell* base_p0 = st->get_map()->get_cell(st->get_base(1));
     EXPECT_EQ(10, base_p0->get_nb_wizards(1)) << "There should be 10 wizards";
 }
 
@@ -234,13 +227,13 @@ TEST_F(ActionsTest, CreateTest)
 TEST_F(ActionsTest, DeleteTest)
 {
     ActionDelete a1({2, 2}, 1);
-    EXPECT_EQ(CASE_VIDE, a1.check(gamestate_)) << "There are no tower here !";
+    EXPECT_EQ(CASE_VIDE, a1.check(*st)) << "There are no tower here !";
 
-    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
+    Cell* c1 = st->get_map()->get_cell({2, 2});
 
     c1->put_tower({{2, 2}, 3, 1, 2, 2});
 
-    EXPECT_EQ(OK, a1.check(gamestate_))
+    EXPECT_EQ(OK, a1.check(*st))
         << "It should be possible to delete this tower.";
 };
 
@@ -252,25 +245,24 @@ TEST_F(ActionsTest, MoveTest)
     ActionMove a3({2, 5}, {2, 4}, 2, 1);
     ActionMove a4({2, 5}, {2, 10}, 4, 1);
 
-    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
-    Cell* c2 = gamestate_->get_map()->get_cell({2, 3});
-    Cell* c3 = gamestate_->get_map()->get_cell({2, 5});
-    Cell* c4 = gamestate_->get_map()->get_cell({2, 4});
+    Cell* c1 = st->get_map()->get_cell({2, 2});
+    Cell* c2 = st->get_map()->get_cell({2, 3});
+    Cell* c3 = st->get_map()->get_cell({2, 5});
+    Cell* c4 = st->get_map()->get_cell({2, 4});
 
-    EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
-        << "Wrong phase of the game.";
+    EXPECT_EQ(PHASE_INCORRECTE, a1.check(*st)) << "Wrong phase of the game.";
 
-    gamestate_->setPhase(PHASE_MOVE);
+    st->setPhase(PHASE_MOVE);
 
-    EXPECT_EQ(SORCIERS_INSUFFISANTS, a1.check(gamestate_))
+    EXPECT_EQ(SORCIERS_INSUFFISANTS, a1.check(*st))
         << "There are no wizards on the cell";
 
     c1->set_wizards(1, 10);
     c1->set_wizards_movable(1, 10);
 
-    EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_)) << "Negative value";
+    EXPECT_EQ(VALEUR_INVALIDE, a2.check(*st)) << "Negative value";
 
-    a1.apply_on(gamestate_);
+    a1.apply(st);
 
     EXPECT_EQ(7, c1->get_nb_wizards(1))
         << "There should be 7 wizards on this cell.";
@@ -286,19 +278,19 @@ TEST_F(ActionsTest, MoveTest)
 
     c3->put_tower({{2, 5}, 3, 1, 2, 2});
 
-    EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
+    EXPECT_EQ(CASE_UTILISEE, a3.check(*st))
         << "There is a tower in the initial cell.";
 
     c3->delete_tower();
     c4->put_tower({{2, 4}, 3, 1, 2, 2});
 
-    EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
+    EXPECT_EQ(CASE_UTILISEE, a3.check(*st))
         << "There is a tower in the destination cell.";
 
     c3->set_wizards(1, 10);
     c3->set_wizards_movable(1, 10);
 
-    EXPECT_EQ(PORTEE_INSUFFISANTE, a4.check(gamestate_))
+    EXPECT_EQ(PORTEE_INSUFFISANTE, a4.check(*st))
         << "The cell is too far from the wizards";
 }
 
@@ -306,25 +298,23 @@ TEST_F(ActionsTest, ShootTest)
 {
     ActionShoot a1(4, {2, 2}, {2, 5}, 1);
 
-    EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
-        << "Wrong phase of the game.";
+    EXPECT_EQ(PHASE_INCORRECTE, a1.check(*st)) << "Wrong phase of the game.";
 
-    gamestate_->setPhase(PHASE_SHOOT);
+    st->setPhase(PHASE_SHOOT);
 
-    EXPECT_EQ(CASE_VIDE, a1.check(gamestate_))
-        << "There is no tower in this cell.";
+    EXPECT_EQ(CASE_VIDE, a1.check(*st)) << "There is no tower in this cell.";
 
-    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
-    Cell* c2 = gamestate_->get_map()->get_cell({2, 5});
+    Cell* c1 = st->get_map()->get_cell({2, 2});
+    Cell* c2 = st->get_map()->get_cell({2, 5});
 
     c1->put_tower({{2, 2}, 3, 2, 2, 2});
 
-    EXPECT_EQ(CASE_ADVERSE, a1.check(gamestate_))
+    EXPECT_EQ(CASE_ADVERSE, a1.check(*st))
         << "This is a tower of another team.";
     c1->delete_tower();
     c1->put_tower({{2, 2}, 3, 1, 2, 2});
 
-    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
+    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(*st))
         << "Not enough attack points.";
     c1->delete_tower();
     c1->put_tower({{2, 2}, 3, 1, 2, 5});
@@ -334,26 +324,26 @@ TEST_F(ActionsTest, ShootTest)
     c2->set_wizards(2, 7);
     c2->set_wizards(3, 3);
 
-    a1.apply_on(gamestate_);
+    a1.apply(st);
 
-    EXPECT_EQ(3, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(1))
+    EXPECT_EQ(3, st->get_map()->get_cell({2, 5})->get_nb_wizards(1))
         << "The tower doesn't attack the wizards of its own team.";
 
-    EXPECT_EQ(0, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(0))
+    EXPECT_EQ(0, st->get_map()->get_cell({2, 5})->get_nb_wizards(0))
         << "There should be no wizards left on this cell.";
 
-    EXPECT_EQ(0, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(3))
+    EXPECT_EQ(0, st->get_map()->get_cell({2, 5})->get_nb_wizards(3))
         << "There should be 3 wizards left on this cell.";
 
-    EXPECT_EQ(3, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(2))
+    EXPECT_EQ(3, st->get_map()->get_cell({2, 5})->get_nb_wizards(2))
         << "There should be 3 wizards left on this cell.";
 
-    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
+    EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(*st))
         << "Not enough attack points for the action";
 
     ActionShoot a2(4, {2, 2}, {2, 7}, 1);
 
-    EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
+    EXPECT_EQ(VALEUR_INVALIDE, a2.check(*st))
         << "The cell attacked is too far away.";
 }
 
@@ -363,7 +353,7 @@ TEST_F(ActionsTest, FightTest)
     const int other = 2;
 
     const position pos = {1, 1};
-    Cell& c = *gamestate_->get_map()->get_cell(pos);
+    Cell& c = *st->get_map()->get_cell(pos);
 
     std::map<int, int> scores;
     scores[player] = 0;

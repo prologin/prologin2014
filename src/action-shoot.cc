@@ -28,16 +28,16 @@ ActionShoot::ActionShoot()
     : points_(-1), tower_({-1, -1}), target_({-1, -1}), player_id_(-1)
 {}
 
-int ActionShoot::check(const GameState* st) const
+int ActionShoot::check(const GameState& st) const
 {
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_SHOOT)
+    if (st.getPhase() != PHASE_SHOOT)
         return PHASE_INCORRECTE;
 
-    const Cell* cell_tower = st->get_map()->get_cell(tower_);
-    const Cell* cell_target = st->get_map()->get_cell(target_);
+    const Cell* cell_tower = st.get_map()->get_cell(tower_);
+    const Cell* cell_target = st.get_map()->get_cell(target_);
 
     if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN || tower_.y < 0 ||
         tower_.y >= TAILLE_TERRAIN)

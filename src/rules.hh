@@ -44,16 +44,15 @@ class Rules : public rules::SynchronousRules
 {
 public:
     explicit Rules(const rules::Options opt);
-    virtual ~Rules();
 
     // Get the actions structure with registered actions
-    virtual rules::Actions* get_actions();
+    rules::Actions* get_actions();
 
     // Apply an action to the game state
-    virtual void apply_action(const rules::IAction_sptr&);
+    void apply_action(const rules::IAction_sptr&);
 
     // Check whether the game is over
-    virtual bool is_finished();
+    bool is_finished();
 
     void resolve_score();
     void resolve_losers();
@@ -86,9 +85,9 @@ protected:
     f_champion_partie_fin champion_partie_fin;
 
 private:
-    utils::DLL* champion_dll_;
+    std::unique_ptr<utils::DLL> champion_dll_;
+    std::unique_ptr<Api> api_;
     utils::Sandbox sandbox_;
-    Api* api_;
     rules::Players_sptr players_;
 };
 

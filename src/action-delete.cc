@@ -25,15 +25,15 @@ ActionDelete::ActionDelete(position pos, int player)
 
 ActionDelete::ActionDelete() : position_({-1, -1}), player_id_(-1) {}
 
-int ActionDelete::check(const GameState* st) const
+int ActionDelete::check(const GameState& st) const
 {
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_CONSTRUCTION)
+    if (st.getPhase() != PHASE_CONSTRUCTION)
         return PHASE_INCORRECTE;
 
-    const Cell* cell = st->get_map()->get_cell(position_);
+    const Cell* cell = st.get_map()->get_cell(position_);
 
     if (position_.x < 0 || position_.x >= TAILLE_TERRAIN || position_.y < 0 ||
         position_.y >= TAILLE_TERRAIN)
