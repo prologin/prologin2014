@@ -30,156 +30,157 @@
 */
 
 #ifndef CONSTANT_HH_
-# define CONSTANT_HH_
+#define CONSTANT_HH_
 
 ///
 // Taille du terrain (longueur et largeur)
 //
-# define TAILLE_TERRAIN            31
+#define TAILLE_TERRAIN 31
 
 ///
 // Nombre de joueurs dans la partie
 //
-# define NB_JOUEURS                4
+#define NB_JOUEURS 4
 
 ///
 // Nombre maximum de tours à jouer avant la fin de la partie
 //
-# define MAX_TOUR                  100
+#define MAX_TOUR 100
 
 ///
 // Magie gagnée à chaque tour
 //
-# define MAGIE_TOUR                20
+#define MAGIE_TOUR 20
 
 ///
 // Magie gagnée à chaque tour pour chaque fontaine possédée
 //
-# define MAGIE_FONTAINES           15
+#define MAGIE_FONTAINES 15
 
 ///
 // Magie gagnée à chaque sorcier tué
 //
-# define MAGIE_COMBAT              1
+#define MAGIE_COMBAT 1
 
 ///
 // Magie récupérée à chaque tourelle supprimée
 //
-# define MAGIE_SUPPRESSION         10
+#define MAGIE_SUPPRESSION 10
 
 ///
 // Nombre de points de magie par sorcier
 //
-# define COUT_SORCIER              2
+#define COUT_SORCIER 2
 
 ///
 // Nombre de points de magie par tourelle
 //
-# define COUT_TOURELLE             20
+#define COUT_TOURELLE 20
 
 ///
 // Coût exponentiel pour chaque case de portée supplémentaire
 //
-# define COUT_PORTEE               4
+#define COUT_PORTEE 4
 
 ///
 // Nombre maximum de cases qu'un sorcier peut franchir à chaque tour.
 //
-# define PORTEE_SORCIER            4
+#define PORTEE_SORCIER 4
 
 ///
 // Portée de base d'une tourelle
 //
-# define PORTEE_TOURELLE           3
+#define PORTEE_TOURELLE 3
 
 ///
 // Portée de construction des tourelles
 //
-# define CONSTRUCTION_TOURELLE     3
+#define CONSTRUCTION_TOURELLE 3
 
 ///
 // Points de vie d'une tourelle à sa création
 //
-# define VIE_TOURELLE              10
+#define VIE_TOURELLE 10
 
 ///
 // Points d'attaque d'une tourelle au début d'un tour
 //
-# define ATTAQUE_TOURELLE          10
+#define ATTAQUE_TOURELLE 10
 
 ///
 // Points gagnés pour avoir survécu à la fin de la partie
 //
-# define POINTS_SURVIVRE           1
+#define POINTS_SURVIVRE 1
 
 ///
 // Points gagnés pour avoir vaincu un adversaire
 //
-# define POINTS_VAINQUEUR          1
+#define POINTS_VAINQUEUR 1
 
 ///
 // Points gagnés pour contrôler une fontaine à la fin de la partie
 //
-# define POINTS_CONTROLE_FONTAINE  1
+#define POINTS_CONTROLE_FONTAINE 1
 
 ///
 // Points gagnés pour contrôler un artefact à la fin de la partie
 //
-# define POINTS_CONTROLE_ARTEFACT  4
+#define POINTS_CONTROLE_ARTEFACT 4
 
 ///
 // Information sur les cases
 //
-typedef enum case_info {
-  CASE_SIMPLE, /* <- Case simple */
-  CASE_TOURELLE, /* <- Tourelle */
-  CASE_BASE, /* <- Base du joueur */
-  CASE_FONTAINE, /* <- Fontaine magique */
-  CASE_ARTEFACT, /* <- Artefact magique */
-  CASE_ERREUR, /* <- Erreur */
+typedef enum case_info
+{
+    CASE_SIMPLE,   /* <- Case simple */
+    CASE_TOURELLE, /* <- Tourelle */
+    CASE_BASE,     /* <- Base du joueur */
+    CASE_FONTAINE, /* <- Fontaine magique */
+    CASE_ARTEFACT, /* <- Artefact magique */
+    CASE_ERREUR,   /* <- Erreur */
 } case_info;
-
 
 ///
 // Erreurs possibles
 //
-typedef enum erreur {
-  OK, /* <- L'action s'est effectuée avec succès */
-  ANNULER_IMPOSSIBLE, /* <- Aucune action à annuler */
-  CASE_IMPOSSIBLE, /* <- Cette case n'existe pas */
-  CASE_ADVERSE, /* <- Vous ne contrôlez pas cette case */
-  CASE_UTILISEE, /* <- Cette case n'est pas libre */
-  CASE_VIDE, /* <- Cette case est vide */
-  VALEUR_INVALIDE, /* <- Cette valeur est invalide */
-  MAGIE_INSUFFISANTE, /* <- Vous n'avez pas assez de magie */
-  SORCIERS_INSUFFISANTS, /* <- Vous n'avez pas assez de sorciers */
-  ATTAQUE_INSUFFISANTE, /* <- Vous n'avez pas assez de points d'attaque */
-  PHASE_INCORRECTE, /* <- Cette action ne peut pas être utilisée lors de cette phase du jeu. */
-  PORTEE_INSUFFISANTE, /* <- Vous n'avez pas assez de portée pour effectuer cette action */
-  PERDANT, /* <- Vous avez perdu et ne pouvez pas effectuer d'actions */
+typedef enum erreur
+{
+    OK,                    /* <- L'action s'est effectuée avec succès */
+    ANNULER_IMPOSSIBLE,    /* <- Aucune action à annuler */
+    CASE_IMPOSSIBLE,       /* <- Cette case n'existe pas */
+    CASE_ADVERSE,          /* <- Vous ne contrôlez pas cette case */
+    CASE_UTILISEE,         /* <- Cette case n'est pas libre */
+    CASE_VIDE,             /* <- Cette case est vide */
+    VALEUR_INVALIDE,       /* <- Cette valeur est invalide */
+    MAGIE_INSUFFISANTE,    /* <- Vous n'avez pas assez de magie */
+    SORCIERS_INSUFFISANTS, /* <- Vous n'avez pas assez de sorciers */
+    ATTAQUE_INSUFFISANTE,  /* <- Vous n'avez pas assez de points d'attaque */
+    PHASE_INCORRECTE, /* <- Cette action ne peut pas être utilisée lors de cette
+                         phase du jeu. */
+    PORTEE_INSUFFISANTE, /* <- Vous n'avez pas assez de portée pour effectuer
+                            cette action */
+    PERDANT, /* <- Vous avez perdu et ne pouvez pas effectuer d'actions */
 } erreur;
-
 
 ///
 // Représente la position sur la carte
 //
-typedef struct position {
-  int x;  /* <- Coordonnée en X */
-  int y;  /* <- Coordonnée en Y */
+typedef struct position
+{
+    int x; /* <- Coordonnée en X */
+    int y; /* <- Coordonnée en Y */
 } position;
-
 
 ///
 // Représente une tourelle
 //
-typedef struct tourelle {
-  position pos;  /* <- Position de la tourelle */
-  int portee;  /* <- Portée de la tourelle */
-  int joueur;  /* <- Joueur qui possède la tourelle */
-  int vie;  /* <- Nombre de points de vie de la tourelle */
-  int attaque;  /* <- Nombre de points d'attaque de la tourelle */
+typedef struct tourelle
+{
+    position pos; /* <- Position de la tourelle */
+    int portee;   /* <- Portée de la tourelle */
+    int joueur;   /* <- Joueur qui possède la tourelle */
+    int vie;      /* <- Nombre de points de vie de la tourelle */
+    int attaque;  /* <- Nombre de points d'attaque de la tourelle */
 } tourelle;
-
-
 
 #endif // !CONSTANT_HH_

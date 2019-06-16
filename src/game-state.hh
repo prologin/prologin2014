@@ -18,15 +18,15 @@
 */
 
 #ifndef GAME_STATE_HH
-# define GAME_STATE_HH
+#define GAME_STATE_HH
 
-# include "map.hh"
+#include "map.hh"
 
-# include <rules/game-state.hh>
-# include <rules/player.hh>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
 
-# include <unordered_set>
-# include <unordered_map>
+#include <unordered_map>
+#include <unordered_set>
 
 enum game_phase
 {
@@ -50,67 +50,67 @@ enum action_id
 
 class GameState : public rules::GameState
 {
-    public:
-        GameState(Map* map, rules::Players_sptr players);
-        GameState(const GameState& st);
-        virtual rules::GameState* copy() const;
-        ~GameState();
+public:
+    GameState(Map* map, rules::Players_sptr players);
+    GameState(const GameState& st);
+    virtual rules::GameState* copy() const;
+    ~GameState();
 
-        /* round handling */
-        void increment_round();
-        int get_current_round() const;
+    /* round handling */
+    void increment_round();
+    int get_current_round() const;
 
-        /* Towers */
-        bool add_tower(position pos, int player);
-        std::vector<tourelle> get_towers(int player) const;
+    /* Towers */
+    bool add_tower(position pos, int player);
+    std::vector<tourelle> get_towers(int player) const;
 
-        /* Magic */
-        int get_magic(int player) const;
-        void set_magic(int player, int magic);
+    /* Magic */
+    int get_magic(int player) const;
+    void set_magic(int player, int magic);
 
-        std::vector<int> get_opponents(int player) const;
-        position get_base(int player) const;
+    std::vector<int> get_opponents(int player) const;
+    position get_base(int player) const;
 
-        const Map* get_map() const;
-        Map* get_map();
+    const Map* get_map() const;
+    Map* get_map();
 
-        rules::Players_sptr get_players() const
-        { return players_; }
+    rules::Players_sptr get_players() const { return players_; }
 
-        std::map<int, rules::Player_sptr> get_players_ids() const
-        { return players_ids_; }
+    std::map<int, rules::Player_sptr> get_players_ids() const
+    {
+        return players_ids_;
+    }
 
-        std::unordered_set<int> get_losers_ids() const
-        { return losers_; }
+    std::unordered_set<int> get_losers_ids() const { return losers_; }
 
-        void setPhase(game_phase phase);
-        game_phase getPhase() const;
+    void setPhase(game_phase phase);
+    game_phase getPhase() const;
 
-        // Function for the score
-        int get_player_artefact();
-        int get_nb_fontains(int player_id);
+    // Function for the score
+    int get_player_artefact();
+    int get_nb_fontains(int player_id);
 
-        // Resolve everything
-        void resolve_fights();
-        void resolve_wizard_movable();
-        void resolve_tower_magic();
-        void resolve_tower_fighters();
+    // Resolve everything
+    void resolve_fights();
+    void resolve_wizard_movable();
+    void resolve_tower_magic();
+    void resolve_tower_fighters();
 
-        void check_losers();
-        void resolve_base_released();
-        bool has_lost(int player) const;
+    void check_losers();
+    void resolve_base_released();
+    bool has_lost(int player) const;
 
-    private:
-        Map* map_;
-        rules::Players_sptr players_;
-        std::map<int, rules::Player_sptr> players_ids_;
-        std::unordered_set<int> losers_;
-        int current_round_;
+private:
+    Map* map_;
+    rules::Players_sptr players_;
+    std::map<int, rules::Player_sptr> players_ids_;
+    std::unordered_set<int> losers_;
+    int current_round_;
 
-        std::map<int, int> magic_;
-        std::map<int, position> bases_players_;
+    std::map<int, int> magic_;
+    std::map<int, position> bases_players_;
 
-        game_phase game_phase_;
+    game_phase game_phase_;
 };
 
 #endif /* !GAME_STATE_HH */

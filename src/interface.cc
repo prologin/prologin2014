@@ -22,154 +22,204 @@ extern Api* api;
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& arr)
 {
-  os << "[";
-  typename std::vector<T>::const_iterator it;
-  for (it = arr.begin(); it != arr.end(); ++it)
-  {
-    if (it != arr.begin())
-      os << ", ";
-    os << *it;
-  }
-  os << "]";
-  return os;
+    os << "[";
+    typename std::vector<T>::const_iterator it;
+    for (it = arr.begin(); it != arr.end(); ++it)
+    {
+        if (it != arr.begin())
+            os << ", ";
+        os << *it;
+    }
+    os << "]";
+    return os;
 }
-
 
 // todo avoir un ostringstream a la place de std::string
 
-std::string convert_to_string(int i){
-  std::ostringstream s;
-  s << i;
-  std::string result = s.str();
-  return result;
+std::string convert_to_string(int i)
+{
+    std::ostringstream s;
+    s << i;
+    std::string result = s.str();
+    return result;
 }
-std::string convert_to_string(std::string i){
-  return i;
+std::string convert_to_string(std::string i)
+{
+    return i;
 }
-std::string convert_to_string(bool i){
-  return i?"true":"false";
+std::string convert_to_string(bool i)
+{
+    return i ? "true" : "false";
 }
-std::string convert_to_string(std::vector<int> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<int> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
-}
-std::string convert_to_string(case_info in){
-  switch (in)
-  {
-    case CASE_SIMPLE: return "\"case_simple\"";
-    case CASE_TOURELLE: return "\"case_tourelle\"";
-    case CASE_BASE: return "\"case_base\"";
-    case CASE_FONTAINE: return "\"case_fontaine\"";
-    case CASE_ARTEFACT: return "\"case_artefact\"";
-    case CASE_ERREUR: return "\"case_erreur\"";
-  }
-  return "bad value";
-}
-std::string convert_to_string(std::vector<case_info> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+    else
+    {
+        return "[]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
 }
-std::string convert_to_string(erreur in){
-  switch (in)
-  {
-    case OK: return "\"ok\"";
-    case ANNULER_IMPOSSIBLE: return "\"annuler_impossible\"";
-    case CASE_IMPOSSIBLE: return "\"case_impossible\"";
-    case CASE_ADVERSE: return "\"case_adverse\"";
-    case CASE_UTILISEE: return "\"case_utilisee\"";
-    case CASE_VIDE: return "\"case_vide\"";
-    case VALEUR_INVALIDE: return "\"valeur_invalide\"";
-    case MAGIE_INSUFFISANTE: return "\"magie_insuffisante\"";
-    case SORCIERS_INSUFFISANTS: return "\"sorciers_insuffisants\"";
-    case ATTAQUE_INSUFFISANTE: return "\"attaque_insuffisante\"";
-    case PHASE_INCORRECTE: return "\"phase_incorrecte\"";
-    case PORTEE_INSUFFISANTE: return "\"portee_insuffisante\"";
-    case PERDANT: return "\"perdant\"";
-  }
-  return "bad value";
-}
-std::string convert_to_string(std::vector<erreur> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(case_info in)
+{
+    switch (in)
+    {
+    case CASE_SIMPLE:
+        return "\"case_simple\"";
+    case CASE_TOURELLE:
+        return "\"case_tourelle\"";
+    case CASE_BASE:
+        return "\"case_base\"";
+    case CASE_FONTAINE:
+        return "\"case_fontaine\"";
+    case CASE_ARTEFACT:
+        return "\"case_artefact\"";
+    case CASE_ERREUR:
+        return "\"case_erreur\"";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    return "bad value";
 }
-std::string convert_to_string(position in){
-  std::string x = convert_to_string(in.x);
-  std::string y = convert_to_string(in.y);
-  std::string out = "{";
-  out += "x:" + x;
-  out += ", ";
-  out += "y:" + y;
-  return out + "}";
+std::string convert_to_string(std::vector<case_info> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
+    }
+    else
+    {
+        return "[]";
+    }
+}
+std::string convert_to_string(erreur in)
+{
+    switch (in)
+    {
+    case OK:
+        return "\"ok\"";
+    case ANNULER_IMPOSSIBLE:
+        return "\"annuler_impossible\"";
+    case CASE_IMPOSSIBLE:
+        return "\"case_impossible\"";
+    case CASE_ADVERSE:
+        return "\"case_adverse\"";
+    case CASE_UTILISEE:
+        return "\"case_utilisee\"";
+    case CASE_VIDE:
+        return "\"case_vide\"";
+    case VALEUR_INVALIDE:
+        return "\"valeur_invalide\"";
+    case MAGIE_INSUFFISANTE:
+        return "\"magie_insuffisante\"";
+    case SORCIERS_INSUFFISANTS:
+        return "\"sorciers_insuffisants\"";
+    case ATTAQUE_INSUFFISANTE:
+        return "\"attaque_insuffisante\"";
+    case PHASE_INCORRECTE:
+        return "\"phase_incorrecte\"";
+    case PORTEE_INSUFFISANTE:
+        return "\"portee_insuffisante\"";
+    case PERDANT:
+        return "\"perdant\"";
+    }
+    return "bad value";
+}
+std::string convert_to_string(std::vector<erreur> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
+    }
+    else
+    {
+        return "[]";
+    }
+}
+std::string convert_to_string(position in)
+{
+    std::string x = convert_to_string(in.x);
+    std::string y = convert_to_string(in.y);
+    std::string out = "{";
+    out += "x:" + x;
+    out += ", ";
+    out += "y:" + y;
+    return out + "}";
 }
 
-std::string convert_to_string(std::vector<position> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<position> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    else
+    {
+        return "[]";
+    }
 }
-std::string convert_to_string(tourelle in){
-  std::string pos = convert_to_string(in.pos);
-  std::string portee = convert_to_string(in.portee);
-  std::string joueur = convert_to_string(in.joueur);
-  std::string vie = convert_to_string(in.vie);
-  std::string attaque = convert_to_string(in.attaque);
-  std::string out = "{";
-  out += "pos:" + pos;
-  out += ", ";
-  out += "portee:" + portee;
-  out += ", ";
-  out += "joueur:" + joueur;
-  out += ", ";
-  out += "vie:" + vie;
-  out += ", ";
-  out += "attaque:" + attaque;
-  return out + "}";
+std::string convert_to_string(tourelle in)
+{
+    std::string pos = convert_to_string(in.pos);
+    std::string portee = convert_to_string(in.portee);
+    std::string joueur = convert_to_string(in.joueur);
+    std::string vie = convert_to_string(in.vie);
+    std::string attaque = convert_to_string(in.attaque);
+    std::string out = "{";
+    out += "pos:" + pos;
+    out += ", ";
+    out += "portee:" + portee;
+    out += ", ";
+    out += "joueur:" + joueur;
+    out += ", ";
+    out += "vie:" + vie;
+    out += ", ";
+    out += "attaque:" + attaque;
+    return out + "}";
 }
 
-std::string convert_to_string(std::vector<tourelle> in){
-  if (in.size()){
-    std::string s = "[" + convert_to_string(in[0]);
-    for (int i = 1, l = in.size(); i < l; i++){
-      s = s + ", " + convert_to_string(in[i]);
+std::string convert_to_string(std::vector<tourelle> in)
+{
+    if (in.size())
+    {
+        std::string s = "[" + convert_to_string(in[0]);
+        for (int i = 1, l = in.size(); i < l; i++)
+        {
+            s = s + ", " + convert_to_string(in[i]);
+        }
+        return s + "]";
     }
-    return s + "]";
-  }else{
-    return "[]";
-  }
+    else
+    {
+        return "[]";
+    }
 }
 ///
 // Retourne le type de la case à l'emplacement `pos`
 //
 extern "C" case_info api_info_case(position pos)
 {
-  return api->info_case(pos);
+    return api->info_case(pos);
 }
 
 ///
@@ -177,7 +227,7 @@ extern "C" case_info api_info_case(position pos)
 //
 extern "C" std::vector<tourelle> api_tourelles_joueur(int joueur)
 {
-  return api->tourelles_joueur(joueur);
+    return api->tourelles_joueur(joueur);
 }
 
 ///
@@ -185,7 +235,7 @@ extern "C" std::vector<tourelle> api_tourelles_joueur(int joueur)
 //
 extern "C" int api_magie(int joueur)
 {
-  return api->magie(joueur);
+    return api->magie(joueur);
 }
 
 ///
@@ -193,15 +243,16 @@ extern "C" int api_magie(int joueur)
 //
 extern "C" int api_nb_sorciers(position pos, int joueur)
 {
-  return api->nb_sorciers(pos, joueur);
+    return api->nb_sorciers(pos, joueur);
 }
 
 ///
-// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
+// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case
+// ``pos``
 //
 extern "C" int api_nb_sorciers_deplacables(position pos, int joueur)
 {
-  return api->nb_sorciers_deplacables(pos, joueur);
+    return api->nb_sorciers_deplacables(pos, joueur);
 }
 
 ///
@@ -209,7 +260,7 @@ extern "C" int api_nb_sorciers_deplacables(position pos, int joueur)
 //
 extern "C" int api_joueur_case(position pos)
 {
-  return api->joueur_case(pos);
+    return api->joueur_case(pos);
 }
 
 ///
@@ -217,7 +268,7 @@ extern "C" int api_joueur_case(position pos)
 //
 extern "C" tourelle api_tourelle_case(position pos)
 {
-  return api->tourelle_case(pos);
+    return api->tourelle_case(pos);
 }
 
 ///
@@ -225,7 +276,7 @@ extern "C" tourelle api_tourelle_case(position pos)
 //
 extern "C" position api_base_joueur(int joueur)
 {
-  return api->base_joueur(joueur);
+    return api->base_joueur(joueur);
 }
 
 ///
@@ -233,15 +284,16 @@ extern "C" position api_base_joueur(int joueur)
 //
 extern "C" bool api_constructible(position pos, int joueur)
 {
-  return api->constructible(pos, joueur);
+    return api->constructible(pos, joueur);
 }
 
 ///
-// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
+// Retourne la liste des positions constituant le plus court chemin allant de la
+// case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
 //
 extern "C" std::vector<position> api_chemin(position pos1, position pos2)
 {
-  return api->chemin(pos1, pos2);
+    return api->chemin(pos1, pos2);
 }
 
 ///
@@ -249,7 +301,7 @@ extern "C" std::vector<position> api_chemin(position pos1, position pos2)
 //
 extern "C" erreur api_construire(position pos, int portee)
 {
-  return api->construire(pos, portee);
+    return api->construire(pos, portee);
 }
 
 ///
@@ -257,15 +309,16 @@ extern "C" erreur api_construire(position pos, int portee)
 //
 extern "C" erreur api_supprimer(position pos)
 {
-  return api->supprimer(pos);
+    return api->supprimer(pos);
 }
 
 ///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la position ``cible``
+// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la
+// position ``cible``
 //
 extern "C" erreur api_tirer(int pts, position tourelle, position cible)
 {
-  return api->tirer(pts, tourelle, cible);
+    return api->tirer(pts, tourelle, cible);
 }
 
 ///
@@ -273,15 +326,16 @@ extern "C" erreur api_tirer(int pts, position tourelle, position cible)
 //
 extern "C" erreur api_creer(int nb)
 {
-  return api->creer(nb);
+    return api->creer(nb);
 }
 
 ///
-// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position ``arrivee``.
+// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position
+// ``arrivee``.
 //
 extern "C" erreur api_deplacer(position depart, position arrivee, int nb)
 {
-  return api->deplacer(depart, arrivee, nb);
+    return api->deplacer(depart, arrivee, nb);
 }
 
 ///
@@ -289,7 +343,7 @@ extern "C" erreur api_deplacer(position depart, position arrivee, int nb)
 //
 extern "C" erreur api_assieger(position pos, position cible, int nb_sorciers)
 {
-  return api->assieger(pos, cible, nb_sorciers);
+    return api->assieger(pos, cible, nb_sorciers);
 }
 
 ///
@@ -297,7 +351,7 @@ extern "C" erreur api_assieger(position pos, position cible, int nb_sorciers)
 //
 extern "C" int api_moi()
 {
-  return api->moi();
+    return api->moi();
 }
 
 ///
@@ -305,7 +359,7 @@ extern "C" int api_moi()
 //
 extern "C" std::vector<int> api_adversaires()
 {
-  return api->adversaires();
+    return api->adversaires();
 }
 
 ///
@@ -313,7 +367,7 @@ extern "C" std::vector<int> api_adversaires()
 //
 extern "C" int api_tour_actuel()
 {
-  return api->tour_actuel();
+    return api->tour_actuel();
 }
 
 ///
@@ -321,7 +375,7 @@ extern "C" int api_tour_actuel()
 //
 extern "C" int api_distance(position depart, position arrivee)
 {
-  return api->distance(depart, arrivee);
+    return api->distance(depart, arrivee);
 }
 
 ///
@@ -329,7 +383,7 @@ extern "C" int api_distance(position depart, position arrivee)
 //
 extern "C" erreur api_annuler()
 {
-  return api->annuler();
+    return api->annuler();
 }
 
 ///
@@ -337,19 +391,32 @@ extern "C" erreur api_annuler()
 //
 std::ostream& operator<<(std::ostream& os, case_info v)
 {
-  switch (v) {
-  case CASE_SIMPLE: os << "CASE_SIMPLE"; break;
-  case CASE_TOURELLE: os << "CASE_TOURELLE"; break;
-  case CASE_BASE: os << "CASE_BASE"; break;
-  case CASE_FONTAINE: os << "CASE_FONTAINE"; break;
-  case CASE_ARTEFACT: os << "CASE_ARTEFACT"; break;
-  case CASE_ERREUR: os << "CASE_ERREUR"; break;
-  }
-  return os;
+    switch (v)
+    {
+    case CASE_SIMPLE:
+        os << "CASE_SIMPLE";
+        break;
+    case CASE_TOURELLE:
+        os << "CASE_TOURELLE";
+        break;
+    case CASE_BASE:
+        os << "CASE_BASE";
+        break;
+    case CASE_FONTAINE:
+        os << "CASE_FONTAINE";
+        break;
+    case CASE_ARTEFACT:
+        os << "CASE_ARTEFACT";
+        break;
+    case CASE_ERREUR:
+        os << "CASE_ERREUR";
+        break;
+    }
+    return os;
 }
 extern "C" void api_afficher_case_info(case_info v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -357,26 +424,53 @@ extern "C" void api_afficher_case_info(case_info v)
 //
 std::ostream& operator<<(std::ostream& os, erreur v)
 {
-  switch (v) {
-  case OK: os << "OK"; break;
-  case ANNULER_IMPOSSIBLE: os << "ANNULER_IMPOSSIBLE"; break;
-  case CASE_IMPOSSIBLE: os << "CASE_IMPOSSIBLE"; break;
-  case CASE_ADVERSE: os << "CASE_ADVERSE"; break;
-  case CASE_UTILISEE: os << "CASE_UTILISEE"; break;
-  case CASE_VIDE: os << "CASE_VIDE"; break;
-  case VALEUR_INVALIDE: os << "VALEUR_INVALIDE"; break;
-  case MAGIE_INSUFFISANTE: os << "MAGIE_INSUFFISANTE"; break;
-  case SORCIERS_INSUFFISANTS: os << "SORCIERS_INSUFFISANTS"; break;
-  case ATTAQUE_INSUFFISANTE: os << "ATTAQUE_INSUFFISANTE"; break;
-  case PHASE_INCORRECTE: os << "PHASE_INCORRECTE"; break;
-  case PORTEE_INSUFFISANTE: os << "PORTEE_INSUFFISANTE"; break;
-  case PERDANT: os << "PERDANT"; break;
-  }
-  return os;
+    switch (v)
+    {
+    case OK:
+        os << "OK";
+        break;
+    case ANNULER_IMPOSSIBLE:
+        os << "ANNULER_IMPOSSIBLE";
+        break;
+    case CASE_IMPOSSIBLE:
+        os << "CASE_IMPOSSIBLE";
+        break;
+    case CASE_ADVERSE:
+        os << "CASE_ADVERSE";
+        break;
+    case CASE_UTILISEE:
+        os << "CASE_UTILISEE";
+        break;
+    case CASE_VIDE:
+        os << "CASE_VIDE";
+        break;
+    case VALEUR_INVALIDE:
+        os << "VALEUR_INVALIDE";
+        break;
+    case MAGIE_INSUFFISANTE:
+        os << "MAGIE_INSUFFISANTE";
+        break;
+    case SORCIERS_INSUFFISANTS:
+        os << "SORCIERS_INSUFFISANTS";
+        break;
+    case ATTAQUE_INSUFFISANTE:
+        os << "ATTAQUE_INSUFFISANTE";
+        break;
+    case PHASE_INCORRECTE:
+        os << "PHASE_INCORRECTE";
+        break;
+    case PORTEE_INSUFFISANTE:
+        os << "PORTEE_INSUFFISANTE";
+        break;
+    case PERDANT:
+        os << "PERDANT";
+        break;
+    }
+    return os;
 }
 extern "C" void api_afficher_erreur(erreur v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -384,16 +478,18 @@ extern "C" void api_afficher_erreur(erreur v)
 //
 std::ostream& operator<<(std::ostream& os, position v)
 {
-  os << "{ ";
-  os << "x" << "=" << v.x;
-  os << ", ";
-  os << "y" << "=" << v.y;
-  os << " }";
-  return os;
+    os << "{ ";
+    os << "x"
+       << "=" << v.x;
+    os << ", ";
+    os << "y"
+       << "=" << v.y;
+    os << " }";
+    return os;
 }
 extern "C" void api_afficher_position(position v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 ///
@@ -401,25 +497,30 @@ extern "C" void api_afficher_position(position v)
 //
 std::ostream& operator<<(std::ostream& os, tourelle v)
 {
-  os << "{ ";
-  os << "pos" << "=" << v.pos;
-  os << ", ";
-  os << "portee" << "=" << v.portee;
-  os << ", ";
-  os << "joueur" << "=" << v.joueur;
-  os << ", ";
-  os << "vie" << "=" << v.vie;
-  os << ", ";
-  os << "attaque" << "=" << v.attaque;
-  os << " }";
-  return os;
+    os << "{ ";
+    os << "pos"
+       << "=" << v.pos;
+    os << ", ";
+    os << "portee"
+       << "=" << v.portee;
+    os << ", ";
+    os << "joueur"
+       << "=" << v.joueur;
+    os << ", ";
+    os << "vie"
+       << "=" << v.vie;
+    os << ", ";
+    os << "attaque"
+       << "=" << v.attaque;
+    os << " }";
+    return os;
 }
 extern "C" void api_afficher_tourelle(tourelle v)
 {
-  std::cerr << v << std::endl;
+    std::cerr << v << std::endl;
 }
 
 extern "C" char* api_get_dump()
 {
-      return api->get_dump();
+    return api->get_dump();
 }

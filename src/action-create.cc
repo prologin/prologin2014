@@ -17,19 +17,13 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# include "action-create.hh"
+#include "action-create.hh"
 
 ActionCreate::ActionCreate(int nb_wizards, int player)
-    : nb_wizards_(nb_wizards)
-    , player_id_(player)
-{
-}
+    : nb_wizards_(nb_wizards), player_id_(player)
+{}
 
-ActionCreate::ActionCreate()
-    : nb_wizards_(-1)
-    , player_id_(-1)
-{
-}
+ActionCreate::ActionCreate() : nb_wizards_(-1), player_id_(-1) {}
 
 int ActionCreate::check(const GameState* st) const
 {
@@ -42,7 +36,7 @@ int ActionCreate::check(const GameState* st) const
     if (nb_wizards_ <= 0)
         return VALEUR_INVALIDE;
 
-    if (st->get_magic(player_id_)/COUT_SORCIER < nb_wizards_)
+    if (st->get_magic(player_id_) / COUT_SORCIER < nb_wizards_)
         return MAGIE_INSUFFISANTE;
 
     return OK;
@@ -56,11 +50,12 @@ void ActionCreate::handle_buffer(utils::Buffer& buf)
 
 void ActionCreate::apply_on(GameState* gameState) const
 {
-    Cell* base = gameState->get_map()->get_cell(gameState->get_base(player_id_));
+    Cell* base =
+        gameState->get_map()->get_cell(gameState->get_base(player_id_));
     base->set_wizards(player_id_,
                       base->get_nb_wizards(player_id_) + nb_wizards_);
-    base->set_wizards_movable(player_id_,
-                              base->get_nb_wizards_movable(player_id_) + nb_wizards_);
-    gameState->set_magic(player_id_, gameState->get_magic(player_id_)
-                         - COUT_SORCIER * nb_wizards_);
+    base->set_wizards_movable(
+        player_id_, base->get_nb_wizards_movable(player_id_) + nb_wizards_);
+    gameState->set_magic(player_id_, gameState->get_magic(player_id_) -
+                                         COUT_SORCIER * nb_wizards_);
 }

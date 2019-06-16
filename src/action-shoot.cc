@@ -17,26 +17,16 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# include "action-shoot.hh"
+#include "action-shoot.hh"
 
-ActionShoot::ActionShoot(int        points,
-                         position   tower,
-                         position   target,
-                         int        player)
-    : points_(points)
-    , tower_(tower)
-    , target_(target)
-    , player_id_(player)
-{
-}
+ActionShoot::ActionShoot(int points, position tower, position target,
+                         int player)
+    : points_(points), tower_(tower), target_(target), player_id_(player)
+{}
 
 ActionShoot::ActionShoot()
-    : points_(-1)
-    , tower_({ -1, -1 })
-    , target_({ -1, -1 })
-    , player_id_(-1)
-{
-}
+    : points_(-1), tower_({-1, -1}), target_({-1, -1}), player_id_(-1)
+{}
 
 int ActionShoot::check(const GameState* st) const
 {
@@ -49,12 +39,12 @@ int ActionShoot::check(const GameState* st) const
     const Cell* cell_tower = st->get_map()->get_cell(tower_);
     const Cell* cell_target = st->get_map()->get_cell(target_);
 
-    if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN
-        || tower_.y < 0 || tower_.y >= TAILLE_TERRAIN)
+    if (tower_.x < 0 || tower_.x >= TAILLE_TERRAIN || tower_.y < 0 ||
+        tower_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
-    if (target_.x < 0 || target_.x >= TAILLE_TERRAIN
-        || target_.y < 0 || target_.y >= TAILLE_TERRAIN)
+    if (target_.x < 0 || target_.x >= TAILLE_TERRAIN || target_.y < 0 ||
+        target_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
     if (points_ < 0)

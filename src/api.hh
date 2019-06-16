@@ -30,142 +30,146 @@
 */
 
 #ifndef API_HH_
-# define API_HH_
+#define API_HH_
 
-# include <rules/game-state.hh>
-# include <rules/player.hh>
-# include <rules/actions.hh>
+#include <rules/actions.hh>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
 
-# include <stdlib.h>
-# include <cstdlib>
-# include <vector>
+#include <cstdlib>
+#include <stdlib.h>
+#include <vector>
 
-# include "constant.hh"
-# include "cell.hh"
-# include "position.hh"
-# include "game-state.hh"
-# include "action-create.hh"
-# include "action-delete.hh"
-# include "action-move.hh"
-# include "action-shoot.hh"
-# include "action-construct.hh"
-# include "action-attack.hh"
+#include "action-attack.hh"
+#include "action-construct.hh"
+#include "action-create.hh"
+#include "action-delete.hh"
+#include "action-move.hh"
+#include "action-shoot.hh"
+#include "cell.hh"
+#include "constant.hh"
+#include "game-state.hh"
+#include "position.hh"
 
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'
 */
 class Api
 {
-    public:
-        Api(GameState* game_state, rules::Player_sptr player);
-        virtual ~Api() { }
+public:
+    Api(GameState* game_state, rules::Player_sptr player);
+    virtual ~Api() {}
 
-        const rules::Player_sptr player() const { return player_; }
-        void player_set(rules::Player_sptr player) { player_ = player; }
-        rules::Actions* actions() { return &actions_; }
+    const rules::Player_sptr player() const { return player_; }
+    void player_set(rules::Player_sptr player) { player_ = player; }
+    rules::Actions* actions() { return &actions_; }
 
-        const GameState* game_state() const { return game_state_; }
-        GameState* game_state() { return game_state_; }
-        void game_state_set(rules::GameState* gs)
-            { game_state_ = dynamic_cast<GameState*>(gs); }
+    const GameState* game_state() const { return game_state_; }
+    GameState* game_state() { return game_state_; }
+    void game_state_set(rules::GameState* gs)
+    {
+        game_state_ = dynamic_cast<GameState*>(gs);
+    }
 
-    private:
-        GameState* game_state_;
-        rules::Player_sptr player_;
-        rules::Actions actions_;
+private:
+    GameState* game_state_;
+    rules::Player_sptr player_;
+    rules::Actions actions_;
 
-    public:
-
-///
-// Retourne le type de la case à l'emplacement `pos`
-//
-   case_info info_case(position pos);
-///
-// Retourne la liste des tourelles qui appartiennent au joueur ``joueur``
-//
-   std::vector<tourelle> tourelles_joueur(int joueur);
-///
-// Retourne la magie que possède le joueur ``joueur``
-//
-   int magie(int joueur);
-///
-// Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos``
-//
-   int nb_sorciers(position pos, int joueur);
-///
-// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
-//
-   int nb_sorciers_deplacables(position pos, int joueur);
-///
-// Retourne le numéro du joueur qui contrôle la case ``pos``
-//
-   int joueur_case(position pos);
-///
-// Retourne la tourelle située sur la case ``pos``
-//
-   tourelle tourelle_case(position pos);
-///
-// Retourne la position de la base du joueur ``joueur``
-//
-   position base_joueur(int joueur);
-///
-// Retourne vrai si l'on peut construire sur la case ``pos``
-//
-   bool constructible(position pos, int joueur);
-///
-// Retourne la liste des positions constituant le plus court chemin allant de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est lente.
-//
-   std::vector<position> chemin(position pos1, position pos2);
-///
-// Construire une tourelle à la position ``pos``
-//
-   erreur construire(position pos, int portee);
-///
-// Supprimer une tourelle à la position ``pos``
-//
-   erreur supprimer(position pos);
-///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la position ``cible``
-//
-   erreur tirer(int pts, position tourelle, position cible);
-///
-// Créer ``nb`` sorciers dans la base
-//
-   erreur creer(int nb);
-///
-// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position ``arrivee``.
-//
-   erreur deplacer(position depart, position arrivee, int nb);
-///
-// Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
-//
-   erreur assieger(position pos, position cible, int nb_sorciers);
-///
-// Retourne le numéro de votre joueur
-//
-   int moi();
-///
-// Retourne la liste des numéros de vos adversaires
-//
-   std::vector<int> adversaires();
-///
-// Retourne le numéro du tour actuel
-//
-   int tour_actuel();
-///
-// Retourne la distance entre deux positions
-//
-   int distance(position depart, position arrivee);
-///
-// Annule la dernière action
-//
-   erreur annuler();
-///
-// Return un dump JSON de l’état complet du jeu.
-//
-   char* get_dump();
-
+public:
+    ///
+    // Retourne le type de la case à l'emplacement `pos`
+    //
+    case_info info_case(position pos);
+    ///
+    // Retourne la liste des tourelles qui appartiennent au joueur ``joueur``
+    //
+    std::vector<tourelle> tourelles_joueur(int joueur);
+    ///
+    // Retourne la magie que possède le joueur ``joueur``
+    //
+    int magie(int joueur);
+    ///
+    // Retourne le nombre de sorciers du joueur ``joueur`` sur la case ``pos``
+    //
+    int nb_sorciers(position pos, int joueur);
+    ///
+    // Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la
+    // case ``pos``
+    //
+    int nb_sorciers_deplacables(position pos, int joueur);
+    ///
+    // Retourne le numéro du joueur qui contrôle la case ``pos``
+    //
+    int joueur_case(position pos);
+    ///
+    // Retourne la tourelle située sur la case ``pos``
+    //
+    tourelle tourelle_case(position pos);
+    ///
+    // Retourne la position de la base du joueur ``joueur``
+    //
+    position base_joueur(int joueur);
+    ///
+    // Retourne vrai si l'on peut construire sur la case ``pos``
+    //
+    bool constructible(position pos, int joueur);
+    ///
+    // Retourne la liste des positions constituant le plus court chemin allant
+    // de la case ``pos1`` à la case ``pos2``. Attention : Cette fonction est
+    // lente.
+    //
+    std::vector<position> chemin(position pos1, position pos2);
+    ///
+    // Construire une tourelle à la position ``pos``
+    //
+    erreur construire(position pos, int portee);
+    ///
+    // Supprimer une tourelle à la position ``pos``
+    //
+    erreur supprimer(position pos);
+    ///
+    // Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur
+    // la position ``cible``
+    //
+    erreur tirer(int pts, position tourelle, position cible);
+    ///
+    // Créer ``nb`` sorciers dans la base
+    //
+    erreur creer(int nb);
+    ///
+    // Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position
+    // ``arrivee``.
+    //
+    erreur deplacer(position depart, position arrivee, int nb);
+    ///
+    // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
+    //
+    erreur assieger(position pos, position cible, int nb_sorciers);
+    ///
+    // Retourne le numéro de votre joueur
+    //
+    int moi();
+    ///
+    // Retourne la liste des numéros de vos adversaires
+    //
+    std::vector<int> adversaires();
+    ///
+    // Retourne le numéro du tour actuel
+    //
+    int tour_actuel();
+    ///
+    // Retourne la distance entre deux positions
+    //
+    int distance(position depart, position arrivee);
+    ///
+    // Annule la dernière action
+    //
+    erreur annuler();
+    ///
+    // Return un dump JSON de l’état complet du jeu.
+    //
+    char* get_dump();
 };
-
 
 #endif /* !API_HH_ */

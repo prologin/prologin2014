@@ -19,21 +19,14 @@
 
 #include "action-attack.hh"
 
-ActionAttack::ActionAttack(position pos, position target, int nb_wizards, int player)
-    : pos_(pos)
-    , target_(target)
-    , nb_wizards_(nb_wizards)
-    , player_id_(player)
-{
-}
+ActionAttack::ActionAttack(position pos, position target, int nb_wizards,
+                           int player)
+    : pos_(pos), target_(target), nb_wizards_(nb_wizards), player_id_(player)
+{}
 
 ActionAttack::ActionAttack()
-    : pos_({-1, -1})
-    , target_({ -1, -1 })
-    , nb_wizards_(0)
-    , player_id_(-1)
-{
-}
+    : pos_({-1, -1}), target_({-1, -1}), nb_wizards_(0), player_id_(-1)
+{}
 
 int ActionAttack::check(const GameState* st) const
 {
@@ -52,8 +45,8 @@ int ActionAttack::check(const GameState* st) const
     if (!(cell_tower = st->get_map()->get_cell(target_)))
         return CASE_IMPOSSIBLE;
 
-    if (nb_wizards_ < 0 || nb_wizards_ > cell_init->get_nb_wizards(player_id_)
-        - cell_init->get_tower_fighters())
+    if (nb_wizards_ < 0 || nb_wizards_ > cell_init->get_nb_wizards(player_id_) -
+                                             cell_init->get_tower_fighters())
         return SORCIERS_INSUFFISANTS;
 
     if (cell_init->get_nb_wizards(player_id_) <= 0)
@@ -64,7 +57,6 @@ int ActionAttack::check(const GameState* st) const
 
     if (cell_tower->get_type() != CASE_TOURELLE)
         return CASE_VIDE;
-
 
     if (distance(pos_, target_) > 1)
         return VALEUR_INVALIDE;
@@ -86,5 +78,6 @@ void ActionAttack::apply_on(GameState* st) const
 
     st->get_map()->get_cell(target_)->tower_attacked(nb_wizards_);
 
-    cell_init->set_tower_fighters(cell_init->get_tower_fighters() + nb_wizards_);
+    cell_init->set_tower_fighters(cell_init->get_tower_fighters() +
+                                  nb_wizards_);
 }

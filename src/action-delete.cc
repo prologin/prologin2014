@@ -17,19 +17,13 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# include "action-delete.hh"
+#include "action-delete.hh"
 
 ActionDelete::ActionDelete(position pos, int player)
-    : position_(pos)
-    , player_id_(player)
-{
-}
+    : position_(pos), player_id_(player)
+{}
 
-ActionDelete::ActionDelete()
-    : position_({ -1, -1 })
-    , player_id_(-1)
-{
-}
+ActionDelete::ActionDelete() : position_({-1, -1}), player_id_(-1) {}
 
 int ActionDelete::check(const GameState* st) const
 {
@@ -41,8 +35,8 @@ int ActionDelete::check(const GameState* st) const
 
     const Cell* cell = st->get_map()->get_cell(position_);
 
-    if (position_.x < 0 || position_.x >= TAILLE_TERRAIN
-        || position_.y < 0 || position_.y >= TAILLE_TERRAIN)
+    if (position_.x < 0 || position_.x >= TAILLE_TERRAIN || position_.y < 0 ||
+        position_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
     if (cell->get_type() != CASE_TOURELLE)

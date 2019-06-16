@@ -26,24 +26,18 @@ static const int PORTEE_TOURELLE_MAX = 7;
 static const int MAX_NUMBER_TOURELLE = 9;
 
 ActionConstruct::ActionConstruct(position pos, int range, int player)
-    : pos_(pos)
-    , range_(range)
-    , player_id_(player)
-{
-}
+    : pos_(pos), range_(range), player_id_(player)
+{}
 
-ActionConstruct::ActionConstruct()
-    : pos_({-1, -1})
-    , range_(-1)
-    , player_id_(-1)
-{
-}
+ActionConstruct::ActionConstruct() : pos_({-1, -1}), range_(-1), player_id_(-1)
+{}
 
 int ActionConstruct::cost() const
 {
     int c = COUT_TOURELLE;
     if (range_ > PORTEE_TOURELLE)
-        c += COUT_PORTEE + (range_ - PORTEE_TOURELLE) * (range_ - PORTEE_TOURELLE);
+        c += COUT_PORTEE +
+             (range_ - PORTEE_TOURELLE) * (range_ - PORTEE_TOURELLE);
     return c;
 }
 
@@ -90,17 +84,8 @@ void ActionConstruct::handle_buffer(utils::Buffer& buf)
 
 void ActionConstruct::apply_on(GameState* st) const
 {
-    tourelle t =
-    {
-        {
-            pos_.x,
-            pos_.y
-        },
-        range_,
-        player_id_,
-        VIE_TOURELLE,
-        ATTAQUE_TOURELLE
-    };
+    tourelle t = {
+        {pos_.x, pos_.y}, range_, player_id_, VIE_TOURELLE, ATTAQUE_TOURELLE};
     st->get_map()->get_cell(pos_)->put_tower(t);
     st->get_map()->add_constructing(pos_);
     st->set_magic(player_id_, st->get_magic(player_id_) - cost());

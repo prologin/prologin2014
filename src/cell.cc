@@ -18,8 +18,8 @@
 */
 
 #include <cassert>
-#include <map>
 #include <iostream>
+#include <map>
 
 #include "constant.hh"
 //#include "tools.hh"
@@ -29,14 +29,14 @@ Cell::Cell(int y, int x)
     : x_(x)
     , y_(y)
     , player_(-1)
-    , tower_({ { -1, -1 }, -1, -1, -1, -1 })
+    , tower_({{-1, -1}, -1, -1, -1, -1})
     , nb_tower_fighters_(0)
     , taken_(-1)
 {
     nb_wizards_ = std::map<int, int>();
     nb_wizards_movable_ = std::map<int, int>();
 }
-Cell::Cell(const Cell &c)
+Cell::Cell(const Cell& c)
     : x_(c.x_)
     , y_(c.y_)
     , player_(c.player_)
@@ -45,13 +45,11 @@ Cell::Cell(const Cell &c)
     , taken_(c.taken_)
 {
     nb_wizards_.insert(c.nb_wizards_.begin(), c.nb_wizards_.end());
-    nb_wizards_movable_.insert(c.nb_wizards_movable_.begin(), c.nb_wizards_movable_.end());
+    nb_wizards_movable_.insert(c.nb_wizards_movable_.begin(),
+                               c.nb_wizards_movable_.end());
 }
 
-Cell::~Cell()
-{
-}
-
+Cell::~Cell() {}
 
 case_info Cell::get_type() const
 {
@@ -60,14 +58,13 @@ case_info Cell::get_type() const
         return CASE_TOURELLE;
 
     // if base
-    if ((x_ == 0 && (y_ == 0 || y_ == TAILLE_TERRAIN - 1))
-        || (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
-            return CASE_BASE;
+    if ((x_ == 0 && (y_ == 0 || y_ == TAILLE_TERRAIN - 1)) ||
+        (x_ == TAILLE_TERRAIN - 1 && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)))
+        return CASE_BASE;
 
     // if fontain
-    if (((x_ == TAILLE_TERRAIN / 2)
-         && (y_ == TAILLE_TERRAIN - 1 || y_ == 0))
-        || ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2))
+    if (((x_ == TAILLE_TERRAIN / 2) && (y_ == TAILLE_TERRAIN - 1 || y_ == 0)) ||
+        ((x_ == 0 || x_ == TAILLE_TERRAIN - 1) && y_ == TAILLE_TERRAIN / 2))
         return CASE_FONTAINE;
 
     // if artefact
@@ -100,7 +97,7 @@ void Cell::put_tower(tourelle tower)
 
 void Cell::delete_tower(void)
 {
-    tower_ = { { -1, -1 }, -1, -1, -1, -1 };
+    tower_ = {{-1, -1}, -1, -1, -1, -1};
     player_ = -1;
 }
 void Cell::set_magic_tower(int attaque)
@@ -157,7 +154,8 @@ int Cell::wizards_attacked(int points, int player)
 {
     int wizards_dead = 0;
 
-    for (std::map<int, int>::iterator it = nb_wizards_.begin(); it != nb_wizards_.end(); it++)
+    for (std::map<int, int>::iterator it = nb_wizards_.begin();
+         it != nb_wizards_.end(); it++)
     {
         if (it->first != player)
         {
@@ -171,7 +169,6 @@ int Cell::wizards_attacked(int points, int player)
                 wizards_dead += points;
                 it->second -= points;
             }
-
         }
     }
 
@@ -189,7 +186,7 @@ int Cell::get_wizards_player() const
     for (const auto& it : nb_wizards_)
         if (it.second > 0)
         {
-            assert (player == -1 || player == it.first);
+            assert(player == -1 || player == it.first);
             player = it.first;
         }
     /* There is no need to look at nb_wizards_movable_ since they are included
@@ -201,7 +198,7 @@ int Cell::tower_attacked(int points)
 {
     if (tower_.vie <= points)
     {
-        tower_ = { { -1, -1 }, -1, -1, -1, -1 };
+        tower_ = {{-1, -1}, -1, -1, -1, -1};
         player_ = -1;
         return 1;
     }
@@ -210,14 +207,14 @@ int Cell::tower_attacked(int points)
     return 0;
 }
 
-void Cell::resolve_fight(std::map<int, int> &magic)
+void Cell::resolve_fight(std::map<int, int>& magic)
 {
     int currentMax = 0;
     int currentSecondMax = 0;
     int idcurrentMax = -1;
 
     // find second
-    for (const auto &it : nb_wizards_)
+    for (const auto& it : nb_wizards_)
     {
         if (it.second >= currentMax)
         {

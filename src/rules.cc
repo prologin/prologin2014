@@ -22,20 +22,26 @@
 #include "rules.hh"
 
 Rules::Rules(const rules::Options opt)
-    : SynchronousRules(opt),
-      champion_dll_(nullptr),
-      sandbox_(opt.time)
+    : SynchronousRules(opt), champion_dll_(nullptr), sandbox_(opt.time)
 {
     if (!opt.champion_lib.empty())
     {
         champion_dll_ = new utils::DLL(opt.champion_lib);
 
-        champion_partie_debut = champion_dll_->get<f_champion_partie_debut>("partie_debut");
-        champion_phase_construction = champion_dll_->get<f_champion_phase_construction>("phase_construction");
-        champion_phase_deplacement = champion_dll_->get<f_champion_phase_deplacement>("phase_deplacement");
-        champion_phase_tirs = champion_dll_->get<f_champion_phase_tirs>("phase_tirs");
-        champion_phase_siege = champion_dll_->get<f_champion_phase_siege>("phase_siege");
-        champion_partie_fin = champion_dll_->get<f_champion_partie_fin>("partie_fin");
+        champion_partie_debut =
+            champion_dll_->get<f_champion_partie_debut>("partie_debut");
+        champion_phase_construction =
+            champion_dll_->get<f_champion_phase_construction>(
+                "phase_construction");
+        champion_phase_deplacement =
+            champion_dll_->get<f_champion_phase_deplacement>(
+                "phase_deplacement");
+        champion_phase_tirs =
+            champion_dll_->get<f_champion_phase_tirs>("phase_tirs");
+        champion_phase_siege =
+            champion_dll_->get<f_champion_phase_siege>("phase_siege");
+        champion_partie_fin =
+            champion_dll_->get<f_champion_partie_fin>("partie_fin");
     }
     else
         champion_dll_ = nullptr;
@@ -52,20 +58,24 @@ Rules::Rules(const rules::Options opt)
     api_ = new Api(game_state, opt.player);
 
     // Register actions
-    api_->actions()->register_action(ID_ACTION_CONSTRUCT,
-            []() -> rules::IAction* { return new ActionConstruct(); });
-    api_->actions()->register_action(ID_ACTION_DELETE,
-            []() -> rules::IAction* { return new ActionDelete(); });
-    api_->actions()->register_action(ID_ACTION_SHOOT,
-            []() -> rules::IAction* { return new ActionShoot(); });
-    api_->actions()->register_action(ID_ACTION_CREATE,
-            []() -> rules::IAction* { return new ActionCreate(); });
-    api_->actions()->register_action(ID_ACTION_MOVE,
-            []() -> rules::IAction* { return new ActionMove(); });
-    api_->actions()->register_action(ID_ACTION_ATTACK,
-            []() -> rules::IAction* { return new ActionAttack(); });
-    api_->actions()->register_action(ID_ACTION_ACK,
-            []() -> rules::IAction* { return new ActionAck(); });
+    api_->actions()->register_action(
+        ID_ACTION_CONSTRUCT,
+        []() -> rules::IAction* { return new ActionConstruct(); });
+    api_->actions()->register_action(ID_ACTION_DELETE, []() -> rules::IAction* {
+        return new ActionDelete();
+    });
+    api_->actions()->register_action(
+        ID_ACTION_SHOOT, []() -> rules::IAction* { return new ActionShoot(); });
+    api_->actions()->register_action(ID_ACTION_CREATE, []() -> rules::IAction* {
+        return new ActionCreate();
+    });
+    api_->actions()->register_action(
+        ID_ACTION_MOVE, []() -> rules::IAction* { return new ActionMove(); });
+    api_->actions()->register_action(ID_ACTION_ATTACK, []() -> rules::IAction* {
+        return new ActionAttack();
+    });
+    api_->actions()->register_action(
+        ID_ACTION_ACK, []() -> rules::IAction* { return new ActionAck(); });
 }
 
 Rules::~Rules()
@@ -125,13 +135,14 @@ void Rules::resolve_score()
     {
         if (p->type == rules::PLAYER)
         {
-            if (api_->game_state()->get_player_artefact() == static_cast<int>(p->id))
+            if (api_->game_state()->get_player_artefact() ==
+                static_cast<int>(p->id))
                 p->score += POINTS_CONTROLE_ARTEFACT;
-
 
             if (losers.find(p->id) == losers.end())
                 p->score += POINTS_SURVIVRE;
-            p->score += api_->game_state()->get_nb_fontains(p->id) * POINTS_CONTROLE_FONTAINE;
+            p->score += api_->game_state()->get_nb_fontains(p->id) *
+                        POINTS_CONTROLE_FONTAINE;
         }
     }
 }
@@ -152,12 +163,11 @@ void Rules::resolve_magic()
          it != map_players.end(); it++)
     {
         if (!api_->game_state()->has_lost(it->first))
-            api_->game_state()->set_magic(it->first,
-                                          api_->game_state()->get_magic(it->first)
-                                          + MAGIE_TOUR +
-                                          (MAGIE_FONTAINES
-                                           * api_->game_state()->
-                                           get_nb_fontains(it->first)));
+            api_->game_state()->set_magic(
+                it->first,
+                api_->game_state()->get_magic(it->first) + MAGIE_TOUR +
+                    (MAGIE_FONTAINES *
+                     api_->game_state()->get_nb_fontains(it->first)));
     }
 }
 
@@ -194,20 +204,20 @@ void Rules::player_turn()
 {
     game_phase phase = api_->game_state()->getPhase();
 
-    switch(phase)
+    switch (phase)
     {
-        case PHASE_CONSTRUCTION:
-            sandbox_.execute(champion_phase_construction);
-            break;
-        case PHASE_MOVE:
-            sandbox_.execute(champion_phase_deplacement);
-            break;
-        case PHASE_SHOOT:
-            sandbox_.execute(champion_phase_tirs);
-            break;
-        case PHASE_SIEGE:
-            sandbox_.execute(champion_phase_siege);
-            break;
+    case PHASE_CONSTRUCTION:
+        sandbox_.execute(champion_phase_construction);
+        break;
+    case PHASE_MOVE:
+        sandbox_.execute(champion_phase_deplacement);
+        break;
+    case PHASE_SHOOT:
+        sandbox_.execute(champion_phase_tirs);
+        break;
+    case PHASE_SIEGE:
+        sandbox_.execute(champion_phase_siege);
+        break;
     }
 }
 
@@ -215,53 +225,53 @@ void Rules::spectator_turn()
 {
     game_phase phase = api_->game_state()->getPhase();
 
-    switch(phase)
+    switch (phase)
     {
-        case PHASE_CONSTRUCTION:
-            champion_phase_construction();
-            break;
-        case PHASE_MOVE:
-            champion_phase_deplacement();
-            break;
-        case PHASE_SHOOT:
-            champion_phase_tirs();
-            break;
-        case PHASE_SIEGE:
-            champion_phase_siege();
-            break;
+    case PHASE_CONSTRUCTION:
+        champion_phase_construction();
+        break;
+    case PHASE_MOVE:
+        champion_phase_deplacement();
+        break;
+    case PHASE_SHOOT:
+        champion_phase_tirs();
+        break;
+    case PHASE_SIEGE:
+        champion_phase_siege();
+        break;
     }
 
     api_->actions()->add(
-                    rules::IAction_sptr(new ActionAck(api_->player()->id)));
+        rules::IAction_sptr(new ActionAck(api_->player()->id)));
 }
 
 void Rules::end_of_round()
 {
     game_phase phase = api_->game_state()->getPhase();
 
-    switch(phase)
+    switch (phase)
     {
-        case PHASE_CONSTRUCTION:
-            api_->game_state()->get_map()->resolve_constructing();
-            api_->game_state()->setPhase(PHASE_MOVE);
-            break;
-        case PHASE_MOVE:
-            resolve_fights();
-            api_->game_state()->setPhase(PHASE_SHOOT);
-            break;
-        case PHASE_SHOOT:
-            api_->game_state()->setPhase(PHASE_SIEGE);
-            break;
-        case PHASE_SIEGE:
-            resolve_wizard_movable();
-            resolve_tower_magic();
-            resolve_tower_fighters();
-            resolve_base_released();
-            resolve_magic();
-            api_->game_state()->increment_round();
-            api_->game_state()->setPhase(PHASE_CONSTRUCTION);
-            resolve_losers();
-            break;
+    case PHASE_CONSTRUCTION:
+        api_->game_state()->get_map()->resolve_constructing();
+        api_->game_state()->setPhase(PHASE_MOVE);
+        break;
+    case PHASE_MOVE:
+        resolve_fights();
+        api_->game_state()->setPhase(PHASE_SHOOT);
+        break;
+    case PHASE_SHOOT:
+        api_->game_state()->setPhase(PHASE_SIEGE);
+        break;
+    case PHASE_SIEGE:
+        resolve_wizard_movable();
+        resolve_tower_magic();
+        resolve_tower_fighters();
+        resolve_base_released();
+        resolve_magic();
+        api_->game_state()->increment_round();
+        api_->game_state()->setPhase(PHASE_CONSTRUCTION);
+        resolve_losers();
+        break;
     }
 
     api_->game_state()->clear_old_version();
@@ -281,7 +291,7 @@ void Rules::start_of_round()
 
 void Rules::dump_state(std::ostream& out)
 {
-    char *line = api_->get_dump();
+    char* line = api_->get_dump();
     out << line << std::endl;
     free(line);
 }

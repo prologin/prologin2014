@@ -17,54 +17,50 @@
 ** along with prologin2014.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <map>
-#include <limits.h>
 #include <gtest/gtest.h>
+#include <limits.h>
+#include <map>
 
-#include <utils/log.hh>
-#include "../constant.hh"
-#include "../map.hh"
 #include "../cell.hh"
+#include "../constant.hh"
 #include "../game-state.hh"
+#include "../map.hh"
+#include <utils/log.hh>
 
+#include "../action-attack.hh"
+#include "../action-construct.hh"
 #include "../action-create.hh"
 #include "../action-delete.hh"
-#include "../action-construct.hh"
 #include "../action-move.hh"
 #include "../action-shoot.hh"
-#include "../action-attack.hh"
 
 class ActionsTest : public ::testing::Test
 {
-    protected:
-        virtual void SetUp()
-        {
-            utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
+protected:
+    virtual void SetUp()
+    {
+        utils::Logger::get().level() = utils::Logger::DEBUG_LEVEL;
 
-            map_ = new Map();
+        map_ = new Map();
 
-            rules::Players_sptr players(
-                new rules::Players {
-                    std::vector<rules::Player_sptr>
-                    {
-                        rules::Player_sptr(new rules::Player(0, 0)),
-                        rules::Player_sptr(new rules::Player(1, 0)),
-                        rules::Player_sptr(new rules::Player(2, 0)),
-                        rules::Player_sptr(new rules::Player(3, 0)),
-                    }
-                }
-            );
-            for (auto& p : players->players)
-                p->type = rules::PLAYER;
+        rules::Players_sptr players(
+            new rules::Players{std::vector<rules::Player_sptr>{
+                rules::Player_sptr(new rules::Player(0, 0)),
+                rules::Player_sptr(new rules::Player(1, 0)),
+                rules::Player_sptr(new rules::Player(2, 0)),
+                rules::Player_sptr(new rules::Player(3, 0)),
+            }});
+        for (auto& p : players->players)
+            p->type = rules::PLAYER;
 
-            gamestate_ = new GameState(map_, players);
-        }
-        virtual void TearDown()
-        {
-            delete gamestate_; // map_ is deleted by Gamestate destructor
-        }
-        Map* map_;
-        GameState* gamestate_;
+        gamestate_ = new GameState(map_, players);
+    }
+    virtual void TearDown()
+    {
+        delete gamestate_; // map_ is deleted by Gamestate destructor
+    }
+    Map* map_;
+    GameState* gamestate_;
 };
 
 // TODO: Check magic gained ?
@@ -73,18 +69,18 @@ TEST_F(ActionsTest, AttackTest)
 {
     /* The distance between (2, 2) and (3, 3) is 2, so it's too far away to
      * attack.  */
-    const position from_ok       = {2, 2};
-    const position from_few      = {1, 3};
-    const position from_tower    = {2, 4};
-    const position to_far        = {3, 3};
-    const position to_no_tower   = {2, 1};
-    const position to_ok         = {2, 3};
+    const position from_ok = {2, 2};
+    const position from_few = {1, 3};
+    const position from_tower = {2, 4};
+    const position to_far = {3, 3};
+    const position to_no_tower = {2, 1};
+    const position to_ok = {2, 3};
 
-    Cell &c_from       = *gamestate_->get_map()->get_cell(from_ok);
-    Cell &c_from_few   = *gamestate_->get_map()->get_cell(from_few);
-    Cell &c_from_tower = *gamestate_->get_map()->get_cell(from_tower);
-    Cell &c_far        = *gamestate_->get_map()->get_cell(to_far);
-    Cell &c_ok         = *gamestate_->get_map()->get_cell(to_ok);
+    Cell& c_from = *gamestate_->get_map()->get_cell(from_ok);
+    Cell& c_from_few = *gamestate_->get_map()->get_cell(from_few);
+    Cell& c_from_tower = *gamestate_->get_map()->get_cell(from_tower);
+    Cell& c_far = *gamestate_->get_map()->get_cell(to_far);
+    Cell& c_ok = *gamestate_->get_map()->get_cell(to_ok);
 
     const int attack_player = 1;
     const int defense_player = 2;
@@ -94,18 +90,15 @@ TEST_F(ActionsTest, AttackTest)
 
     c_from.set_wizards(attack_player, 2);
     c_from_tower.set_wizards(attack_player, 3);
-    c_from_tower.put_tower(
-        {from_tower, 3, defense_player, tower_life, 2});
-    c_far.put_tower(
-        {to_far,     3, defense_player, tower_life, 2});
-    c_ok.put_tower(
-        {to_ok,      3, defense_player, tower_life, 2});
+    c_from_tower.put_tower({from_tower, 3, defense_player, tower_life, 2});
+    c_far.put_tower({to_far, 3, defense_player, tower_life, 2});
+    c_ok.put_tower({to_ok, 3, defense_player, tower_life, 2});
 
-    ActionAttack attack_ok(from_ok,            to_ok,       2, attack_player);
-    ActionAttack attack_few(from_few,          to_ok,       2, attack_player);
-    ActionAttack attack_from_tower(from_tower, to_ok,       2, attack_player);
-    ActionAttack attack_no_tower(from_ok,      to_no_tower, 2, attack_player);
-    ActionAttack attack_far(from_ok,           to_far,      2, attack_player);
+    ActionAttack attack_ok(from_ok, to_ok, 2, attack_player);
+    ActionAttack attack_few(from_few, to_ok, 2, attack_player);
+    ActionAttack attack_from_tower(from_tower, to_ok, 2, attack_player);
+    ActionAttack attack_no_tower(from_ok, to_no_tower, 2, attack_player);
+    ActionAttack attack_far(from_ok, to_far, 2, attack_player);
 
     EXPECT_EQ(PHASE_INCORRECTE, attack_ok.check(gamestate_))
         << "Wrong phase of the game.";
@@ -142,14 +135,13 @@ TEST_F(ActionsTest, AttackTest)
 
     attack_ok.apply_on(gamestate_);
 
-    EXPECT_EQ(CASE_SIMPLE, c_ok.get_type())
-        << "The tower should be down now.";
+    EXPECT_EQ(CASE_SIMPLE, c_ok.get_type()) << "The tower should be down now.";
 }
 
 TEST_F(ActionsTest, ConstructTest)
 {
     const int player = 0;
-    const int other  = 1;
+    const int other = 1;
 
     const position pos = {1, 1};
     const position pos_busy = {2, 4};
@@ -161,16 +153,16 @@ TEST_F(ActionsTest, ConstructTest)
 
     ActionConstruct a1(pos, 4, player);
     ActionConstruct a2(pos_busy, 3, player);
-    ActionConstruct a4({ 2, 1 }, 4, player);
-    ActionConstruct a5({ 4, 2 }, 4, player);
-    ActionConstruct a6({ 3, 2 }, 4, player);
-    ActionConstruct a7({ 5, 4 }, 4, player);
-    ActionConstruct a8({ 4, 5 }, 4, player);
-    ActionConstruct a9({ 5, 6 }, 4, player);
-    ActionConstruct a10({ 2, 9 }, 4, player);
+    ActionConstruct a4({2, 1}, 4, player);
+    ActionConstruct a5({4, 2}, 4, player);
+    ActionConstruct a6({3, 2}, 4, player);
+    ActionConstruct a7({5, 4}, 4, player);
+    ActionConstruct a8({4, 5}, 4, player);
+    ActionConstruct a9({5, 6}, 4, player);
+    ActionConstruct a10({2, 9}, 4, player);
 
     gamestate_->set_magic(player, 1000);
-    c->put_tower({ pos_other, 2, other, 2, 2 });
+    c->put_tower({pos_other, 2, other, 2, 2});
     c2->set_wizards(player, 2);
 
     EXPECT_EQ(OK, a1.check(gamestate_))
@@ -218,7 +210,6 @@ TEST_F(ActionsTest, ConstructTest)
     a4.apply_on(gamestate_);
     EXPECT_EQ(CASE_ADVERSE, a9.check(gamestate_))
         << "It shouldn't be possible to put a tower here (yet!)";
-
 }
 
 // spawn wizards
@@ -228,47 +219,43 @@ TEST_F(ActionsTest, CreateTest)
     EXPECT_EQ(MAGIE_INSUFFISANTE, a1.check(gamestate_))
         << "There shoudn't be enough magic";
 
-    //Check overflow with number of wizards to create
-    ActionCreate a2(INT_MAX/2+INT_MAX/4, 1); //So that *2 > INT_MAX
+    // Check overflow with number of wizards to create
+    ActionCreate a2(INT_MAX / 2 + INT_MAX / 4, 1); // So that *2 > INT_MAX
     EXPECT_EQ(MAGIE_INSUFFISANTE, a2.check(gamestate_))
         << "There shoudn't be enough magic";
 
     ActionCreate a3(10, 1);
     a3.apply_on(gamestate_);
     Cell* base_p0 = gamestate_->get_map()->get_cell(gamestate_->get_base(1));
-    EXPECT_EQ(10, base_p0->get_nb_wizards(1))
-              << "There should be 10 wizards";
+    EXPECT_EQ(10, base_p0->get_nb_wizards(1)) << "There should be 10 wizards";
 }
 
 // Delete a tower
 TEST_F(ActionsTest, DeleteTest)
 {
-    ActionDelete a1( { 2, 2 }, 1);
-    EXPECT_EQ(CASE_VIDE, a1.check(gamestate_))
-        << "There are no tower here !";
+    ActionDelete a1({2, 2}, 1);
+    EXPECT_EQ(CASE_VIDE, a1.check(gamestate_)) << "There are no tower here !";
 
-    Cell* c1 = gamestate_->get_map()->get_cell({ 2, 2 });
+    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
 
-    c1->put_tower({ { 2, 2 }, 3, 1, 2, 2 });
+    c1->put_tower({{2, 2}, 3, 1, 2, 2});
 
     EXPECT_EQ(OK, a1.check(gamestate_))
         << "It should be possible to delete this tower.";
-
-
 };
 
 // Move wizards
 TEST_F(ActionsTest, MoveTest)
 {
-    ActionMove a1({ 2, 2 }, { 2, 3 }, 3, 1);
-    ActionMove a2({ 2, 2 }, { 2, 3 }, -3, 1);
-    ActionMove a3({ 2, 5 }, { 2, 4 }, 2, 1);
-    ActionMove a4({ 2, 5 }, { 2, 10 }, 4, 1);
+    ActionMove a1({2, 2}, {2, 3}, 3, 1);
+    ActionMove a2({2, 2}, {2, 3}, -3, 1);
+    ActionMove a3({2, 5}, {2, 4}, 2, 1);
+    ActionMove a4({2, 5}, {2, 10}, 4, 1);
 
-    Cell *c1 = gamestate_->get_map()->get_cell({ 2, 2 });
-    Cell *c2 = gamestate_->get_map()->get_cell({ 2, 3 });
-    Cell *c3 = gamestate_->get_map()->get_cell({ 2, 5 });
-    Cell *c4 = gamestate_->get_map()->get_cell({ 2, 4 });
+    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
+    Cell* c2 = gamestate_->get_map()->get_cell({2, 3});
+    Cell* c3 = gamestate_->get_map()->get_cell({2, 5});
+    Cell* c4 = gamestate_->get_map()->get_cell({2, 4});
 
     EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
         << "Wrong phase of the game.";
@@ -281,8 +268,7 @@ TEST_F(ActionsTest, MoveTest)
     c1->set_wizards(1, 10);
     c1->set_wizards_movable(1, 10);
 
-    EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
-        << "Negative value";
+    EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_)) << "Negative value";
 
     a1.apply_on(gamestate_);
 
@@ -298,14 +284,13 @@ TEST_F(ActionsTest, MoveTest)
     EXPECT_EQ(0, c2->get_nb_wizards_movable(1))
         << "There should be no movable on this cell.";
 
-
-    c3->put_tower({ { 2, 5 }, 3, 1, 2, 2 });
+    c3->put_tower({{2, 5}, 3, 1, 2, 2});
 
     EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
         << "There is a tower in the initial cell.";
 
     c3->delete_tower();
-    c4->put_tower({ { 2, 4 }, 3, 1, 2, 2 });
+    c4->put_tower({{2, 4}, 3, 1, 2, 2});
 
     EXPECT_EQ(CASE_UTILISEE, a3.check(gamestate_))
         << "There is a tower in the destination cell.";
@@ -319,7 +304,7 @@ TEST_F(ActionsTest, MoveTest)
 
 TEST_F(ActionsTest, ShootTest)
 {
-    ActionShoot a1(4, { 2, 2 }, { 2, 5 }, 1);
+    ActionShoot a1(4, {2, 2}, {2, 5}, 1);
 
     EXPECT_EQ(PHASE_INCORRECTE, a1.check(gamestate_))
         << "Wrong phase of the game.";
@@ -329,20 +314,20 @@ TEST_F(ActionsTest, ShootTest)
     EXPECT_EQ(CASE_VIDE, a1.check(gamestate_))
         << "There is no tower in this cell.";
 
-    Cell *c1 = gamestate_->get_map()->get_cell({ 2, 2 });
-    Cell *c2 = gamestate_->get_map()->get_cell({ 2, 5 });
+    Cell* c1 = gamestate_->get_map()->get_cell({2, 2});
+    Cell* c2 = gamestate_->get_map()->get_cell({2, 5});
 
-    c1->put_tower({ { 2, 2 }, 3, 2, 2, 2 });
+    c1->put_tower({{2, 2}, 3, 2, 2, 2});
 
     EXPECT_EQ(CASE_ADVERSE, a1.check(gamestate_))
         << "This is a tower of another team.";
     c1->delete_tower();
-    c1->put_tower({ { 2, 2 }, 3, 1, 2, 2 });
+    c1->put_tower({{2, 2}, 3, 1, 2, 2});
 
     EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
         << "Not enough attack points.";
     c1->delete_tower();
-    c1->put_tower({ { 2, 2 }, 3, 1, 2, 5 });
+    c1->put_tower({{2, 2}, 3, 1, 2, 5});
 
     // Set wizards
     c2->set_wizards(1, 3);
@@ -351,39 +336,38 @@ TEST_F(ActionsTest, ShootTest)
 
     a1.apply_on(gamestate_);
 
-    EXPECT_EQ(3, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(1))
+    EXPECT_EQ(3, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(1))
         << "The tower doesn't attack the wizards of its own team.";
 
-    EXPECT_EQ(0, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(0))
+    EXPECT_EQ(0, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(0))
         << "There should be no wizards left on this cell.";
 
-    EXPECT_EQ(0, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(3))
+    EXPECT_EQ(0, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(3))
         << "There should be 3 wizards left on this cell.";
 
-    EXPECT_EQ(3, gamestate_->get_map()->get_cell( { 2, 5 } )->get_nb_wizards(2))
+    EXPECT_EQ(3, gamestate_->get_map()->get_cell({2, 5})->get_nb_wizards(2))
         << "There should be 3 wizards left on this cell.";
 
     EXPECT_EQ(ATTAQUE_INSUFFISANTE, a1.check(gamestate_))
         << "Not enough attack points for the action";
 
-    ActionShoot a2(4, { 2, 2 }, { 2, 7 }, 1);
+    ActionShoot a2(4, {2, 2}, {2, 7}, 1);
 
     EXPECT_EQ(VALEUR_INVALIDE, a2.check(gamestate_))
         << "The cell attacked is too far away.";
-
 }
 
 TEST_F(ActionsTest, FightTest)
 {
     const int player = 1;
-    const int other  = 2;
+    const int other = 2;
 
     const position pos = {1, 1};
-    Cell &c = *gamestate_->get_map()->get_cell(pos);
+    Cell& c = *gamestate_->get_map()->get_cell(pos);
 
     std::map<int, int> scores;
     scores[player] = 0;
-    scores[other]  = 0;
+    scores[other] = 0;
 
     c.set_wizards(player, 10);
     c.set_wizards(other, 5);

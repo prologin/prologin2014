@@ -20,20 +20,16 @@
 #include "game-state.hh"
 
 GameState::GameState(Map* map, rules::Players_sptr players)
-    : rules::GameState(),
-      map_(map),
-      players_(players),
-      current_round_(0)
+    : rules::GameState(), map_(map), players_(players), current_round_(0)
 {
     game_phase_ = PHASE_CONSTRUCTION;
 
     // list of the positions of bases
-    std::vector<position> list_base =
-    {
-        { 0, 0 },
-        { TAILLE_TERRAIN - 1, 0 },
-        { TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1 },
-        { 0, TAILLE_TERRAIN - 1 },
+    std::vector<position> list_base = {
+        {0, 0},
+        {TAILLE_TERRAIN - 1, 0},
+        {TAILLE_TERRAIN - 1, TAILLE_TERRAIN - 1},
+        {0, TAILLE_TERRAIN - 1},
     };
 
     int i = 0;
@@ -59,9 +55,9 @@ GameState::GameState(const GameState& st)
     , current_round_(st.current_round_)
     , game_phase_(st.game_phase_)
 {
-     players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
-     magic_.insert(st.magic_.begin(), st.magic_.end());
-     bases_players_.insert(st.bases_players_.begin(), st.bases_players_.end());
+    players_ids_.insert(st.players_ids_.begin(), st.players_ids_.end());
+    magic_.insert(st.magic_.begin(), st.magic_.end());
+    bases_players_.insert(st.bases_players_.begin(), st.bases_players_.end());
 }
 
 rules::GameState* GameState::copy() const
@@ -73,7 +69,7 @@ std::vector<int> GameState::get_opponents(int player_id) const
 {
     std::vector<int> opponents;
     for (auto i : players_->players)
-        if ((int) i->id != player_id && !has_lost(i->id))
+        if ((int)i->id != player_id && !has_lost(i->id))
             opponents.push_back(i->id);
     return opponents;
 }
@@ -172,8 +168,8 @@ void GameState::resolve_base_released()
         if (!has_lost(p.first))
         {
             taken = map_->get_cell(get_base(p.first))->get_taken();
-            if (taken != -1
-                && !map_->get_cell(get_base(p.first))->get_nb_wizards_total())
+            if (taken != -1 &&
+                !map_->get_cell(get_base(p.first))->get_nb_wizards_total())
                 map_->get_cell(get_base(p.first))->set_taken(-1);
         }
     }
@@ -194,10 +190,10 @@ void GameState::check_losers()
             if (losers_.find(p.first) == losers_.end())
             {
                 players_ids_[owner_base]->score += POINTS_VAINQUEUR;
-                // We cannot declare this user as loser before the end of the function,
-                // in case  players kill each other at the same time.
+                // We cannot declare this user as loser before the end of the
+                // function, in case  players kill each other at the same time.
                 losers_this_round.push_back(p.first);
-                //map_->get_cell(bases_players_[p.first])->set_taken(-1);
+                // map_->get_cell(bases_players_[p.first])->set_taken(-1);
             }
         }
     }
@@ -209,7 +205,7 @@ void GameState::check_losers()
         map_->delete_all(x);
         magic_[x] = 0;
         losers_.insert(x);
-        //map_->get_cell(bases_players_[x])->set_player(-1);
+        // map_->get_cell(bases_players_[x])->set_player(-1);
     }
 }
 
@@ -217,4 +213,3 @@ bool GameState::has_lost(int player) const
 {
     return (losers_.find(player) != losers_.end());
 }
-

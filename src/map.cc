@@ -43,8 +43,7 @@ Map::~Map()
 
 bool Map::valid_position(position p) const
 {
-    return 0 <= p.x && p.x < TAILLE_TERRAIN &&
-           0 <= p.y && p.y < TAILLE_TERRAIN;
+    return 0 <= p.x && p.x < TAILLE_TERRAIN && 0 <= p.y && p.y < TAILLE_TERRAIN;
 }
 
 const Cell* Map::get_cell(position p) const
@@ -68,19 +67,15 @@ std::vector<tourelle> Map::get_towers(int player) const
     std::vector<tourelle> towers;
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            if (map_[x][y]->get_player() == player
-                && map_[x][y]->get_type() == CASE_TOURELLE)
+            if (map_[x][y]->get_player() == player &&
+                map_[x][y]->get_type() == CASE_TOURELLE)
                 towers.push_back(map_[x][y]->get_tower());
 
     return towers;
 }
 
-static const std::array<position, 4> adjacents{{
-    { 0, 1 },
-    { 1, 0 },
-    { 0, -1 },
-    { -1, 0 }
-}};
+static const std::array<position, 4> adjacents{
+    {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}};
 
 // BFS from pos to find whether the closest tower in CONSTRUCTION_TOURELLE
 // range is owned by player.
@@ -92,13 +87,13 @@ bool Map::buildable(position pos, int player) const
         return false;
 
     std::queue<position> todo;
-    std::bitset<TAILLE_TERRAIN*TAILLE_TERRAIN> done;
+    std::bitset<TAILLE_TERRAIN * TAILLE_TERRAIN> done;
     todo.push(pos);
 
     position dummy = {-1, -1};
     todo.push(dummy);
 
-    unsigned dist = 0; // Current distance from 'pos'
+    unsigned dist = 0;        // Current distance from 'pos'
     bool tower_found = false; // We found a tower which belongs to 'player'
 
     while (todo.size() > 1)
@@ -116,7 +111,7 @@ bool Map::buildable(position pos, int player) const
             todo.push(dummy);
             continue;
         }
-        const Cell *cell = get_cell(cp);
+        const Cell* cell = get_cell(cp);
 
         if (cell->get_type() == CASE_BASE && cell->get_player() == player)
             tower_found = true;
@@ -202,10 +197,10 @@ std::vector<position> Map::path(position start, position end) const
                     while (bt_curr != start)
                     {
                         *it++ = bt_curr;
-                        unsigned coord = (bt_curr.y * TAILLE_TERRAIN +
-                                          bt_curr.x) * 2;
-                        bt_curr -= adjacents[parent[coord] +
-                                             parent[coord + 1] * 2];
+                        unsigned coord =
+                            (bt_curr.y * TAILLE_TERRAIN + bt_curr.x) * 2;
+                        bt_curr -=
+                            adjacents[parent[coord] + parent[coord + 1] * 2];
                     }
                     return ret;
                 }
@@ -228,9 +223,11 @@ int Map::get_nb_fontains(int player_id)
         nb++;
     if (map_[0][(TAILLE_TERRAIN / 2)]->get_player() == player_id)
         nb++;
-    if (map_[(TAILLE_TERRAIN - 1)][(TAILLE_TERRAIN / 2)]->get_player() == player_id)
+    if (map_[(TAILLE_TERRAIN - 1)][(TAILLE_TERRAIN / 2)]->get_player() ==
+        player_id)
         nb++;
-    if (map_[(TAILLE_TERRAIN / 2)][(TAILLE_TERRAIN - 1)]->get_player() == player_id)
+    if (map_[(TAILLE_TERRAIN / 2)][(TAILLE_TERRAIN - 1)]->get_player() ==
+        player_id)
         nb++;
 
     return nb;
@@ -241,12 +238,12 @@ void Map::add_constructing(position pos)
     constructing_.insert(pos);
 }
 
-void Map::resolve_fights(std::map<int, int> &magic)
+void Map::resolve_fights(std::map<int, int>& magic)
 {
     for (int y = 0; y < TAILLE_TERRAIN; ++y)
         for (int x = 0; x < TAILLE_TERRAIN; ++x)
-            if (map_[x][y]->get_type() != CASE_TOURELLE
-                && map_[x][y]->get_nb_wizards_total() > 0)
+            if (map_[x][y]->get_type() != CASE_TOURELLE &&
+                map_[x][y]->get_nb_wizards_total() > 0)
                 map_[x][y]->resolve_fight(magic);
 }
 
@@ -287,13 +284,13 @@ void Map::delete_all(int player)
             if (c.get_player() == player)
                 switch (c.get_type())
                 {
-                    case CASE_TOURELLE:
-                        c.delete_tower();
-                        /* Fall through.  */
-                    default:
-                        c.set_wizards(player, 0);
-                        c.set_player (-1);
-                        break;
+                case CASE_TOURELLE:
+                    c.delete_tower();
+                    /* Fall through.  */
+                default:
+                    c.set_wizards(player, 0);
+                    c.set_player(-1);
+                    break;
                 }
         }
 }
@@ -316,23 +313,23 @@ void Map::dump()
             char c = '?';
             switch (map_[x][y]->get_type())
             {
-                case CASE_SIMPLE:
-                    c = '.';
-                    break;
-                case CASE_TOURELLE:
-                    c = '#';
-                    break;
-                case CASE_BASE:
-                    c = '@';
-                    break;
-                case CASE_FONTAINE:
-                    c = 'V';
-                    break;
-                case CASE_ARTEFACT:
-                    c = '$';
-                    break;
-                default:
-                    break;
+            case CASE_SIMPLE:
+                c = '.';
+                break;
+            case CASE_TOURELLE:
+                c = '#';
+                break;
+            case CASE_BASE:
+                c = '@';
+                break;
+            case CASE_FONTAINE:
+                c = 'V';
+                break;
+            case CASE_ARTEFACT:
+                c = '$';
+                break;
+            default:
+                break;
             }
             std::cerr << c;
         }

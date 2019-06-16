@@ -36,10 +36,9 @@
 Api* api;
 
 Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state),
-      player_(player)
+    : game_state_(game_state), player_(player)
 {
-  api = this;
+    api = this;
 }
 
 ///
@@ -47,11 +46,11 @@ Api::Api(GameState* game_state, rules::Player_sptr player)
 //
 case_info Api::info_case(position pos)
 {
-  Cell *c = game_state_->get_map()->get_cell(pos);
-  if (c)
-      return c->get_type();
+    Cell* c = game_state_->get_map()->get_cell(pos);
+    if (c)
+        return c->get_type();
 
-  return CASE_ERREUR;
+    return CASE_ERREUR;
 }
 
 ///
@@ -75,25 +74,26 @@ int Api::magie(int joueur)
 //
 int Api::nb_sorciers(position pos, int joueur)
 {
-  Cell* c = game_state_->get_map()->get_cell(pos);
+    Cell* c = game_state_->get_map()->get_cell(pos);
 
-  if (!c)
-      return -1;
+    if (!c)
+        return -1;
 
-  return c->get_nb_wizards(joueur);
+    return c->get_nb_wizards(joueur);
 }
 
 ///
-// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case ``pos``
+// Retourne le nombre de sorciers du joueur ``joueur`` déplacables sur la case
+// ``pos``
 //
 int Api::nb_sorciers_deplacables(position pos, int joueur)
 {
-  Cell *c = game_state_->get_map()->get_cell(pos);
+    Cell* c = game_state_->get_map()->get_cell(pos);
 
-  if (!c)
-      return -1;
+    if (!c)
+        return -1;
 
-  return c->get_nb_wizards_movable(joueur);
+    return c->get_nb_wizards_movable(joueur);
 }
 
 ///
@@ -101,10 +101,10 @@ int Api::nb_sorciers_deplacables(position pos, int joueur)
 //
 int Api::joueur_case(position pos)
 {
-  Cell* c = game_state_->get_map()->get_cell(pos);
-  if (c)
-      return c->get_player();
-  return  -1;
+    Cell* c = game_state_->get_map()->get_cell(pos);
+    if (c)
+        return c->get_player();
+    return -1;
 }
 
 ///
@@ -112,14 +112,14 @@ int Api::joueur_case(position pos)
 //
 tourelle Api::tourelle_case(position pos)
 {
-  Cell* c = game_state_->get_map()->get_cell(pos);
+    Cell* c = game_state_->get_map()->get_cell(pos);
 
-  if (!c)
-      return { { -1, -1 }, 0, -1, 0, 0 };
+    if (!c)
+        return {{-1, -1}, 0, -1, 0, 0};
 
-  tourelle t = c->get_tower();
+    tourelle t = c->get_tower();
 
-  return t;
+    return t;
 }
 
 ///
@@ -189,10 +189,8 @@ erreur Api::supprimer(position pos)
 //
 erreur Api::tirer(int pts, position tourelle, position cible)
 {
-    rules::IAction_sptr action(new ActionShoot(pts,
-                                               tourelle,
-                                               cible,
-                                               player_->id));
+    rules::IAction_sptr action(
+        new ActionShoot(pts, tourelle, cible, player_->id));
 
     erreur err;
 
@@ -229,10 +227,8 @@ erreur Api::creer(int nb)
 //
 erreur Api::deplacer(position depart, position arrivee, int nb)
 {
-    rules::IAction_sptr action(new ActionMove(depart,
-                                              arrivee,
-                                              nb,
-                                              player_->id));
+    rules::IAction_sptr action(
+        new ActionMove(depart, arrivee, nb, player_->id));
 
     erreur err;
 
@@ -250,9 +246,8 @@ erreur Api::deplacer(position depart, position arrivee, int nb)
 //
 erreur Api::assieger(position pos, position cible, int nb_sorciers)
 {
-    rules::IAction_sptr action(new ActionAttack(pos, cible,
-                                                nb_sorciers,
-                                                player_->id));
+    rules::IAction_sptr action(
+        new ActionAttack(pos, cible, nb_sorciers, player_->id));
 
     erreur err;
 
@@ -310,7 +305,6 @@ erreur Api::annuler()
 
     return OK;
 }
-
 
 ///
 // Return un dump JSON de l’état complet du jeu.

@@ -18,11 +18,11 @@
 */
 
 #ifndef POSITION_HH
-# define POSITION_HH
+#define POSITION_HH
 
-# include "constant.hh"
-# include <cstdlib>
-# include <functional>
+#include "constant.hh"
+#include <cstdlib>
+#include <functional>
 
 inline bool operator==(const position& a, const position& b)
 {
@@ -41,17 +41,17 @@ inline bool operator<(const position& a, const position& b)
 
 inline position operator-(position a)
 {
-    return { -a.x, -a.y };
+    return {-a.x, -a.y};
 }
 
-inline position &operator+=(position &lhs, position rhs)
+inline position& operator+=(position& lhs, position rhs)
 {
     lhs.y += rhs.y;
     lhs.x += rhs.x;
     return lhs;
 }
 
-inline position &operator-=(position &lhs, position rhs)
+inline position& operator-=(position& lhs, position rhs)
 {
     return lhs += -rhs;
 }
