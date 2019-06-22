@@ -28,12 +28,12 @@ ActionMove::ActionMove()
     : start_({-1, -1}), dest_({-1, -1}), nb_wizards_(-1), player_id_(-1)
 {}
 
-int ActionMove::check(const GameState* st) const
+int ActionMove::check(const GameState& st) const
 {
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_MOVE)
+    if (st.getPhase() != PHASE_MOVE)
         return PHASE_INCORRECTE;
 
     if (start_.x < 0 || start_.x >= TAILLE_TERRAIN || start_.y < 0 ||
@@ -44,8 +44,8 @@ int ActionMove::check(const GameState* st) const
         dest_.y >= TAILLE_TERRAIN)
         return CASE_IMPOSSIBLE;
 
-    const Cell* cell_start = st->get_map()->get_cell(start_);
-    const Cell* cell_dest = st->get_map()->get_cell(dest_);
+    const Cell* cell_start = st.get_map()->get_cell(start_);
+    const Cell* cell_dest = st.get_map()->get_cell(dest_);
     int nb_movable = cell_start->get_nb_wizards_movable(player_id_);
 
     if (nb_wizards_ < 0)
@@ -66,7 +66,7 @@ int ActionMove::check(const GameState* st) const
     if (distance(start_, dest_) > PORTEE_SORCIER)
         return PORTEE_INSUFFISANTE;
 
-    std::vector<position> path = st->get_map()->path(start_, dest_);
+    std::vector<position> path = st.get_map()->path(start_, dest_);
 
     // Checks if the cell is not too far from the wizard
     if (path.size() > PORTEE_SORCIER || path.size() == 0)

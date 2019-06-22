@@ -32,12 +32,12 @@ public:
     ActionShoot(int points, position tower, position target, int player);
     ActionShoot();
 
-    virtual int check(const GameState* st) const;
-    virtual void handle_buffer(utils::Buffer& buf);
-    virtual void apply_on(GameState* gameState) const;
+    int check(const GameState& st) const override;
+    void handle_buffer(utils::Buffer& buf) override;
+    void apply_on(GameState* gameState) const override;
 
-    uint32_t player_id() const { return player_id_; }
-    uint32_t id() const { return ID_ACTION_SHOOT; }
+    uint32_t player_id() const override { return player_id_; }
+    uint32_t id() const override { return ID_ACTION_SHOOT; }
 
 private:
     int points_;

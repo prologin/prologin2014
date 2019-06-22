@@ -60,7 +60,7 @@ GameState::GameState(const GameState& st)
     bases_players_.insert(st.bases_players_.begin(), st.bases_players_.end());
 }
 
-rules::GameState* GameState::copy() const
+GameState* GameState::copy() const
 {
     return new GameState(*this);
 }

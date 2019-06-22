@@ -32,13 +32,14 @@
 #ifndef API_HH_
 #define API_HH_
 
-#include <rules/actions.hh>
-#include <rules/game-state.hh>
-#include <rules/player.hh>
-
 #include <cstdlib>
 #include <stdlib.h>
 #include <vector>
+
+#include <rules/actions.hh>
+#include <rules/api.hh>
+#include <rules/game-state.hh>
+#include <rules/player.hh>
 
 #include "action-attack.hh"
 #include "action-construct.hh"
@@ -54,29 +55,10 @@
 /*!
 ** Method of this call are called by the candidat, throught 'interface.cc'
 */
-class Api
+class Api final : public rules::Api<GameState, erreur>
 {
 public:
-    Api(GameState* game_state, rules::Player_sptr player);
-    virtual ~Api() {}
-
-    const rules::Player_sptr player() const { return player_; }
-    void player_set(rules::Player_sptr player) { player_ = player; }
-    rules::Actions* actions() { return &actions_; }
-
-    const GameState* game_state() const { return game_state_; }
-    GameState* game_state() { return game_state_; }
-    void game_state_set(rules::GameState* gs)
-    {
-        game_state_ = dynamic_cast<GameState*>(gs);
-    }
-
-private:
-    GameState* game_state_;
-    rules::Player_sptr player_;
-    rules::Actions actions_;
-
-public:
+    Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player);
     ///
     // Retourne le type de la case à l'emplacement `pos`
     //
@@ -123,29 +105,29 @@ public:
     ///
     // Construire une tourelle à la position ``pos``
     //
-    erreur construire(position pos, int portee);
+    ApiActionFunc<ActionConstruct, position> construire{this};
     ///
     // Supprimer une tourelle à la position ``pos``
     //
-    erreur supprimer(position pos);
+    ApiActionFunc<ActionDelete, position> supprimer{this};
     ///
     // Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur
     // la position ``cible``
     //
-    erreur tirer(int pts, position tourelle, position cible);
+    ApiActionFunc<ActionShoot> tirer{this};
     ///
     // Créer ``nb`` sorciers dans la base
     //
-    erreur creer(int nb);
+    ApiActionFunc<ActionCreate> creer{this};
     ///
     // Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position
     // ``arrivee``.
     //
-    erreur deplacer(position depart, position arrivee, int nb);
+    ApiActionFunc<ActionMove, position> deplacer{this};
     ///
     // Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
     //
-    erreur assieger(position pos, position cible, int nb_sorciers);
+    ApiActionFunc<ActionAttack, position> assieger{this};
     ///
     // Retourne le numéro de votre joueur
     //

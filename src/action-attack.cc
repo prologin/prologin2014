@@ -28,21 +28,21 @@ ActionAttack::ActionAttack()
     : pos_({-1, -1}), target_({-1, -1}), nb_wizards_(0), player_id_(-1)
 {}
 
-int ActionAttack::check(const GameState* st) const
+int ActionAttack::check(const GameState& st) const
 {
     const Cell* cell_tower;
     const Cell* cell_init;
 
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_SIEGE)
+    if (st.getPhase() != PHASE_SIEGE)
         return PHASE_INCORRECTE;
 
-    if (!(cell_init = st->get_map()->get_cell(pos_)))
+    if (!(cell_init = st.get_map()->get_cell(pos_)))
         return CASE_IMPOSSIBLE;
 
-    if (!(cell_tower = st->get_map()->get_cell(target_)))
+    if (!(cell_tower = st.get_map()->get_cell(target_)))
         return CASE_IMPOSSIBLE;
 
     if (nb_wizards_ < 0 || nb_wizards_ > cell_init->get_nb_wizards(player_id_) -

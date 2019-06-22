@@ -31,12 +31,12 @@ public:
     ActionAttack(position pos, position target, int nb_wizards, int player);
     ActionAttack();
 
-    virtual int check(const GameState* st) const;
-    virtual void handle_buffer(utils::Buffer& buf);
-    virtual void apply_on(GameState* st) const;
+    int check(const GameState& st) const override;
+    void handle_buffer(utils::Buffer& buf) override;
+    void apply_on(GameState* st) const override;
 
-    uint32_t player_id() const { return player_id_; }
-    uint32_t id() const { return ID_ACTION_ATTACK; }
+    uint32_t player_id() const override { return player_id_; }
+    uint32_t id() const override { return ID_ACTION_ATTACK; }
 
 private:
     position pos_;

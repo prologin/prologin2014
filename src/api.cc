@@ -35,8 +35,8 @@
 // global used in interface.cc
 Api* api;
 
-Api::Api(GameState* game_state, rules::Player_sptr player)
-    : game_state_(game_state), player_(player)
+Api::Api(std::unique_ptr<GameState> game_state, rules::Player_sptr player)
+    : rules::Api<GameState, erreur>(std::move(game_state), player)
 {
     api = this;
 }
@@ -148,119 +148,6 @@ std::vector<position> Api::chemin(position pos1, position pos2)
 }
 
 ///
-// Construire une tourelle à la position ``pos``
-//
-erreur Api::construire(position pos, int portee)
-{
-    rules::IAction_sptr action(new ActionConstruct(pos, portee, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
-// Supprimer une tourelle à la position ``pos``
-//
-erreur Api::supprimer(position pos)
-{
-    rules::IAction_sptr action(new ActionDelete(pos, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la
-// position ``cible``
-//
-erreur Api::tirer(int pts, position tourelle, position cible)
-{
-    rules::IAction_sptr action(
-        new ActionShoot(pts, tourelle, cible, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
-// Créer ``nb`` sorciers dans la base
-//
-erreur Api::creer(int nb)
-{
-    rules::IAction_sptr action(new ActionCreate(nb, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
-// Déplace ``nb`` sorciers de la position ``depart`` jusqu'à la position
-// ``arrivee``.
-//
-erreur Api::deplacer(position depart, position arrivee, int nb)
-{
-    rules::IAction_sptr action(
-        new ActionMove(depart, arrivee, nb, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
-// Attaquer la tourelle à la position ``cible`` depuis la position ``pos``
-//
-erreur Api::assieger(position pos, position cible, int nb_sorciers)
-{
-    rules::IAction_sptr action(
-        new ActionAttack(pos, cible, nb_sorciers, player_->id));
-
-    erreur err;
-
-    if ((err = static_cast<erreur>(action->check(game_state_))) != OK)
-        return err;
-
-    actions_.add(action);
-    game_state_set(action->apply(game_state()));
-
-    return OK;
-}
-
-///
 // Retourne le numéro de votre joueur
 //
 int Api::moi()
@@ -297,12 +184,11 @@ int Api::distance(position depart, position arrivee)
 //
 erreur Api::annuler()
 {
-    if (!game_state_->can_cancel())
+    if (!game_state_.can_cancel())
         return ANNULER_IMPOSSIBLE;
 
     actions_.cancel();
-    game_state_ = rules::cancel(game_state_);
-
+    game_state_.cancel();
     return OK;
 }
 

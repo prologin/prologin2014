@@ -41,23 +41,23 @@ int ActionConstruct::cost() const
     return c;
 }
 
-int ActionConstruct::check(const GameState* st) const
+int ActionConstruct::check(const GameState& st) const
 {
-    if (st->has_lost(player_id_))
+    if (st.has_lost(player_id_))
         return PERDANT;
 
-    if (st->getPhase() != PHASE_CONSTRUCTION)
+    if (st.getPhase() != PHASE_CONSTRUCTION)
         return PHASE_INCORRECTE;
 
     const Cell* cell;
 
-    if (!(cell = st->get_map()->get_cell(pos_)))
+    if (!(cell = st.get_map()->get_cell(pos_)))
         return CASE_IMPOSSIBLE;
 
     if (cell->get_type() != CASE_SIMPLE || cell->get_nb_wizards_total())
         return CASE_UTILISEE;
 
-    if (!st->get_map()->buildable(pos_, player_id_))
+    if (!st.get_map()->buildable(pos_, player_id_))
         return CASE_ADVERSE;
 
     if (range_ < PORTEE_TOURELLE)
@@ -66,10 +66,10 @@ int ActionConstruct::check(const GameState* st) const
     if (range_ > PORTEE_TOURELLE_MAX)
         return VALEUR_INVALIDE;
 
-    if (st->get_towers(player_id_).size() + 1 > MAX_NUMBER_TOURELLE)
+    if (st.get_towers(player_id_).size() + 1 > MAX_NUMBER_TOURELLE)
         return VALEUR_INVALIDE;
 
-    if (st->get_magic(player_id_) < cost())
+    if (st.get_magic(player_id_) < cost())
         return MAGIE_INSUFFISANTE;
 
     return OK;
