@@ -49,7 +49,7 @@ public:
     rules::Actions* get_actions();
 
     // Apply an action to the game state
-    void apply_action(const rules::IAction_sptr&);
+    void apply_action(const rules::IAction&);
 
     // Check whether the game is over
     bool is_finished();

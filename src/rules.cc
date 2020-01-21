@@ -58,24 +58,21 @@ Rules::Rules(const rules::Options opt)
     api_ = std::make_unique<Api>(std::move(game_state), opt.player);
 
     // Register actions
-    api_->actions()->register_action(
-        ID_ACTION_CONSTRUCT,
-        []() -> rules::IAction* { return new ActionConstruct(); });
-    api_->actions()->register_action(ID_ACTION_DELETE, []() -> rules::IAction* {
-        return new ActionDelete();
+    api_->actions()->register_action(ID_ACTION_CONSTRUCT, []() {
+        return std::make_unique<ActionConstruct>();
     });
     api_->actions()->register_action(
-        ID_ACTION_SHOOT, []() -> rules::IAction* { return new ActionShoot(); });
-    api_->actions()->register_action(ID_ACTION_CREATE, []() -> rules::IAction* {
-        return new ActionCreate();
-    });
+        ID_ACTION_DELETE, []() { return std::make_unique<ActionDelete>(); });
     api_->actions()->register_action(
-        ID_ACTION_MOVE, []() -> rules::IAction* { return new ActionMove(); });
-    api_->actions()->register_action(ID_ACTION_ATTACK, []() -> rules::IAction* {
-        return new ActionAttack();
-    });
+        ID_ACTION_SHOOT, []() { return std::make_unique<ActionShoot>(); });
     api_->actions()->register_action(
-        ID_ACTION_ACK, []() -> rules::IAction* { return new ActionAck(); });
+        ID_ACTION_CREATE, []() { return std::make_unique<ActionCreate>(); });
+    api_->actions()->register_action(
+        ID_ACTION_MOVE, []() { return std::make_unique<ActionMove>(); });
+    api_->actions()->register_action(
+        ID_ACTION_ATTACK, []() { return std::make_unique<ActionAttack>(); });
+    api_->actions()->register_action(
+        ID_ACTION_ACK, []() { return std::make_unique<ActionAck>(); });
 }
 
 void Rules::at_player_start(rules::ClientMessenger_sptr)
@@ -103,7 +100,7 @@ rules::Actions* Rules::get_actions()
     return api_->actions();
 }
 
-void Rules::apply_action(const rules::IAction_sptr& action)
+void Rules::apply_action(const rules::IAction& action)
 {
     // When receiving an action, the API should have already checked that it
     // is valid. We recheck that for the current gamestate here to avoid weird
@@ -113,7 +110,7 @@ void Rules::apply_action(const rules::IAction_sptr& action)
     if (err)
         FATAL("Synchronization error: received action %d from player %d, but "
               "check() on current gamestate returned %d.",
-              action->id(), action->player_id(), err);
+              action.id(), action.player_id(), err);
 
     api_->game_state_apply(action);
 }
@@ -244,8 +241,7 @@ void Rules::spectator_turn()
         break;
     }
 
-    api_->actions()->add(
-        rules::IAction_sptr(new ActionAck(api_->player()->id)));
+    api_->actions()->add(std::make_unique<ActionAck>(api_->player()->id));
 }
 
 void Rules::end_of_round()
