@@ -129,20 +129,20 @@ void Rules::resolve_score()
     // losers
     std::unordered_set<int> losers = api_->game_state().get_losers_ids();
 
-    std::map<int, rules::Player_sptr> map_players =
+    std::map<int, std::shared_ptr<rules::Player>> map_players =
         api_->game_state().get_players_ids();
-    for (auto& p : players_->players)
+    for (auto& player : players_)
     {
-        if (p->type == rules::PLAYER)
+        if (player->type == rules::PLAYER)
         {
             if (api_->game_state().get_player_artefact() ==
-                static_cast<int>(p->id))
-                p->score += POINTS_CONTROLE_ARTEFACT;
+                static_cast<int>(player->id))
+                player->score += POINTS_CONTROLE_ARTEFACT;
 
-            if (losers.find(p->id) == losers.end())
-                p->score += POINTS_SURVIVRE;
-            p->score += api_->game_state().get_nb_fontains(p->id) *
-                        POINTS_CONTROLE_FONTAINE;
+            if (losers.find(player->id) == losers.end())
+                player->score += POINTS_SURVIVRE;
+            player->score += api_->game_state().get_nb_fontains(player->id) *
+                             POINTS_CONTROLE_FONTAINE;
         }
     }
 }
@@ -156,10 +156,11 @@ void Rules::resolve_fights()
 void Rules::resolve_magic()
 {
     DEBUG("resolve_magic");
-    std::map<int, rules::Player_sptr> map_players =
+    std::map<int, std::shared_ptr<rules::Player>> map_players =
         api_->game_state().get_players_ids();
 
-    for (std::map<int, rules::Player_sptr>::iterator it = map_players.begin();
+    for (std::map<int, std::shared_ptr<rules::Player>>::iterator it =
+             map_players.begin();
          it != map_players.end(); it++)
     {
         if (!api_->game_state().has_lost(it->first))

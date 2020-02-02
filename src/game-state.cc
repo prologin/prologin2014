@@ -19,7 +19,7 @@
 
 #include "game-state.hh"
 
-GameState::GameState(Map* map, rules::Players_sptr players)
+GameState::GameState(Map* map, const rules::Players& players)
     : rules::GameState(), map_(map), players_(players), current_round_(0)
 {
     game_phase_ = PHASE_CONSTRUCTION;
@@ -34,14 +34,15 @@ GameState::GameState(Map* map, rules::Players_sptr players)
 
     int i = 0;
 
-    for (auto& p : players_->players)
+    for (auto& player : players_)
     {
-        if (p->type == rules::PLAYER)
+        if (player->type == rules::PLAYER)
         {
-            players_ids_[p->id] = p;
-            magic_[p->id] = MAGIE_TOUR; // Initial amount for the first round
-            bases_players_[p->id] = list_base[i];
-            map_->get_cell(list_base[i])->set_player(p->id);
+            players_ids_[player->id] = player;
+            magic_[player->id] =
+                MAGIE_TOUR; // Initial amount for the first round
+            bases_players_[player->id] = list_base[i];
+            map_->get_cell(list_base[i])->set_player(player->id);
             i++;
         }
     }
@@ -68,9 +69,9 @@ GameState* GameState::copy() const
 std::vector<int> GameState::get_opponents(int player_id) const
 {
     std::vector<int> opponents;
-    for (auto i : players_->players)
-        if ((int)i->id != player_id && !has_lost(i->id))
-            opponents.push_back(i->id);
+    for (auto player : players_)
+        if (static_cast<int>(player->id) != player_id && !has_lost(player->id))
+            opponents.push_back(player->id);
     return opponents;
 }
 

@@ -34,15 +34,11 @@ protected:
 
         map_ = new Map();
 
-        rules::Players_sptr players(
-            new rules::Players{std::vector<rules::Player_sptr>{
-                rules::Player_sptr(new rules::Player(0, 0)),
-                rules::Player_sptr(new rules::Player(1, 0)),
-                rules::Player_sptr(new rules::Player(2, 0)),
-                rules::Player_sptr(new rules::Player(3, 0)),
-            }});
-        for (auto& p : players->players)
-            p->type = rules::PLAYER;
+        rules::Players players;
+        players.add(std::make_shared<rules::Player>(0, rules::PLAYER));
+        players.add(std::make_shared<rules::Player>(1, rules::PLAYER));
+        players.add(std::make_shared<rules::Player>(2, rules::PLAYER));
+        players.add(std::make_shared<rules::Player>(3, rules::PLAYER));
 
         gamestate_ = new GameState(map_, players);
     }

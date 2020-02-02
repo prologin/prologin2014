@@ -88,7 +88,7 @@ private:
     std::unique_ptr<utils::DLL> champion_dll_;
     std::unique_ptr<Api> api_;
     utils::Sandbox sandbox_;
-    rules::Players_sptr players_;
+    rules::Players players_;
 };
 
 #endif // !RULES_RULES_HH_

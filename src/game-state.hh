@@ -51,7 +51,7 @@ enum action_id
 class GameState : public rules::GameState
 {
 public:
-    GameState(Map* map, rules::Players_sptr players);
+    GameState(Map* map, const rules::Players& players);
     GameState* copy() const;
     ~GameState();
 
@@ -73,9 +73,9 @@ public:
     const Map* get_map() const;
     Map* get_map();
 
-    rules::Players_sptr get_players() const { return players_; }
+    const rules::Players& get_players() const { return players_; }
 
-    std::map<int, rules::Player_sptr> get_players_ids() const
+    std::map<int, std::shared_ptr<rules::Player>> get_players_ids() const
     {
         return players_ids_;
     }
@@ -103,8 +103,8 @@ private:
     GameState(const GameState& st);
 
     Map* map_;
-    rules::Players_sptr players_;
-    std::map<int, rules::Player_sptr> players_ids_;
+    rules::Players players_;
+    std::map<int, std::shared_ptr<rules::Player>> players_ids_;
     std::unordered_set<int> losers_;
     int current_round_;
 
