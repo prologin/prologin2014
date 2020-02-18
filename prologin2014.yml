@@ -245,12 +245,12 @@ function:
     -
         fct_name: tirer
         fct_summary:
-            "Tirer avec ``pts`` points de dégats depuis la tourelles
-            ``tourelle`` sur la position ``cible``"
+            "Tirer avec ``pts`` points de dégats depuis la tourelle sur
+            ``pos`` sur la position ``cible``"
         fct_ret_type: erreur
         fct_arg:
             - [pts, int, "Nombre de points de dégats"]
-            - [tourelle, position, "Position de la tour"]
+            - [pos, position, "Position de la tour"]
             - [cible, position, "Position de la cible"]
 
  # Actions sorciers

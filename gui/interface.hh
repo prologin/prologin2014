@@ -129,9 +129,9 @@ erreur api_construire(position pos, int portee);
 erreur api_supprimer(position pos);
 
 ///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la position ``cible``
+// Tirer avec ``pts`` points de dégats depuis la tourelle sur ``pos`` sur la position ``cible``
 //
-erreur api_tirer(int pts, position tourelle, position cible);
+erreur api_tirer(int pts, position pos, position cible);
 
 ///
 // Créer ``nb`` sorciers dans la base

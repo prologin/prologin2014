@@ -417,7 +417,7 @@ return cxx2lang<PyObject*, erreur>(api_supprimer(lang2cxx<PyObject*, position>(a
 }
 
 ///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la position ``cible``
+// Tirer avec ``pts`` points de dégats depuis la tourelle sur ``pos`` sur la position ``cible``
 //
 static PyObject* p_tirer(PyObject* self, PyObject* args)
 {

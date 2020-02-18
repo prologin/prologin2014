@@ -111,7 +111,7 @@ public:
     //
     ApiActionFunc<ActionDelete, position> supprimer{this};
     ///
-    // Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur
+    // Tirer avec ``pts`` points de dégats depuis la tourelle sur ``pos`` sur
     // la position ``cible``
     //
     ApiActionFunc<ActionShoot> tirer{this};

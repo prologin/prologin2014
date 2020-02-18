@@ -313,12 +313,12 @@ extern "C" erreur api_supprimer(position pos)
 }
 
 ///
-// Tirer avec ``pts`` points de dégats depuis la tourelles ``tourelle`` sur la
+// Tirer avec ``pts`` points de dégats depuis la tourelle sur ``pos`` sur la
 // position ``cible``
 //
-extern "C" erreur api_tirer(int pts, position tourelle, position cible)
+extern "C" erreur api_tirer(int pts, position pos, position cible)
 {
-    return api->tirer(pts, tourelle, cible);
+    return api->tirer(pts, pos, cible);
 }
 
 ///
