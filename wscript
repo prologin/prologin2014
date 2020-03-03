@@ -1,51 +1,66 @@
-#! /usr/bin/env python2
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (c) 2012-2020 Association Prologin <association@prologin.org>
 
-import platform
+import glob
+import os.path
+
+from wafgenerator import generator_player_install
+
 
 def options(opt):
     pass
 
-def configure(conf):
+
+def configure(cfg):
     pass
+
 
 def build(bld):
     bld.shlib(
-        source = '''
-            src/game-state.cc
-            src/map.cc
-            src/cell.cc
-            src/rules.cc
-            src/entry.cc
-            src/api.cc
-            src/interface.cc
+        source='''
+            src/action-ack.cc
+            src/action-attack.cc
+            src/action-construct.cc
             src/action-create.cc
             src/action-delete.cc
             src/action-move.cc
             src/action-shoot.cc
-            src/action-construct.cc
-            src/action-attack.cc
-            src/action-ack.cc
+            src/api.cc
+            src/cell.cc
             src/dumper.cc
+            src/entry.cc
+            src/game-state.cc
+            src/interface.cc
+            src/map.cc
+            src/rules.cc
         ''',
-        target = 'prologin2014',
-        use = ['stechec2'],
-        defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
-            'MODULE_NAME="prologin2014"'],
-        lib = ([] if platform.system()=='FreeBSD' else ['dl']),
+        defines=['MODULE_COLOR=ANSI_COL_BROWN', 'MODULE_NAME="rules"'],
+        target='prologin2014',
+        use=['stechec2'],
     )
 
-    for test in [ 'actions', 'map', 'game' ]:
+    abs_pattern = os.path.join(bld.path.abspath(), 'src/tests/test-*.cc')
+    for test_src in glob.glob(abs_pattern):
+
+        test_name = os.path.split(test_src)[-1]
+        test_name = test_name[len("test-"):-(len(".cc"))]
+
+        # Waf requires a relative path for the source
+        src_relpath = os.path.relpath(test_src, bld.path.abspath())
+
         bld.program(
-            features = 'gtest',
-            source = 'src/tests/test-%s.cc' % test,
-            target = 'prologin2014-test-%s' % test,
-            use = ['prologin2014', 'stechec2-utils'],
-            includes = ['.'],
-            defines = ['MODULE_COLOR=ANSI_COL_PURPLE',
-                'MODULE_NAME="prologin2014"'],
+            features='gtest',
+            source=src_relpath,
+            target='prologin2014-test-{}'.format(test_name),
+            use=['prologin2014', 'stechec2-utils'],
+            includes=['.'],
+            defines=['MODULE_COLOR=ANSI_COL_PURPLE',
+                     'MODULE_NAME="prologin2014"'],
         )
 
     bld.install_files('${PREFIX}/share/stechec2/prologin2014', [
         'prologin2014.yml',
     ])
 
+    generator_player_install(bld, 'prologin2014')
